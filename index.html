@@ -158,6 +158,21 @@
       font-size: 0.9rem;
       border-top: 1px solid var(--gray);
     }
+
+    
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+ul li::before {
+  content: "•";
+  color: #888;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+    
   </style>
 </head>
 <body>
@@ -217,6 +232,63 @@
     <a href="/checkout.html" class="cta-button" style="margin-top: 30px;">Buy Now</a>
   </div>
 </section>
+
+  <section id="pricing" class="section" style="border-top: 1px solid #1a1a1a;">
+  <h2 data-aos="fade-up">Choose Your Experience</h2>
+  <p data-aos="fade-up" data-aos-delay="100">
+    Launch with confidence. Build with excellence. Get 10% OFF if you purchase in the next <strong style="color: #ccc;">48 hours</strong>.
+  </p>
+
+  <div class="grid" style="margin-top: 60px;">
+    <!-- Essentials Pack -->
+    <div class="card" data-aos="fade-up">
+      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Essentials Pack</h3>
+      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Best for launching fast</p>
+      <p style="font-size: 2rem; font-weight: 600; color: white;">$1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
+        <li>✔ Full Curriculum (50+ editable lessons)</li>
+        <li>✔ Lifetime Access</li>
+        <li>✔ Workbook Builder</li>
+        <li>✔ Launch Templates & Social Media Kit</li>
+        <li>✔ Member Forms & Surveys</li>
+        <li>✔ All Future Updates</li>
+      </ul>
+      <a href="/checkout.html" class="cta-button" style="margin-top: 32px;">Get Essentials</a>
+    </div>
+
+    <!-- Custom Branding Pack -->
+    <div class="card" data-aos="fade-up" data-aos-delay="100" style="border: 2px solid #ccc;">
+      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Custom Branding Pack</h3>
+      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Most popular</p>
+      <p style="font-size: 2rem; font-weight: 600; color: white;">$1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
+        <li>✔ Everything in Essentials</li>
+        <li>✔ Custom Curriculum Logo</li>
+        <li>✔ Cover Design + Style System</li>
+        <li>✔ Layout Customization</li>
+        <li>✔ 1-on-1 Strategy Session</li>
+      </ul>
+      <a href="/checkout.html?pack=branding" class="cta-button" style="margin-top: 32px;">Get Branding Pack</a>
+    </div>
+
+    <!-- Enterprise Pack -->
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
+      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Enterprise Incubator Pack</h3>
+      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Full church incubator system</p>
+      <p style="font-size: 2rem; font-weight: 600; color: white;">$2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
+        <li>✔ Everything in Branding</li>
+        <li>✔ 8-Week Launch Guide</li>
+        <li>✔ Cohort Planning Tools</li>
+        <li>✔ Coaching Templates & Certificates</li>
+        <li>✔ Facilitator Training Materials</li>
+        <li>✔ Multi-campus License</li>
+      </ul>
+      <a href="/checkout.html?pack=enterprise" class="cta-button" style="margin-top: 32px;">Get Enterprise Pack</a>
+    </div>
+  </div>
+</section>
+
 
 <footer>
   &copy; 2025 Kingdom Builders. Built with purpose.
