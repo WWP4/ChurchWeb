@@ -2,54 +2,228 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Faith Startup – Empower Your Church. Transform Your Community.</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrepreneur Curriculum for Churches</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: 'Montserrat', Arial, sans-serif; }
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(32px);}
-      100% { opacity: 1; transform: none;}
+    :root {
+      --brand-blue: #002D72;
+      --accent-gold: #F5C542;
+      --light-bg: #f9f9f9;
+      --dark-text: #222;
+      --soft-gray: #eaeaea;
     }
-    .animate-fade-in { animation: fadeInUp 1s both; }
-    .animate-fade-in.delay-200 { animation-delay: .2s; }
-    .animate-fade-in.delay-400 { animation-delay: .4s; }
-    .animate-fade-in.delay-600 { animation-delay: .6s; }
-    .btn-primary {
-      @apply bg-blue-700 text-white rounded-2xl px-8 py-3 text-lg font-semibold shadow-lg hover:bg-blue-800 transition;
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      color: var(--dark-text);
+      scroll-behavior: smooth;
     }
-    .btn-secondary {
-      @apply border border-blue-700 text-blue-700 rounded-2xl px-8 py-3 text-lg font-semibold shadow hover:bg-blue-50 transition;
+
+    header {
+      background: var(--brand-blue);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--brand-blue);
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .cta-button {
+      padding: 14px 30px;
+      font-size: 1rem;
+      border: none;
+      background: var(--accent-gold);
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: #ffd700;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+      text-align: left;
+    }
+
+    .feature-card {
+      background: var(--light-bg);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+    }
+
+    footer {
+      background: var(--brand-blue);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      border-bottom: 1px solid var(--soft-gray);
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: var(--brand-blue);
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent-gold);
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
+<body>
 
-  <!-- HERO SECTION -->
-  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Subtle Animated Background -->
-    <div class="absolute inset-0">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80"
-           alt=""
-           class="w-full h-full object-cover opacity-25" />
-      <div class="absolute inset-0 bg-gradient-to-b from-white via-transparent to-blue-100 opacity-80"></div>
+  <!-- Nav -->
+  <nav>
+    <div style="font-weight: 700; font-size: 1.2rem;">Kingdom Builders</div>
+    <div>
+      <a href="#why">Why This</a>
+      <a href="#how">How It Works</a>
+      <a href="#included">What's Included</a>
+      <a href="#purchase">Get Started</a>
     </div>
+  </nav>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-2xl mx-auto px-6 py-24 text-center">
-      <h1 class="animate-fade-in text-4xl md:text-6xl font-extrabold text-blue-900 mb-6 drop-shadow">
-        Empower Your Church.<br class="hidden md:block">Transform Your Community.
-      </h1>
-      <p class="animate-fade-in delay-200 text-xl md:text-2xl text-blue-700 mb-10 font-medium">
-        A faith-based entrepreneurship journey designed for real impact.
-      </p>
-      <div class="animate-fade-in delay-400 flex flex-col md:flex-row gap-4 justify-center">
-        <a href="#sample" class="btn-primary">Download Free Sample</a>
-        <a href="#how" class="btn-secondary">See How It Works</a>
+  <!-- Hero -->
+  <header id="hero">
+    <h1>Launch Entrepreneurs. Impact Generations.</h1>
+    <p>Empower your members with a faith-driven business incubator that changes lives — and strengthens your church’s influence.</p>
+    <a href="#purchase" class="cta-button">Bring It to Our Church</a>
+  </header>
+
+  <!-- Why Section -->
+  <section class="section" id="why">
+    <h2>Why Your Church Needs This</h2>
+    <p>Communities are filled with untapped potential — dreamers, workers, believers ready to thrive. But they lack guidance. Our curriculum bridges faith and entrepreneurship to activate purpose, break cycles of poverty, and fund kingdom work.</p>
+    <div class="features">
+      <div class="feature-card">
+        <h3>Faith & Finance Aligned</h3>
+        <p>Biblically grounded lessons that equip members to steward and multiply resources.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Plug-and-Play Simplicity</h3>
+        <p>Church leaders access editable lessons, pre-made marketing, and onboarding tools — ready to deploy.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Proven Impact</h3>
+        <p>Designed to help members start businesses, generate income, and serve their communities with excellence.</p>
       </div>
     </div>
   </section>
+
+  <!-- How It Works -->
+  <section class="section" id="how" style="background: #f3f7ff;">
+    <h2>How It Works</h2>
+    <p>
+      <strong>Step 1:</strong> Purchase access for your church<br/>
+      <strong>Step 2:</strong> Log into your custom back office<br/>
+      <strong>Step 3:</strong> Customize your workbook, promote the program, and launch your incubator
+    </p>
+    <a href="#purchase" class="cta-button">Preview the Dashboard</a>
+  </section>
+
+  <!-- What's Included -->
+  <section class="section" id="included">
+    <h2>What’s Included</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h3>Editable Curriculum</h3>
+        <p>Over 50 plug-and-play lessons, grouped by theme and fully editable to fit your style.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Marketing Suite</h3>
+        <p>Launch flyers, social media kits, church slide decks, and parent guides ready to use.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Workbook Builder</h3>
+        <p>Pick and arrange lessons, add your logo, and export as a custom-branded PDF workbook.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Logo Package</h3>
+        <p>Optional logo creation service included — we’ll help you brand your own program launch.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Forms & Templates</h3>
+        <p>Includes registration forms, feedback surveys, and grant request templates.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Lifetime Access</h3>
+        <p>Buy once and get all future updates, new lessons, and tools included.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Section -->
+  <section class="section" id="purchase" style="background: var(--light-bg);">
+    <h2>One-Time Church Access: <span style="color: var(--brand-blue);">$1,550</span></h2>
+    <p>Includes unlimited church use, editable content, and all assets. Lifetime access. No hidden fees.</p>
+    <a href="/checkout.html" class="cta-button">Purchase Now</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Kingdom Builders Curriculum. All rights reserved.<br />
+    Designed to build people, businesses, and impact for the Kingdom.
+  </footer>
 
 </body>
 </html>
