@@ -19,6 +19,10 @@
       --white: #fff;
     }
 
+    header {
+  border-top: 4px solid var(--silver);
+}
+
     * {
       margin: 0;
       padding: 0;
@@ -172,6 +176,16 @@ ul li::before {
   margin-left: -1em;
 }
 
+
+    section h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  margin: 16px auto 0;
+  background: var(--silver);
+}
+
     
   </style>
 </head>
@@ -319,7 +333,9 @@ ul li::before {
     once: true,
     easing: 'ease-out'
   });
-</script>
 
+  background: radial-gradient(circle at top, rgba(255,255,255,0.03), #000);
+</script>
+  
 </body>
 </html>
