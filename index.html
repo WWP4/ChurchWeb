@@ -4,226 +4,290 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entrepreneur Curriculum for Churches</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
   <style>
     :root {
-      --brand-blue: #002D72;
-      --accent-gold: #F5C542;
-      --light-bg: #f9f9f9;
-      --dark-text: #222;
-      --soft-gray: #eaeaea;
+      --black: #0e0e0e;
+      --gray: #2e2e2e;
+      --light-gray: #dadada;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #fff;
-      color: var(--dark-text);
-      scroll-behavior: smooth;
-    }
-
-    header {
-      background: var(--brand-blue);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 80px 20px;
-      text-align: center;
-    }
-
-    .section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: var(--brand-blue);
-    }
-
-    .section p {
-      max-width: 800px;
-      margin: 0 auto 30px;
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
-
-    .cta-button {
-      padding: 14px 30px;
-      font-size: 1rem;
-      border: none;
-      background: var(--accent-gold);
-      color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 20px;
-      transition: background 0.3s ease;
-    }
-
-    .cta-button:hover {
-      background: #ffd700;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-      text-align: left;
-    }
-
-    .feature-card {
-      background: var(--light-bg);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-6px);
-    }
-
-    footer {
-      background: var(--brand-blue);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
     }
 
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: white;
-      border-bottom: 1px solid var(--soft-gray);
-      padding: 12px 30px;
+      background: var(--black);
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
+      z-index: 999;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
     nav a {
-      color: var(--brand-blue);
+      color: var(--white);
       text-decoration: none;
-      margin-left: 20px;
+      margin-left: 30px;
       font-weight: 600;
-      transition: color 0.2s;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
     }
 
     nav a:hover {
-      color: var(--accent-gold);
+      color: var(--light-gray);
+    }
+
+    header {
+      padding: 180px 40px 120px;
+      text-align: center;
+      background: var(--black);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      max-width: 900px;
+      margin: 0 auto 20px;
+    }
+
+    header p {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      font-size: 1.2rem;
+      color: var(--light-gray);
+    }
+
+    .cta-button {
+      padding: 14px 36px;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    section p {
+      font-size: 1.1rem;
+      color: var(--light-gray);
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: #161616;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--light-gray);
+    }
+
+    footer {
+      background: #111;
+      padding: 50px 40px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin: 10px 0 0;
+      }
     }
   </style>
 </head>
-<body>
 
-  <!-- Nav -->
+<body>
+  <!-- Navigation -->
   <nav>
-    <div style="font-weight: 700; font-size: 1.2rem;">Kingdom Builders</div>
+    <div class="logo">Kingdom Builders</div>
     <div>
-      <a href="#why">Why This</a>
+      <a href="#why">Why</a>
       <a href="#how">How It Works</a>
-      <a href="#included">What's Included</a>
-      <a href="#purchase">Get Started</a>
+      <a href="#features">What's Inside</a>
+      <a href="#purchase">Buy Now</a>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header id="hero">
-    <h1>Launch Entrepreneurs. Impact Generations.</h1>
-    <p>Empower your members with a faith-driven business incubator that changes lives — and strengthens your church’s influence.</p>
-    <a href="#purchase" class="cta-button">Bring It to Our Church</a>
+  <!-- Hero Section -->
+  <header data-aos="fade-up">
+    <h1>The Curriculum That Launches Kingdom Entrepreneurs</h1>
+    <p>Editable. Faith-Fueled. Ready to deploy. Transform your church into an incubator for purpose and prosperity.</p>
+    <a href="#purchase" class="cta-button">Get Started</a>
   </header>
 
   <!-- Why Section -->
-  <section class="section" id="why">
+  <section id="why" data-aos="fade-up">
     <h2>Why Your Church Needs This</h2>
-    <p>Communities are filled with untapped potential — dreamers, workers, believers ready to thrive. But they lack guidance. Our curriculum bridges faith and entrepreneurship to activate purpose, break cycles of poverty, and fund kingdom work.</p>
+    <p>Most believers have dreams. Few have direction. This curriculum changes that. Teach faith, business, and purpose. Help your members build something that lasts.</p>
     <div class="features">
-      <div class="feature-card">
-        <h3>Faith & Finance Aligned</h3>
-        <p>Biblically grounded lessons that equip members to steward and multiply resources.</p>
+      <div class="feature-card" data-aos="fade-right">
+        <h3>Built for Ministry</h3>
+        <p>Lessons rooted in faith, yet built for real-world business outcomes.</p>
       </div>
-      <div class="feature-card">
-        <h3>Plug-and-Play Simplicity</h3>
-        <p>Church leaders access editable lessons, pre-made marketing, and onboarding tools — ready to deploy.</p>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Customizable Lessons</h3>
+        <p>Church leaders drag, drop, and edit lessons to create their own workbook.</p>
       </div>
-      <div class="feature-card">
-        <h3>Proven Impact</h3>
-        <p>Designed to help members start businesses, generate income, and serve their communities with excellence.</p>
+      <div class="feature-card" data-aos="fade-left">
+        <h3>Turnkey Launch Tools</h3>
+        <p>Social posts, flyers, templates, and more to promote your launch with ease.</p>
       </div>
     </div>
   </section>
 
   <!-- How It Works -->
-  <section class="section" id="how" style="background: #f3f7ff;">
+  <section id="how" data-aos="fade-up">
     <h2>How It Works</h2>
     <p>
-      <strong>Step 1:</strong> Purchase access for your church<br/>
-      <strong>Step 2:</strong> Log into your custom back office<br/>
-      <strong>Step 3:</strong> Customize your workbook, promote the program, and launch your incubator
+      Purchase once. Get lifetime access. Log in, choose your lessons, customize your workbook, and launch your program in just days — not months.
     </p>
-    <a href="#purchase" class="cta-button">Preview the Dashboard</a>
-  </section>
-
-  <!-- What's Included -->
-  <section class="section" id="included">
-    <h2>What’s Included</h2>
     <div class="features">
-      <div class="feature-card">
-        <h3>Editable Curriculum</h3>
-        <p>Over 50 plug-and-play lessons, grouped by theme and fully editable to fit your style.</p>
+      <div class="feature-card" data-aos="zoom-in-up">
+        <h3>Step 1</h3>
+        <p>Buy access for your church and receive login credentials instantly.</p>
       </div>
-      <div class="feature-card">
-        <h3>Marketing Suite</h3>
-        <p>Launch flyers, social media kits, church slide decks, and parent guides ready to use.</p>
+      <div class="feature-card" data-aos="zoom-in-up">
+        <h3>Step 2</h3>
+        <p>Access your back office with all lessons, editors, and assets.</p>
       </div>
-      <div class="feature-card">
-        <h3>Workbook Builder</h3>
-        <p>Pick and arrange lessons, add your logo, and export as a custom-branded PDF workbook.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Logo Package</h3>
-        <p>Optional logo creation service included — we’ll help you brand your own program launch.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Forms & Templates</h3>
-        <p>Includes registration forms, feedback surveys, and grant request templates.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Lifetime Access</h3>
-        <p>Buy once and get all future updates, new lessons, and tools included.</p>
+      <div class="feature-card" data-aos="zoom-in-up">
+        <h3>Step 3</h3>
+        <p>Customize and launch your program — and change lives locally.</p>
       </div>
     </div>
   </section>
 
-  <!-- Purchase Section -->
-  <section class="section" id="purchase" style="background: var(--light-bg);">
-    <h2>One-Time Church Access: <span style="color: var(--brand-blue);">$1,550</span></h2>
-    <p>Includes unlimited church use, editable content, and all assets. Lifetime access. No hidden fees.</p>
-    <a href="/checkout.html" class="cta-button">Purchase Now</a>
+  <!-- What's Included -->
+  <section id="features" data-aos="fade-up">
+    <h2>What’s Inside</h2>
+    <div class="features">
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Editable Lesson Library</h3>
+        <p>All 50+ lessons, categorized and fully editable in your portal.</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Workbook Builder</h3>
+        <p>Create your own church-branded curriculum with a few clicks.</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Marketing Templates</h3>
+        <p>Custom launch flyers, church slide decks, and social promo tools.</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Logo Design Option</h3>
+        <p>Let our team design a custom curriculum logo for your program.</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Forms + Docs</h3>
+        <p>Registration, consent, and onboarding forms included.</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up">
+        <h3>Lifetime Access</h3>
+        <p>Buy once. Get all future updates and assets — forever.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase -->
+  <section id="purchase" data-aos="zoom-in">
+    <h2>Church License: $1,550</h2>
+    <p>Includes everything above, unlimited members, editable content, and lifetime updates.</p>
+    <a href="/checkout.html" class="cta-button">Purchase Access</a>
   </section>
 
   <!-- Footer -->
   <footer>
-    &copy; 2025 Kingdom Builders Curriculum. All rights reserved.<br />
-    Designed to build people, businesses, and impact for the Kingdom.
+    &copy; 2025 Kingdom Builders Curriculum. All rights reserved.
   </footer>
 
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 90
+    });
+  </script>
 </body>
 </html>
