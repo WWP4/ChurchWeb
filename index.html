@@ -334,6 +334,29 @@ ul li::before {
   display: inline-block;
 }
 
+
+.crm-features-list {
+  text-align: left;
+  margin: 22px 0 0 0;
+  padding: 0 0 0 18px;
+  color: var(--silver);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+.crm-features-list li {
+  margin-bottom: 10px;
+  position: relative;
+}
+.crm-features-list li::before {
+  content: "•";
+  color: #ccc;
+  font-size: 1.1em;
+  margin-right: 9px;
+  position: absolute;
+  left: -18px;
+}
+
+
     
   </style>
 </head>
@@ -501,6 +524,28 @@ ul li::before {
     </div>
   </div>
 </section>
+
+  <section id="crm" class="section light" style="display: flex; flex-wrap: wrap; align-items: center; gap: 48px;">
+  <div style="flex: 1 1 420px; min-width: 340px;">
+    <h2 data-aos="fade-right">Track Growth. Fuel Progress.</h2>
+    <p data-aos="fade-right" data-aos-delay="80">
+      Every Kingdom Builders curriculum includes a full-featured CRM dashboard — free. Organize members, track business projects, and see real impact in real time.
+    </p>
+    <ul class="crm-features-list" data-aos="fade-right" data-aos-delay="120">
+      <li>Simple, secure dashboard for every leader</li>
+      <li>Project and member notes</li>
+      <li>Progress timeline & task checklist</li>
+      <li>Contact and cohort management</li>
+      <li>Export to PDF or Excel anytime</li>
+    </ul>
+    <a href="#buy" class="cta-button" style="margin-top: 30px;">Get Access — CRM Included</a>
+  </div>
+  <div style="flex: 1 1 480px; min-width: 320px; text-align:center;">
+    <img src="crm-dashboard-demo.png" alt="CRM Dashboard Preview"
+         style="max-width: 100%; border-radius: 14px; box-shadow: 0 8px 40px 0 rgba(28,29,34,0.16); margin-top: 20px;" data-aos="fade-left" data-aos-delay="100" />
+  </div>
+</section>
+
 
 
 <footer>
