@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-<header class="hero-image" data-aos="slide-down">
-  <div class="hero-overlay">
-    <div class="hero-content">
-      <h1>Entrepreneurship. Elevated.</h1>
-      <p>A luxury-grade business incubator curriculum for churches, communities, and visionary leaders.</p>
-      <a href="#buy" class="cta-button">Get Started</a>
-    </div>
-  </div>
-</header>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kingdom Builders</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!-- AOS -->
+  <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
@@ -26,10 +18,6 @@
       --silver: #ccc;
       --white: #fff;
     }
-
-    header {
-  border-top: 4px solid var(--silver);
-}
 
     * {
       margin: 0;
@@ -75,32 +63,40 @@
       color: var(--white);
     }
 
-    header {
+    .hero-image {
       height: 100vh;
+      background: url('hero.jpg') center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 0 20px;
-      background: var(--black);
     }
 
-    header h1 {
+    .hero-content h1 {
       font-size: 3rem;
       font-weight: 600;
       margin-bottom: 20px;
       color: var(--white);
     }
 
-    header p {
+    .hero-content p {
       font-size: 1.1rem;
       color: var(--silver);
       max-width: 700px;
+      margin: 0 auto;
     }
 
     .cta-button {
-      margin-top: 48px;
+      margin-top: 40px;
       background: var(--white);
       color: var(--black);
       padding: 14px 36px;
@@ -124,8 +120,17 @@
     section h2 {
       font-size: 2rem;
       text-align: center;
-      margin-bottom: 20px;
       color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    section h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 2px;
+      margin: 16px auto 0;
+      background: var(--silver);
     }
 
     section p {
@@ -171,73 +176,17 @@
       border-top: 1px solid var(--gray);
     }
 
-    
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-ul li::before {
-  content: "•";
-  color: #888;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-
-    section h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 2px;
-  margin: 16px auto 0;
-  background: var(--silver);
-}
-
-
-
-    .hero-image {
-  height: 100vh;
-  background: url('hero.png') center/cover no-repeat;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 20px;
-}
-
-.hero-content {
-  z-index: 2;
-}
-
-.hero-content h1 {
-  font-size: 3rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--white);
-}
-
-.hero-content p {
-  font-size: 1.1rem;
-  color: var(--silver);
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.hero-content .cta-button {
-  margin-top: 40px;
-}
-
-
-    
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li::before {
+      content: "•";
+      color: #888;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
   </style>
 </head>
 <body>
@@ -251,22 +200,27 @@ ul li::before {
   </div>
 </nav>
 
-<header>
-  <h1 data-aos="fade-up">Entrepreneurship. Elevated.</h1>
-  <p data-aos="fade-up" data-aos-delay="200">
-    A luxury-grade business incubator curriculum for churches, communities, and visionary leaders.
-  </p>
-  <a href="#buy" class="cta-button" data-aos="fade-up" data-aos-delay="400">Get Started</a>
+<!-- ✅ Hero Section with Background Image -->
+<header class="hero-image" data-aos="slide-down">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h1>Entrepreneurship. Elevated.</h1>
+      <p>A luxury-grade business incubator curriculum for churches, communities, and visionary leaders.</p>
+      <a href="#buy" class="cta-button">Get Started</a>
+    </div>
+  </div>
 </header>
 
-<section id="about" data-aos="fade-right">
+<!-- About -->
+<section id="about" data-aos="fade-up">
   <h2>Why Kingdom Builders</h2>
   <p>
     You’re not just buying a workbook — you're investing in people, purpose, and long-term impact. Our system is quiet, powerful, and proven.
   </p>
 </section>
 
-<section id="how" data-aos="fade-left">
+<!-- How It Works -->
+<section id="how" data-aos="fade-up">
   <h2>How It Works</h2>
   <p>
     Buy once. Customize your workbook. Launch your program. Every tool, template, and training you need — already done, ready for action.
@@ -287,7 +241,8 @@ ul li::before {
   </div>
 </section>
 
-  <section id="community" class="section" style="text-align: center;">
+<!-- Community -->
+<section id="community" class="section" style="text-align: center;">
   <h2 data-aos="fade-up">Rooted in Real Community</h2>
   <p data-aos="fade-up" data-aos-delay="100">
     Kingdom Builders is more than curriculum. It's a movement of mentors, dreamers, and purpose-driven entrepreneurs.
@@ -297,15 +252,15 @@ ul li::before {
 
   <div class="grid" style="margin-top: 60px;">
     <div class="card" data-aos="fade-right" style="padding: 0; border: none; background: none;">
-      <img src="Screenshot 2025-07-30 at 2.18.38 PM.png" alt="Community Gathering" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+      <img src="Screenshot-1.png" alt="Community Gathering" style="width: 100%; border-radius: 12px; object-fit: cover;" />
     </div>
     <div class="card" data-aos="fade-left" style="padding: 0; border: none; background: none;">
-      <img src="Screenshot 2025-07-30 at 2.24.23 PM.png" alt="Business Discussion" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+      <img src="Screenshot-2.png" alt="Business Discussion" style="width: 100%; border-radius: 12px; object-fit: cover;" />
     </div>
   </div>
 </section>
 
-
+<!-- CTA -->
 <section id="buy" data-aos="fade-up">
   <h2>Get Access</h2>
   <p>
@@ -317,62 +272,60 @@ ul li::before {
   </div>
 </section>
 
-  <section id="pricing" class="section" style="border-top: 1px solid #1a1a1a;">
+<!-- Pricing -->
+<section id="pricing" class="section">
   <h2 data-aos="fade-up">Choose Your Experience</h2>
   <p data-aos="fade-up" data-aos-delay="100">
     Launch with confidence. Build with excellence. Get 10% OFF if you purchase in the next <strong style="color: #ccc;">48 hours</strong>.
   </p>
 
   <div class="grid" style="margin-top: 60px;">
-    <!-- Essentials Pack -->
+    <!-- Essentials -->
     <div class="card" data-aos="fade-up">
-      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Essentials Pack</h3>
-      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Best for launching fast</p>
-      <p style="font-size: 2rem; font-weight: 600; color: white;">$1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
-        <li>✔ Full Curriculum (50+ editable lessons)</li>
+      <h3>Essentials Pack</h3>
+      <p style="color: #ccc;">Best for launching fast</p>
+      <p style="font-size: 2rem; font-weight: 600;">$1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul>
+        <li>✔ Full Curriculum (50+ lessons)</li>
         <li>✔ Lifetime Access</li>
         <li>✔ Workbook Builder</li>
-        <li>✔ Launch Templates & Social Media Kit</li>
-        <li>✔ Member Forms & Surveys</li>
-        <li>✔ All Future Updates</li>
+        <li>✔ Launch Templates & Social Kit</li>
+        <li>✔ All Updates Included</li>
       </ul>
-      <a href="/checkout.html" class="cta-button" style="margin-top: 32px;">Get Essentials</a>
+      <a href="/checkout.html" class="cta-button">Get Essentials</a>
     </div>
 
-    <!-- Custom Branding Pack -->
+    <!-- Branding -->
     <div class="card" data-aos="fade-up" data-aos-delay="100" style="border: 2px solid #ccc;">
-      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Custom Branding Pack</h3>
-      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Most popular</p>
-      <p style="font-size: 2rem; font-weight: 600; color: white;">$1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
+      <h3>Custom Branding Pack</h3>
+      <p style="color: #ccc;">Most popular</p>
+      <p style="font-size: 2rem; font-weight: 600;">$1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul>
         <li>✔ Everything in Essentials</li>
         <li>✔ Custom Curriculum Logo</li>
-        <li>✔ Cover Design + Style System</li>
+        <li>✔ Cover Design System</li>
         <li>✔ Layout Customization</li>
         <li>✔ 1-on-1 Strategy Session</li>
       </ul>
-      <a href="/checkout.html?pack=branding" class="cta-button" style="margin-top: 32px;">Get Branding Pack</a>
+      <a href="/checkout.html?pack=branding" class="cta-button">Get Branding Pack</a>
     </div>
 
-    <!-- Enterprise Pack -->
+    <!-- Enterprise -->
     <div class="card" data-aos="fade-up" data-aos-delay="200">
-      <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Enterprise Incubator Pack</h3>
-      <p style="color: #ccc; font-size: 1rem; margin-bottom: 16px;">Full church incubator system</p>
-      <p style="font-size: 2rem; font-weight: 600; color: white;">$2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul style="text-align: left; margin-top: 24px; color: #ccc; line-height: 1.6; font-size: 0.95rem;">
+      <h3>Enterprise Incubator Pack</h3>
+      <p style="color: #ccc;">Full church incubator system</p>
+      <p style="font-size: 2rem; font-weight: 600;">$2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
+      <ul>
         <li>✔ Everything in Branding</li>
         <li>✔ 8-Week Launch Guide</li>
         <li>✔ Cohort Planning Tools</li>
         <li>✔ Coaching Templates & Certificates</li>
-        <li>✔ Facilitator Training Materials</li>
         <li>✔ Multi-campus License</li>
       </ul>
-      <a href="/checkout.html?pack=enterprise" class="cta-button" style="margin-top: 32px;">Get Enterprise Pack</a>
+      <a href="/checkout.html?pack=enterprise" class="cta-button">Get Enterprise Pack</a>
     </div>
   </div>
 </section>
-
 
 <footer>
   &copy; 2025 Kingdom Builders. Built with purpose.
@@ -384,9 +337,7 @@ ul li::before {
     once: true,
     easing: 'ease-out'
   });
-
-
 </script>
-  
+
 </body>
 </html>
