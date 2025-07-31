@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kingdom Builders CRM Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0c0d10;
+      --dark: #17181b;
+      --gray: #1c1d22;
+      --silver: #d1d3db;
+      --white: #fff;
+      --radius: 16px;
+    }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: var(--dark);
+      padding: 38px 0 24px 0;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top-right-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+      box-shadow: 2px 0 18px #0c0d1020;
+    }
+    .profile {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .profile-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--silver);
+      margin: 0 auto 10px auto;
+    }
+    .profile-name {
+      font-size: 1.05rem;
+      color: var(--silver);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      margin-top: 12px;
+    }
+    .nav-link {
+      color: var(--silver);
+      padding: 10px 0 10px 38px;
+      text-decoration: none;
+      font-size: 1.07rem;
+      font-weight: 600;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+      opacity: 0.88;
+    }
+    .nav-link.active,
+    .nav-link:hover {
+      color: var(--white);
+      border-left: 4px solid var(--white);
+      background: #181a1d55;
+      opacity: 1;
+    }
+    /* Main content */
+    .main {
+      flex: 1;
+      padding: 44px 56px 48px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .welcome {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 7px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 26px;
+    }
+    .card {
+      background: var(--gray);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 18px #16181d22;
+      padding: 28px 24px 18px 24px;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-title {
+      font-size: 1rem;
+      color: var(--silver);
+      margin-bottom: 8px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .card-value {
+      font-size: 2.2rem;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .mini-chart {
+      margin-top: 10px;
+      width: 90%;
+      height: 38px;
+      background: linear-gradient(90deg, #222 70%, #333 100%);
+      border-radius: 6px;
+      opacity: 0.23;
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .main {
+        padding: 30px 12px 32px 12px;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .sidebar {
+        width: 75px;
+        padding: 22px 0 12px 0;
+      }
+      .nav-link {
+        font-size: 0.99rem;
+        padding-left: 18px;
+      }
+      .profile-logo {
+        width: 34px;
+        height: 34px;
+        font-size: 1.3rem;
+      }
+      .profile-name {
+        font-size: 0.93rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="profile-logo">KB</div>
+        <div class="profile-name">Melissa M.</div>
+      </div>
+      <nav class="nav">
+        <a href="#" class="nav-link active">Dashboard</a>
+        <a href="#" class="nav-link">Members</a>
+        <a href="#" class="nav-link">Curriculum</a>
+        <a href="#" class="nav-link">Projects</a>
+        <a href="#" class="nav-link">Events</a>
+        <a href="#" class="nav-link">Support</a>
+        <a href="#" class="nav-link">Account</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="main-header">
+        <div>
+          <div class="welcome">Welcome, Melissa!</div>
+          <div style="color:var(--silver);font-size:1rem;opacity:0.8;">Your Kingdom Builders Dashboard</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:2.3rem;font-weight:700;color:var(--white);">451</div>
+          <div style="color:var(--silver);font-size:1rem;opacity:0.7;">Total Members</div>
+        </div>
+      </div>
+      <section class="stats-grid">
+        <div class="card">
+          <div class="card-title">Active Projects</div>
+          <div class="card-value">7</div>
+          <div class="mini-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Curriculum Accessed</div>
+          <div class="card-value">152</div>
+          <div class="mini-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Upcoming Events</div>
+          <div class="card-value">3</div>
+          <div class="mini-chart"></div>
+        </div>
+      </section>
+      <section style="margin-top:28px;">
+        <div class="card" style="width:100%;padding:30px 18px;">
+          <div style="font-size:1.12rem;color:var(--silver);margin-bottom:6px;">Latest Activity</div>
+          <div style="color:var(--white);opacity:0.93;">
+            <ul style="padding-left:1em;line-height:1.7;">
+              <li>New member <b>First Baptist Church</b> joined the platform.</li>
+              <li>Curriculum update <b>“Faith in Action”</b> now available.</li>
+              <li>Event <b>“Bloom Night”</b> scheduled for August 11th.</li>
+              <li>Referral bonus credited for <b>Grace Community</b>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
