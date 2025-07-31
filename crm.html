@@ -35,6 +35,7 @@
       border-top-right-radius: var(--radius);
       border-bottom-right-radius: var(--radius);
       box-shadow: 2px 0 18px #0c0d1020;
+      z-index: 3;
     }
     .profile {
       margin-bottom: 32px;
@@ -52,6 +53,12 @@
       font-weight: 700;
       color: var(--silver);
       margin: 0 auto 10px auto;
+      letter-spacing: 0.01em;
+      transition: background 0.2s;
+    }
+    .profile-logo:hover {
+      background: var(--silver);
+      color: var(--black);
     }
     .profile-name {
       font-size: 1.05rem;
@@ -76,6 +83,11 @@
       transition: all 0.2s;
       letter-spacing: 0.01em;
       opacity: 0.88;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
     }
     .nav-link.active,
     .nav-link:hover {
@@ -91,11 +103,15 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      transition: all 0.3s;
+      min-height: 100vh;
     }
     .main-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
     }
     .welcome {
       font-size: 1.55rem;
@@ -118,6 +134,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      margin-bottom: 0.7em;
     }
     .card-title {
       font-size: 1rem;
@@ -141,32 +158,128 @@
       border-radius: 6px;
       opacity: 0.23;
     }
+    table {
+      width: 100%;
+      color: var(--silver);
+      border-collapse: collapse;
+      margin-bottom: 0.5em;
+    }
+    th, td {
+      padding: 10px 5px;
+      text-align: left;
+      font-size: 1rem;
+    }
+    th {
+      color: var(--silver);
+      font-weight: 700;
+      border-bottom: 1px solid #232329;
+    }
+    td {
+      border-bottom: 1px solid #191a1d;
+      color: var(--silver);
+    }
+    td strong {
+      color: var(--white);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    button, .button {
+      padding: 9px 22px;
+      border-radius: 8px;
+      background: var(--silver);
+      color: var(--black);
+      font-weight: 700;
+      border: none;
+      margin-right: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px #2222;
+      transition: background 0.15s, color 0.15s;
+    }
+    button:hover, .button:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #232329;
+      color: var(--white);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: box-shadow 0.15s;
+    }
+    input:focus, textarea:focus {
+      box-shadow: 0 0 0 2px var(--silver);
+    }
+    ul {
+      padding-left: 1em;
+      line-height: 1.7;
+      margin: 0;
+    }
     /* Responsive */
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       .main {
-        padding: 30px 12px 32px 12px;
+        padding: 28px 6vw 36px 6vw;
       }
       .stats-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 18px;
       }
       .sidebar {
-        width: 75px;
-        padding: 22px 0 12px 0;
+        width: 80px;
+        padding: 16px 0 6px 0;
       }
       .nav-link {
-        font-size: 0.99rem;
-        padding-left: 18px;
+        font-size: 0.95rem;
+        padding-left: 12px;
       }
       .profile-logo {
-        width: 34px;
-        height: 34px;
-        font-size: 1.3rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
       }
       .profile-name {
         font-size: 0.93rem;
       }
     }
+    @media (max-width: 650px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        flex-direction: row;
+        width: 100%;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        height: 65px;
+        justify-content: space-between;
+      }
+      .profile, .profile-logo, .profile-name {
+        display: none;
+      }
+      .nav {
+        flex-direction: row;
+        gap: 8px;
+        width: 100vw;
+        justify-content: space-around;
+      }
+      .main {
+        padding: 16px 5vw 22px 5vw;
+        min-width: 0;
+      }
+    }
+    /* Utility */
+    .hidden { display: none !important; }
+    .link, a { color: var(--silver); text-decoration: underline; font-size: 0.97em; }
+    a:hover { color: var(--white); }
   </style>
 </head>
 <body>
@@ -177,57 +290,236 @@
         <div class="profile-name">Melissa M.</div>
       </div>
       <nav class="nav">
-        <a href="#" class="nav-link active">Dashboard</a>
-        <a href="#" class="nav-link">Members</a>
-        <a href="#" class="nav-link">Curriculum</a>
-        <a href="#" class="nav-link">Projects</a>
-        <a href="#" class="nav-link">Events</a>
-        <a href="#" class="nav-link">Support</a>
-        <a href="#" class="nav-link">Account</a>
+        <button class="nav-link active" onclick="showSection('dashboard')">Dashboard</button>
+        <button class="nav-link" onclick="showSection('members')">Members</button>
+        <button class="nav-link" onclick="showSection('curriculum')">Curriculum</button>
+        <button class="nav-link" onclick="showSection('projects')">Projects</button>
+        <button class="nav-link" onclick="showSection('events')">Events</button>
+        <button class="nav-link" onclick="showSection('support')">Support</button>
+        <button class="nav-link" onclick="showSection('account')">Account</button>
       </nav>
     </aside>
     <main class="main">
-      <div class="main-header">
-        <div>
-          <div class="welcome">Welcome, Melissa!</div>
-          <div style="color:var(--silver);font-size:1rem;opacity:0.8;">Your Kingdom Builders Dashboard</div>
+      <!-- DASHBOARD SECTION -->
+      <section id="dashboard-section">
+        <div class="main-header">
+          <div>
+            <div class="welcome">Welcome, Melissa!</div>
+            <div style="color:var(--silver);font-size:1rem;opacity:0.8;">Your Kingdom Builders Dashboard</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:2.3rem;font-weight:700;color:var(--white);">451</div>
+            <div style="color:var(--silver);font-size:1rem;opacity:0.7;">Total Members</div>
+          </div>
         </div>
-        <div style="text-align:right;">
-          <div style="font-size:2.3rem;font-weight:700;color:var(--white);">451</div>
-          <div style="color:var(--silver);font-size:1rem;opacity:0.7;">Total Members</div>
+        <section class="stats-grid">
+          <div class="card">
+            <div class="card-title">Active Projects</div>
+            <div class="card-value">7</div>
+            <div class="mini-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Curriculum Accessed</div>
+            <div class="card-value">152</div>
+            <div class="mini-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Upcoming Events</div>
+            <div class="card-value">3</div>
+            <div class="mini-chart"></div>
+          </div>
+        </section>
+        <section style="margin-top:28px;">
+          <div class="card" style="width:100%;padding:30px 18px;">
+            <div style="font-size:1.12rem;color:var(--silver);margin-bottom:6px;">Latest Activity</div>
+            <div style="color:var(--white);opacity:0.93;">
+              <ul>
+                <li>New member <b>First Baptist Church</b> joined the platform.</li>
+                <li>Curriculum update <b>“Faith in Action”</b> now available.</li>
+                <li>Event <b>“Bloom Night”</b> scheduled for August 11th.</li>
+                <li>Referral bonus credited for <b>Grace Community</b>.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </section>
+      <!-- MEMBERS SECTION -->
+      <section id="members-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Team Members</div>
+          <button>+ Invite Member</button>
         </div>
-      </div>
-      <section class="stats-grid">
-        <div class="card">
-          <div class="card-title">Active Projects</div>
-          <div class="card-value">7</div>
-          <div class="mini-chart"></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Curriculum Accessed</div>
-          <div class="card-value">152</div>
-          <div class="mini-chart"></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Upcoming Events</div>
-          <div class="card-value">3</div>
-          <div class="mini-chart"></div>
+        <div class="card" style="width:100%;margin-top:26px;overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Jessica Allen</strong></td>
+                <td>jallen@firstchurch.com</td>
+                <td>Admin</td>
+                <td>Active</td>
+                <td><a href="#" class="link">Edit</a></td>
+              </tr>
+              <tr>
+                <td><strong>Sam Rivera</strong></td>
+                <td>sam@firstchurch.com</td>
+                <td>Viewer</td>
+                <td>Pending</td>
+                <td><a href="#" class="link">Resend Invite</a></td>
+              </tr>
+              <tr>
+                <td><strong>David Lee</strong></td>
+                <td>david@newhope.com</td>
+                <td>Contributor</td>
+                <td>Active</td>
+                <td><a href="#" class="link">Edit</a></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
-      <section style="margin-top:28px;">
-        <div class="card" style="width:100%;padding:30px 18px;">
-          <div style="font-size:1.12rem;color:var(--silver);margin-bottom:6px;">Latest Activity</div>
-          <div style="color:var(--white);opacity:0.93;">
-            <ul style="padding-left:1em;line-height:1.7;">
-              <li>New member <b>First Baptist Church</b> joined the platform.</li>
-              <li>Curriculum update <b>“Faith in Action”</b> now available.</li>
-              <li>Event <b>“Bloom Night”</b> scheduled for August 11th.</li>
-              <li>Referral bonus credited for <b>Grace Community</b>.</li>
-            </ul>
+      <!-- CURRICULUM SECTION -->
+      <section id="curriculum-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Curriculum Library</div>
+          <button>+ Add Module</button>
+        </div>
+        <section class="stats-grid">
+          <div class="card">
+            <div class="card-title">Entrepreneur Blueprint</div>
+            <div style="color:var(--white);margin-bottom:8px;font-size:1.11rem;">Main Curriculum</div>
+            <button class="button">Download PDF</button>
+            <div style="margin-top:14px;font-size:0.95em;color:var(--silver);opacity:0.7;">Last accessed: Jul 29, 2025</div>
           </div>
+          <div class="card">
+            <div class="card-title">Faith Driven Leader</div>
+            <div style="color:var(--white);margin-bottom:8px;font-size:1.11rem;">Advanced Module</div>
+            <button class="button">Download PDF</button>
+            <div style="margin-top:14px;font-size:0.95em;color:var(--silver);opacity:0.7;">Last accessed: Jul 22, 2025</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Kingdom Finance</div>
+            <div style="color:var(--white);margin-bottom:8px;font-size:1.11rem;">Bonus Content</div>
+            <button class="button">Download PDF</button>
+            <div style="margin-top:14px;font-size:0.95em;color:var(--silver);opacity:0.7;">Last accessed: Jul 10, 2025</div>
+          </div>
+        </section>
+      </section>
+      <!-- PROJECTS SECTION -->
+      <section id="projects-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Projects</div>
+          <button>+ New Project</button>
+        </div>
+        <div class="card" style="margin-top:24px;">
+          <div style="color:var(--white);font-size:1.18rem;font-weight:700;margin-bottom:8px;">Entrepreneur Launch – Fall 2025</div>
+          <div style="margin-bottom:10px;color:var(--silver);opacity:0.9;">Status: In Progress &nbsp; | &nbsp; Start Date: Aug 18, 2025</div>
+          <ul>
+            <li><b>Curriculum rollout</b>: Complete</li>
+            <li><b>Kickoff Event</b>: Scheduled Aug 25</li>
+            <li><b>Team Training</b>: In Progress</li>
+            <li><b>First Cohort Launch</b>: Pending</li>
+          </ul>
+        </div>
+        <div class="card" style="margin-top:18px;">
+          <div style="color:var(--white);font-size:1.18rem;font-weight:700;margin-bottom:8px;">Bloom Night – Women’s Ministry</div>
+          <div style="margin-bottom:10px;color:var(--silver);opacity:0.9;">Status: Scheduled &nbsp; | &nbsp; Next Event: Aug 11, 2025</div>
+          <ul>
+            <li><b>Venue booked</b>: Complete</li>
+            <li><b>Speakers Confirmed</b>: In Progress</li>
+            <li><b>Invitations Sent</b>: Pending</li>
+          </ul>
+        </div>
+      </section>
+      <!-- EVENTS SECTION -->
+      <section id="events-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Events</div>
+          <button>+ Add Event</button>
+        </div>
+        <div class="card" style="margin-top:26px;">
+          <div style="font-size:1.13rem;font-weight:600;color:var(--white);margin-bottom:3px;">Bloom Night: Recharge & Connect</div>
+          <div style="color:var(--silver);margin-bottom:9px;">August 11, 2025 – Fellowship Hall</div>
+          <button class="button">Register</button>
+          <a href="#" style="margin-left:16px;font-size:0.96em;color:var(--white);text-decoration:underline;opacity:0.78;">Download Event Packet</a>
+        </div>
+        <div class="card" style="margin-top:18px;">
+          <div style="font-size:1.13rem;font-weight:600;color:var(--white);margin-bottom:3px;">Entrepreneur Kickoff</div>
+          <div style="color:var(--silver);margin-bottom:9px;">August 25, 2025 – Auditorium</div>
+          <button class="button">Register</button>
+          <a href="#" style="margin-left:16px;font-size:0.96em;color:var(--white);text-decoration:underline;opacity:0.78;">Download Event Packet</a>
+        </div>
+      </section>
+      <!-- SUPPORT SECTION -->
+      <section id="support-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Support</div>
+          <button>+ New Ticket</button>
+        </div>
+        <div class="card" style="margin-top:26px;">
+          <div style="color:var(--white);font-weight:600;margin-bottom:7px;">Your Open Tickets</div>
+          <ul>
+            <li><b>#3124</b> – Curriculum Download Issue – <span style="color:#ccc;">Open</span></li>
+            <li><b>#3118</b> – Payment Receipt Request – <span style="color:#ccc;">Closed</span></li>
+          </ul>
+          <a href="#" class="link">Knowledge Base & FAQs</a>
+        </div>
+      </section>
+      <!-- ACCOUNT SECTION -->
+      <section id="account-section" class="hidden">
+        <div class="main-header">
+          <div class="welcome">Account Settings</div>
+        </div>
+        <div class="card" style="margin-top:26px;max-width:420px;">
+          <form>
+            <label style="color:var(--silver);display:block;margin-bottom:9px;font-weight:600;">Name</label>
+            <input type="text" value="Melissa Morrison">
+            <label style="color:var(--silver);display:block;margin-bottom:9px;font-weight:600;">Email</label>
+            <input type="email" value="melissa@kingdombuilders.com">
+            <button type="submit">Save Changes</button>
+          </form>
         </div>
       </section>
     </main>
   </div>
+  <script>
+    // Navigation logic
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = {
+      dashboard: document.getElementById('dashboard-section'),
+      members: document.getElementById('members-section'),
+      curriculum: document.getElementById('curriculum-section'),
+      projects: document.getElementById('projects-section'),
+      events: document.getElementById('events-section'),
+      support: document.getElementById('support-section'),
+      account: document.getElementById('account-section'),
+    };
+    function showSection(section) {
+      Object.keys(sections).forEach(key => {
+        if (key === section) {
+          sections[key].classList.remove('hidden');
+        } else {
+          sections[key].classList.add('hidden');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.textContent.trim().toLowerCase() === section) {
+          link.classList.add('active');
+        }
+      });
+    }
+    // Optional: Allow pressing 1-7 keys to switch pages quickly
+    document.addEventListener('keydown', function(e) {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      if (e.key >= 1 && e.key <= 7) {
+        showSection(['dashboard','members','curriculum','projects','events','support','account'][e.key-1]);
+      }
+    });
+  </script>
 </body>
 </html>
