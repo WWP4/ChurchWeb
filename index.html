@@ -302,6 +302,39 @@ ul li::before {
   transition-timing-function: cubic-bezier(.32,.72,.36,1.02);
 }
 
+
+.pricing-list {
+  text-align: left;
+  margin: 28px 0 0 0;
+  padding: 0 0 0 20px;
+  color: var(--silver);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+.pricing-list li {
+  margin-bottom: 7px;
+  position: relative;
+}
+.pricing-list li::before {
+  content: "•";
+  color: #aaa;
+  font-size: 1.22em;
+  margin-right: 8px;
+  position: absolute;
+  left: -20px;
+}
+.pricing-btn {
+  margin-top: 28px;
+  padding: 0.92rem 2.1rem;
+  font-size: 1.12rem;
+  width: auto;
+  max-width: 95%;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.10);
+  display: inline-block;
+}
+
+    
   </style>
 </head>
 <body>
@@ -409,7 +442,7 @@ ul li::before {
 </section>
 
 <!-- Pricing -->
-<section id="pricing" class="section">
+<section id="pricing" class="alt section">
   <h2 data-aos="fade-up">Choose Your Experience</h2>
   <p data-aos="fade-up" data-aos-delay="100">
     Launch with confidence. Build with excellence. Get 10% OFF if you purchase in the next <strong style="color: #ccc;">48 hours</strong>.
@@ -420,48 +453,55 @@ ul li::before {
     <div class="card" data-aos="fade-up">
       <h3>Essentials Pack</h3>
       <p style="color: #ccc;">Best for launching fast</p>
-      <p style="font-size: 2rem; font-weight: 600;">$1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul>
-        <li>✔ Full Curriculum (50+ lessons)</li>
-        <li>✔ Lifetime Access</li>
-        <li>✔ Workbook Builder</li>
-        <li>✔ Launch Templates & Social Kit</li>
-        <li>✔ All Updates Included</li>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Full Curriculum (50+ lessons)</li>
+        <li>Lifetime Access</li>
+        <li>Workbook Builder</li>
+        <li>Launch Templates & Social Kit</li>
+        <li>All Updates Included</li>
       </ul>
-      <a href="/checkout.html" class="cta-button">Get Essentials</a>
+      <a href="/checkout.html" class="cta-button pricing-btn">Get Essentials</a>
     </div>
 
     <!-- Branding -->
     <div class="card" data-aos="fade-up" data-aos-delay="100" style="border: 2px solid #ccc;">
       <h3>Custom Branding Pack</h3>
       <p style="color: #ccc;">Most popular</p>
-      <p style="font-size: 2rem; font-weight: 600;">$1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul>
-        <li>✔ Everything in Essentials</li>
-        <li>✔ Custom Curriculum Logo</li>
-        <li>✔ Cover Design System</li>
-        <li>✔ Layout Customization</li>
-        <li>✔ 1-on-1 Strategy Session</li>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Everything in Essentials</li>
+        <li>Custom Curriculum Logo</li>
+        <li>Cover Design System</li>
+        <li>Layout Customization</li>
+        <li>1-on-1 Strategy Session</li>
       </ul>
-      <a href="/checkout.html?pack=branding" class="cta-button">Get Branding Pack</a>
+      <a href="/checkout.html?pack=branding" class="cta-button pricing-btn">Get Branding Pack</a>
     </div>
 
     <!-- Enterprise -->
     <div class="card" data-aos="fade-up" data-aos-delay="200">
       <h3>Enterprise Incubator Pack</h3>
       <p style="color: #ccc;">Full church incubator system</p>
-      <p style="font-size: 2rem; font-weight: 600;">$2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span></p>
-      <ul>
-        <li>✔ Everything in Branding</li>
-        <li>✔ 8-Week Launch Guide</li>
-        <li>✔ Cohort Planning Tools</li>
-        <li>✔ Coaching Templates & Certificates</li>
-        <li>✔ Multi-campus License</li>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Everything in Branding</li>
+        <li>8-Week Launch Guide</li>
+        <li>Cohort Planning Tools</li>
+        <li>Coaching Templates & Certificates</li>
+        <li>Multi-campus License</li>
       </ul>
-      <a href="/checkout.html?pack=enterprise" class="cta-button">Get Enterprise Pack</a>
+      <a href="/checkout.html?pack=enterprise" class="cta-button pricing-btn">Get Enterprise Pack</a>
     </div>
   </div>
 </section>
+
 
 <footer>
   &copy; 2025 Kingdom Builders. Built with purpose.
