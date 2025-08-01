@@ -223,6 +223,25 @@ ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1e
 }
 @keyframes textSlideFade { to { opacity: 1; transform: translateY(0); } }
 
+
+.why-feature-grid { margin-top:34px; }
+.why-feature-card {
+  background: linear-gradient(122deg,#22242a 75%,#181a1e 100%);
+  border-radius: 14px;
+  box-shadow: 0 6px 32px #191a1e12;
+  border: 1.6px solid #292b33;
+  color: var(--silver);
+  padding: 34px 20px 30px 20px;
+  min-height: 210px;
+  display: flex; flex-direction: column; gap: 14px; align-items:center;
+  transition: box-shadow 0.17s, border 0.17s, background 0.2s;
+  font-size: 1.08rem;
+}
+.why-feature-card:hover { box-shadow: 0 14px 32px #0c0d1018; border-color: #e6cc95;}
+.why-feature-title { font-size: 1.14rem; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.why-feature-desc { color: #d6d6e2; opacity:.88; font-size:1.04rem;text-align:center;}
+
+    
     
   </style>
 </head>
@@ -269,13 +288,56 @@ ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1e
 </section>
 
 
-<!-- About -->
-<section id="about" data-aos="fade-up">
-  <h2>Why Kingdom Builders</h2>
-  <p>
-    You’re not just buying a workbook — you're investing in people, purpose, and long-term impact. Our system is quiet, powerful, and proven.
-  </p>
+<section id="why-kingdom" class="section alt" style="padding-bottom: 80px;">
+  <div style="max-width:780px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:22px;">
+      <span style="color:#e6cc95;font-size:1.07rem;letter-spacing:.13em;font-weight:600;opacity:.79;display:block;margin-bottom:10px;" data-aos="fade-down">Why Choose Us?</span>
+      <h2 data-aos="fade-up">Why Kingdom Builders</h2>
+      <p data-aos="fade-up" data-aos-delay="120" style="font-size:1.15rem;max-width:640px;margin:22px auto 32px auto;opacity:.91;">
+        Not just a curriculum. Not just a dashboard. <strong>Kingdom Builders</strong> is a transformation engine for churches and entrepreneurs who want real results, real community, and lifelong impact.
+      </p>
+    </div>
+    <div class="why-feature-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:38px 28px;align-items:start;">
+      <!-- Feature 1 -->
+      <div class="why-feature-card" data-aos="fade-up">
+        <!-- SVG: Heart/Impact -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M15 24c-1.5-1.8-1.5-4.4 0-6.1C16.6 16.2 19 16.2 20.6 17.9l1.4 1.4 1.4-1.4c1.6-1.7 4-1.7 5.6 0 1.5 1.7 1.5 4.3 0 6.1l-7 7.1-7-7.1z" fill="#e6cc95"/></svg>
+        <div class="why-feature-title">People-First Impact</div>
+        <div class="why-feature-desc">Built for real growth — every lesson, tool, and dashboard unlocks confidence, leadership, and action in your people.</div>
+      </div>
+      <!-- Feature 2 -->
+      <div class="why-feature-card" data-aos="fade-up" data-aos-delay="120">
+        <!-- SVG: Cloud/Tech -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M14 27a7 7 0 010-14c2.9 0 5.3 1.6 6.5 4.1A6 6 0 0136 24h-2.2" stroke="#e6cc95" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24.5" cy="30" rx="5.5" ry="4" fill="#e6cc95" opacity=".15"/></svg>
+        <div class="why-feature-title">Modern Tools</div>
+        <div class="why-feature-desc">CRM, reporting, and curriculum are always online. Export PDFs, track results, and manage every project in real time.</div>
+      </div>
+      <!-- Feature 3 -->
+      <div class="why-feature-card" data-aos="fade-up" data-aos-delay="180">
+        <!-- SVG: Star/Success -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M22 11l3.1 7.4 7.9.7-6 5.6 1.8 7.8-6.8-4.4-6.7 4.4 1.8-7.8-6-5.6 7.8-.7L22 11z" fill="#e6cc95" opacity=".5"/><path d="M22 13.5l2.5 6.2 6.6.6-5.1 4.7 1.5 6.5-5.5-3.6-5.5 3.6 1.5-6.5-5.1-4.7 6.6-.6L22 13.5z" stroke="#e6cc95" stroke-width="1.2" fill="none"/></svg>
+        <div class="why-feature-title">Proven Results</div>
+        <div class="why-feature-desc">Launched in 100+ communities, 1000+ students reached, and more real businesses built every month. See the impact in your dashboard — day one.</div>
+      </div>
+    </div>
+    <div class="why-metric-row" style="display:flex;justify-content:center;gap:44px;margin-top:56px;">
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">98%</span> Satisfaction
+      </div>
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">1200+</span> Students Trained
+      </div>
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">3 weeks</span> Avg. Launch Time
+      </div>
+    </div>
+    <div style="text-align:center;max-width:420px;margin:40px auto 0 auto;color:#c2c2c9;font-size:1.03rem;opacity:.75;">
+      “We saw more real businesses and community engagement in three months than in the past three years.”<br>
+      <span style="color:#e6cc95;font-size:.99rem;">— Pastor Alicia, Atlanta GA</span>
+    </div>
+  </div>
 </section>
+
 
 <!-- How It Works -->
 <section id="how" data-aos="fade-up">
