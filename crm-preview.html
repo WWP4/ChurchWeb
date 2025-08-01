@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Dashboard Preview – Kingdom Builders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0c0d10;
+      --gray: #181a1e;
+      --silver: #d1d3db;
+      --white: #fff;
+      --accent: #d6b98d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .crm-hero {
+      padding: 80px 0 40px 0;
+      background: linear-gradient(120deg,#191a1e 60%,#23242a 100%);
+      text-align: center;
+      border-bottom: 1.5px solid #24252b;
+    }
+    .crm-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+    .crm-hero p {
+      max-width: 670px;
+      margin: 0 auto 34px auto;
+      color: var(--silver);
+      font-size: 1.14rem;
+      opacity: 0.92;
+    }
+    .crm-demo-window {
+      margin: 56px auto 36px auto;
+      max-width: 900px;
+      background: #191a1e;
+      border-radius: 22px;
+      box-shadow: 0 8px 42px 0 #0c0d1090;
+      padding: 38px 38px 38px 38px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 48px;
+      justify-content: center;
+    }
+    .crm-demo-frame {
+      min-width: 360px;
+      width: 420px;
+      max-width: 100%;
+      height: 570px;
+      border-radius: 14px;
+      box-shadow: 0 3px 36px #10101538;
+      border: 2.2px solid #23242a;
+      background: #23242a;
+      overflow: hidden;
+    }
+    .crm-demo-details {
+      flex: 1 1 350px;
+      min-width: 320px;
+      max-width: 420px;
+    }
+    .crm-demo-details h2 {
+      font-size: 1.44rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--white);
+      text-align: left;
+    }
+    .crm-demo-details ul {
+      list-style: none;
+      margin: 22px 0 0 0;
+      padding: 0 0 0 16px;
+      color: var(--silver);
+      font-size: 1.08rem;
+      line-height: 1.75;
+      text-align: left;
+    }
+    .crm-demo-details li {
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .crm-demo-details li::before {
+      content: "•";
+      color: #aaa;
+      font-size: 1.2em;
+      margin-right: 9px;
+      position: absolute;
+      left: -16px;
+    }
+    .crm-demo-actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .crm-demo-actions a {
+      background: var(--white);
+      color: var(--black);
+      padding: 12px 38px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1.07rem;
+      border: none;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 4px 12px #2226;
+      letter-spacing: 0.03em;
+    }
+    .crm-demo-actions a.alt-btn {
+      background: #22242a;
+      color: var(--white);
+      border: 2px solid var(--silver);
+    }
+    .crm-demo-actions a:hover {
+      background: var(--accent);
+      color: #181a1e;
+    }
+    .crm-demo-footnote {
+      margin: 44px auto 0 auto;
+      text-align: center;
+      color: #b0b2b8;
+      font-size: 1.01rem;
+      opacity: .84;
+      max-width: 700px;
+    }
+    @media (max-width: 900px) {
+      .crm-demo-window { flex-direction: column; align-items: center; gap: 28px;}
+      .crm-demo-details { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="crm-hero">
+  <h1>CRM Dashboard Preview</h1>
+  <p>
+    The Kingdom Builders CRM isn’t just a database. It’s your command center for every project, member, and business idea.
+    Preview the real dashboard below — interact, explore, and see how easy it is to track your impact.
+  </p>
+</div>
+
+<div class="crm-demo-window">
+  <iframe src="crm.html" title="CRM Dashboard Demo" class="crm-demo-frame"></iframe>
+  <div class="crm-demo-details">
+    <h2>What You Can Do in the CRM:</h2>
+    <ul>
+      <li>Track every business, project, or student</li>
+      <li>Assign tasks and log milestones</li>
+      <li>Organize contacts and mentor notes</li>
+      <li>Upload & download files instantly</li>
+      <li>Export progress PDFs anytime</li>
+    </ul>
+    <div class="crm-demo-actions">
+      <a href="sample-dashboard-export.pdf" download>Download Sample PDF Export</a>
+      <a href="index.html#pricing" class="alt-btn">See Pricing & Packages</a>
+    </div>
+    <div class="crm-demo-footnote">
+      All CRM features are included with every Kingdom Builders curriculum package.<br>
+      This is a live demo — to unlock your own secure CRM, simply purchase and log in.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
