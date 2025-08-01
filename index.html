@@ -241,6 +241,49 @@ ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1e
 .why-feature-title { font-size: 1.14rem; font-weight: 700; color: var(--white); margin-bottom: 2px; }
 .why-feature-desc { color: #d6d6e2; opacity:.88; font-size:1.04rem;text-align:center;}
 
+
+
+    .timeline-row {
+  position: relative;
+  gap: 0;
+}
+.timeline-step {
+  background: rgba(38,40,51,0.86);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px #191a1e14;
+  border: 1.3px solid #292b33;
+  padding: 36px 22px 30px 22px;
+  min-width: 185px;
+  max-width: 210px;
+  margin: 0 10px;
+  flex: 1 1 160px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  transition: box-shadow 0.19s, border 0.19s;
+}
+.timeline-dot {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--lux-accent); margin: 0 auto 18px auto;
+  border: 3.5px solid #22242a;
+  box-shadow: 0 0 12px #e6cc9555;
+}
+.timeline-title {
+  font-size: 1.07rem;
+  color: var(--lux-accent);
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+.timeline-desc {
+  font-size: 1.03rem;
+  color: var(--silver);
+  opacity: .93;
+}
+@media (max-width: 900px) {
+  .timeline-row { flex-direction: column; align-items: center; gap: 24px; }
+  .timeline-step { margin: 20px 0; max-width: 340px;}
+}
+
     
     
   </style>
@@ -476,6 +519,50 @@ ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1e
     -->
   </div>
 </section>
+
+
+  <section id="timeline" class="section light" style="padding-bottom:68px;">
+  <h2 data-aos="fade-up">How Fast Could You Launch?</h2>
+  <p data-aos="fade-up" data-aos-delay="90" style="max-width:700px;margin:0 auto 46px;">
+    Imagine where your church or community could be just a few months from today.
+  </p>
+  <div class="timeline-row" style="display: flex; justify-content: space-between; gap: 0; align-items: flex-start; max-width: 1040px; margin: 0 auto; flex-wrap: wrap;">
+    <!-- Step 1 -->
+    <div class="timeline-step" data-aos="fade-up">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Day 1</div>
+      <div class="timeline-desc">Sign up, receive instant access. Start onboarding your leaders.</div>
+    </div>
+    <!-- Step 2 -->
+    <div class="timeline-step" data-aos="fade-up" data-aos-delay="120">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Week 1</div>
+      <div class="timeline-desc">Build your first group. Assign members, schedule launch date in CRM.</div>
+    </div>
+    <!-- Step 3 -->
+    <div class="timeline-step" data-aos="fade-up" data-aos-delay="240">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Week 3</div>
+      <div class="timeline-desc">Run your first business idea brainstorm. Track every member’s journey.</div>
+    </div>
+    <!-- Step 4 -->
+    <div class="timeline-step" data-aos="fade-up" data-aos-delay="340">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Month 2</div>
+      <div class="timeline-desc">Students pitch real business plans. Parents and donors see instant progress.</div>
+    </div>
+    <!-- Step 5 -->
+    <div class="timeline-step" data-aos="fade-up" data-aos-delay="460">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Month 3+</div>
+      <div class="timeline-desc">Celebrate your first launches. Print/export success reports. Start your next cohort!</div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:50px;">
+    <a href="#pricing" class="cta-button" style="font-size:1.1rem;">Start Your Journey Now</a>
+  </div>
+</section>
+
 
 
 <section id="testimonials" class="section light" style="padding-bottom: 90px;">
