@@ -199,6 +199,30 @@ ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1e
   box-shadow: 0 8px 38px #0c0d1022;
 }
 
+    .kb-symbol path.stroke-part {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawSegment 1.1s forwards ease-out;
+}
+@keyframes drawSegment { to { stroke-dashoffset: 0; } }
+.company-name .line { display: flex; justify-content: center; }
+.company-name .line span {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
+  animation: textSlideFade 0.35s forwards ease-out;
+}
+@keyframes textSlideFade { to { opacity: 1; transform: translateY(0); } }
+
     
   </style>
 </head>
