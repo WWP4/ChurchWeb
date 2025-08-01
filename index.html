@@ -451,6 +451,120 @@ textarea { min-height: 70px; resize: vertical; }
   .svglist { gap: 28px; }
 }
 
+
+    .community-band {
+  background: #101115;
+  padding: 96px 0 92px 0;
+  position: relative;
+  border-radius: 0 0 34px 34px;
+  box-shadow: 0 10px 32px #191a1e16;
+}
+.community-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 42px auto;
+}
+.microhead {
+  color: #e6cc95;
+  font-size: 1.01rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+  opacity: .85;
+  display: block;
+  margin-bottom: 8px;
+}
+#community h2 {
+  font-size: 2.3rem;
+  margin-bottom: 16px;
+}
+#community p {
+  color: #eee;
+  font-size: 1.15rem;
+  opacity: .91;
+  margin: 0 auto;
+  max-width: 650px;
+}
+.gallery-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 38px;
+  overflow-x: auto;
+  padding: 28px 10vw 8px 10vw;
+  scrollbar-width: thin;
+  scrollbar-color: #e6cc95 #202124;
+}
+.gallery-scroll::-webkit-scrollbar {
+  height: 8px;
+  background: #23242a;
+}
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background: #e6cc95;
+  border-radius: 4px;
+}
+.gallery-item {
+  min-width: 330px;
+  background: rgba(24,26,32,0.97);
+  border-radius: 18px;
+  border: 2.2px solid #e6cc95;
+  box-shadow: 0 6px 34px #1a1a1e17;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.19s, border 0.19s;
+}
+.gallery-item img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 18px 18px 0 0;
+  display: block;
+}
+.gallery-caption {
+  color: #e6cc95;
+  background: rgba(0,0,0,0.72);
+  width: 100%;
+  padding: 14px 0;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: .02em;
+  font-size: 1.11rem;
+  border-radius: 0 0 18px 18px;
+}
+.gallery-quote {
+  min-width: 320px;
+  max-width: 340px;
+  background: #23242a;
+  border-radius: 18px;
+  border: 2.2px solid #d1d3db;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 38px 20px 30px 20px;
+  color: #fff;
+  margin: 0 8px;
+  box-shadow: 0 6px 28px #10111514;
+}
+.gallery-quote blockquote {
+  font-size: 1.16rem;
+  font-style: italic;
+  color: #e6cc95;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+.gallery-author {
+  color: #ccc;
+  font-size: 1rem;
+  font-weight: 600;
+}
+@media (max-width: 900px) {
+  .gallery-scroll { gap: 24px; padding: 24px 2vw; }
+  .gallery-item, .gallery-quote { min-width: 220px; max-width: 90vw; }
+}
+
+
     
   </style>
 </head>
@@ -570,24 +684,41 @@ textarea { min-height: 70px; resize: vertical; }
   </div>
 </section>
 
-<!-- Community -->
-<section id="community" class="section" style="text-align: center;">
-  <h2 data-aos="fade-up">Rooted in Real Community</h2>
-  <p data-aos="fade-up" data-aos-delay="100">
-    Kingdom Builders is more than curriculum. It's a movement of mentors, dreamers, and purpose-driven entrepreneurs.
-    <br /><br />
-    We believe in the power of gathering, of story-sharing, of transformation that starts in small groups and spreads through cities.
-  </p>
-
-  <div class="grid" style="margin-top: 60px;">
-    <div class="card" data-aos="fade-right" style="padding: 0; border: none; background: none;">
-      <img src="Screenshot-1.png" alt="Community Gathering" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+<section id="community" class="community-band">
+  <div class="community-header">
+    <span class="microhead" data-aos="fade-down">Meet the Movement</span>
+    <h2 data-aos="fade-up">Rooted in Real Community</h2>
+    <p data-aos="fade-up" data-aos-delay="80">
+      Kingdom Builders is more than curriculum. It's a movement of mentors, dreamers, and purpose-driven entrepreneurs.<br><br>
+      We believe in the power of gathering, story-sharing, and transformation that starts in small groups and spreads through cities.
+    </p>
+  </div>
+  <div class="gallery-scroll" data-aos="fade-up" data-aos-delay="160">
+    <div class="gallery-item">
+      <img src="Screenshot-1.png" alt="Community Gathering" />
+      <div class="gallery-caption">Dreamers, Mentors & Real Connections</div>
     </div>
-    <div class="card" data-aos="fade-left" style="padding: 0; border: none; background: none;">
-      <img src="Screenshot-2.png" alt="Business Discussion" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+    <div class="gallery-item">
+      <img src="Screenshot-2.png" alt="Business Discussion" />
+      <div class="gallery-caption">Building Businesses, Together</div>
     </div>
+    <!-- Add more images if you have them -->
+    <div class="gallery-quote">
+      <blockquote>
+        “Kingdom Builders gave our church more than skills—it gave us a community that believes in each other.”
+      </blockquote>
+      <span class="gallery-author">— Pastor Alicia, Atlanta GA</span>
+    </div>
+    <!-- Example: more images -->
+    <!--
+    <div class="gallery-item">
+      <img src="community3.jpg" alt="Workshop" />
+      <div class="gallery-caption">Workshops & Growth Events</div>
+    </div>
+    -->
   </div>
 </section>
+
 
 <!-- CTA -->
 <section id="buy" data-aos="fade-up">
