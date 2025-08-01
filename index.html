@@ -410,6 +410,60 @@ blockquote {
 
 
 
+    /* CRM, testimonial, and footer bands */
+.section.light {
+  background: linear-gradient(135deg, #23242a 68%, #23242a 100%);
+  border-top: none;
+  border-bottom: 1px solid #191a1e;
+  box-shadow: 0 8px 32px 0 rgba(34,34,44,0.06);
+}
+.section.alt {
+  background: linear-gradient(120deg, #181a1f 60%, #212229 100%);
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #25262c;
+}
+footer {
+  background: var(--nearblack);
+  border-top: 2px solid #23242a;
+  box-shadow: 0 -6px 44px 0 #10101540;
+}
+
+.review-card {
+  background: #23242a;
+  border-radius: 18px;
+  box-shadow: 0 6px 28px 0 rgba(24,25,34,0.14);
+  padding: 38px 32px 32px 32px;
+  color: var(--white);
+  border: 1px solid #31313b;
+  transition: transform 0.3s cubic-bezier(.6,.2,.15,1);
+}
+.review-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 16px 44px 0 rgba(34,35,43,0.16);
+  border-color: var(--silver);
+}
+.reviewer-nophoto {
+  margin-bottom: 18px;
+  color: var(--silver);
+  font-size: 1.09rem;
+  letter-spacing: .01em;
+}
+.review-loc {
+  color: #b0b2b8;
+  font-size: 0.99rem;
+  font-weight: 500;
+}
+blockquote {
+  margin: 0;
+  color: #e8e8ec;
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.7;
+  text-shadow: 0 2px 9px rgba(0,0,0,0.08);
+}
+
+
+
     
   </style>
 </head>
@@ -605,7 +659,7 @@ blockquote {
 </section>
 
 
-  <section id="testimonials" class="section alt" style="padding-bottom: 90px;">
+<section id="testimonials" class="section light" style="padding-bottom: 90px;">
   <h2 data-aos="fade-up">What Leaders Are Saying</h2>
   <p data-aos="fade-up" data-aos-delay="100" style="max-width:670px;margin:0 auto 55px;">
     Churches and communities around the country trust Kingdom Builders to launch real businesses and inspire real lives.
@@ -613,46 +667,27 @@ blockquote {
   <div class="review-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 42px;">
     <!-- Testimonial 1 -->
     <div class="review-card" data-aos="fade-right">
-      <div class="reviewer">
-        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Janet profile" class="review-photo">
-        <div>
-          <strong>Janet Herrera</strong><br>
-          <span class="review-loc">Family Life Director, Austin TX</span>
-        </div>
-      </div>
+      <div class="reviewer-nophoto"><strong>Janet Herrera</strong><br><span class="review-loc">Family Life Director, Austin TX</span></div>
       <blockquote>
         “We launched our cohort in six weeks and already have two youth-led businesses making money. The CRM keeps us organized and I’m not chasing down paperwork or notes. This is church for the next generation.”
       </blockquote>
     </div>
     <!-- Testimonial 2 -->
     <div class="review-card" data-aos="fade-up" data-aos-delay="120">
-      <div class="reviewer">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Chris profile" class="review-photo">
-        <div>
-          <strong>Chris Martin</strong><br>
-          <span class="review-loc">Lead Pastor, Westfield Church, Ohio</span>
-        </div>
-      </div>
+      <div class="reviewer-nophoto"><strong>Chris Martin</strong><br><span class="review-loc">Lead Pastor, Westfield Church, Ohio</span></div>
       <blockquote>
         “The curriculum is so practical but it doesn’t water down faith. We’ve seen teenagers step up as leaders, pitch business ideas, and support each other every week. Worth every penny.”
       </blockquote>
     </div>
     <!-- Testimonial 3 -->
     <div class="review-card" data-aos="fade-left" data-aos-delay="160">
-      <div class="reviewer">
-        <img src="https://randomuser.me/api/portraits/women/41.jpg" alt="Lisa profile" class="review-photo">
-        <div>
-          <strong>Lisa Burks</strong><br>
-          <span class="review-loc">Community Mentor, Charlotte NC</span>
-        </div>
-      </div>
+      <div class="reviewer-nophoto"><strong>Lisa Burks</strong><br><span class="review-loc">Community Mentor, Charlotte NC</span></div>
       <blockquote>
         “We’ve tried other programs. Nothing gave us the hands-on tools and instant download access like Kingdom Builders. Parents see the change and our giving went up because people see the impact.”
       </blockquote>
     </div>
   </div>
 </section>
-
 
 
 
