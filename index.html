@@ -3,8 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kingdom Builders — Premium Revamp</title>
+<title>Kingdom Builders — Hybrid Light-First</title>
+
+<!-- Perf: preconnect + swap -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
 <style>
 /* =========================================================
    BRAND SYSTEM — Black / White / Silver
@@ -18,19 +23,19 @@
   --kb-silver:#dfe3ea;
   --kb-silver-2:#c7cdd7;
   --kb-silver-3:#aab2bf;
-  --kb-line:#282c35;
-  --kb-softline:#2f3340;
-  --kb-shadow-xl: 0 24px 68px rgba(0,0,0,.28), 0 8px 24px rgba(0,0,0,.22);
-  --kb-shadow-md: 0 12px 30px rgba(0,0,0,.22), 0 5px 16px rgba(0,0,0,.14);
+  --kb-line:#e6e9f0;
+  --kb-softline:#edf0f6;
+  --kb-shadow-xl: 0 24px 68px rgba(0,0,0,.18), 0 8px 24px rgba(0,0,0,.12);
+  --kb-shadow-md: 0 12px 30px rgba(0,0,0,.14), 0 5px 16px rgba(0,0,0,.08);
   --kb-radius: 22px;
   --kb-radius-sm: 14px;
 
   /* Dynamic variables controlled by JS scroll theme */
-  --page-bg: var(--kb-black);
-  --page-fg: var(--kb-white);
-  --page-muted: var(--kb-silver-2);
-  --cta-bg: var(--kb-white);
-  --cta-fg: var(--kb-black);
+  --page-bg: var(--kb-white);
+  --page-fg: #0e1116;
+  --page-muted: #3c4251;
+  --cta-bg: #0e1116;
+  --cta-fg: #ffffff;
 }
 
 /* Reset */
@@ -40,7 +45,7 @@ html{scroll-behavior:smooth}
 body{
   font-family:Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   color:var(--page-fg);
-  background:var(--kb-black);
+  background:var(--page-bg);
   min-height:100vh;
   overflow-x:hidden;
 }
@@ -50,7 +55,7 @@ body{
    ========================================================= */
 .header{
   position:sticky; top:0; z-index:60;
-  background:color-mix(in oklab, var(--kb-deep) 88%, transparent);
+  background:color-mix(in oklab, var(--page-bg) 92%, #f5f7fb);
   -webkit-backdrop-filter: blur(10px) saturate(160%);
   backdrop-filter: blur(10px) saturate(160%);
   border-bottom:1px solid var(--kb-softline);
@@ -62,34 +67,33 @@ body{
 }
 .brand-mark{
   width:34px; height:34px; border-radius:50%; background:conic-gradient(from 120deg, #fff 0 20%, #bbb 0 40%, #eee 0 60%, #bbb 0 80%, #fff 0);
-  outline:2px solid #303544; box-shadow: inset 0 0 0 2px #1118;
+  outline:2px solid #30354422; box-shadow: inset 0 0 0 2px #1112;
 }
 .header a{
   color:var(--page-muted); text-decoration:none; margin-left:24px; font-weight:600;
   padding-bottom:2px; border-bottom:2px solid transparent; transition:color .16s, border-color .16s;
 }
-.header a:hover{ color:var(--page-fg); border-color:var(--page-fg); }
+.header a:hover, .header a:focus-visible{ color:var(--page-fg); border-color:var(--page-fg); outline: none; }
 
 .progress{
-  position:fixed; inset:auto 0 0 0; height:3px; z-index:70; background:linear-gradient(90deg,#727b8d33,#727b8d22);
+  position:fixed; inset:auto 0 0 0; height:3px; z-index:70; background:linear-gradient(90deg,#aab2bf55,#aab2bf33);
 }
 .progress > i{display:block; height:100%; width:8%; background:linear-gradient(90deg, var(--page-fg), var(--kb-silver-3));
   transform-origin:left center; transform:scaleX(0); transition:transform .15s linear;
 }
 
 /* =========================================================
-   PAGE BACKDROP: smooth color morph (Apple-like)
+   PAGE BACKDROP: smooth color morph
    ========================================================= */
 .page-bg{
   position:fixed; inset:0; z-index:-1;
   background:var(--page-bg);
   transition: background 900ms cubic-bezier(.55,.1,.15,1);
 }
-/* Optional grain for luxe texture */
 .page-grain{
   position:fixed; inset:-50% -50% -50% -50%; z-index:-1; pointer-events:none;
-  background-image:radial-gradient(#fff1 1px, transparent 1px);
-  background-size: 3px 3px; opacity:.10; mix-blend-mode:overlay;
+  background-image:radial-gradient(#0001 1px, transparent 1px);
+  background-size: 3px 3px; opacity:.06; mix-blend-mode:overlay;
 }
 
 /* =========================================================
@@ -100,77 +104,72 @@ body{
 .center{text-align:center}
 .muted{color:var(--page-muted)}
 .h1{font-size:clamp(32px,5.2vw,64px); letter-spacing:.01em; line-height:1.04; font-weight:800; margin:0 0 .5rem}
-.lead{font-size: clamp(18px,1.4vw,20px); opacity:.92; max-width:60ch; margin:0 auto}
-.kb-hr{height:1px; background:linear-gradient(90deg,transparent, #868ea0, transparent); opacity:.25; border:none}
+.lead{font-size: clamp(18px,1.4vw,20px); opacity:.95; max-width:66ch; margin:0 auto; line-height:1.65}
+.kb-hr{height:1px; background:linear-gradient(90deg,transparent, #c7cdd7, transparent); opacity:.55; border:none}
 
 /* CTA Buttons */
 .cta-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px}
 .btn{appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.02em; padding:14px 26px; border-radius:999px;
   transition: transform .12s ease, box-shadow .18s ease, background .18s ease, color .18s ease;}
-.btn-primary{background:var(--cta-bg); color:var(--cta-fg); box-shadow: 0 8px 26px rgba(0,0,0,.24);}
-.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--cta-bg); color:var(--cta-fg); box-shadow: 0 8px 26px rgba(0,0,0,.16);}
+.btn-primary:hover, .btn-primary:focus-visible{transform:translateY(-2px); outline: 3px solid #8aa4ff; outline-offset: 3px;}
 .btn-ghost{background:transparent; color:var(--page-fg); border:2px solid currentColor}
-.btn-ghost:hover{transform:translateY(-2px)}
+.btn-ghost:hover, .btn-ghost:focus-visible{transform:translateY(-2px); outline: 3px solid #8aa4ff; outline-offset: 3px;}
 
 /* =========================================================
-   HERO — cinematic reveal with logo draw + text slide
+   HERO — dark, cinematic
    ========================================================= */
-.hero{position:relative; min-height:100svh; display:grid; place-items:center;}
+.hero{position:relative; min-height:100svh; display:grid; place-items:center; color:#fff;}
 .hero .backdrop{
-  position:absolute; inset:0;
-  background: radial-gradient(1200px 600px at 85% 24%, #ffffff25, transparent 45%),
-              radial-gradient(900px 500px at 8% 85%, #ffffff18, transparent 55%);
-  opacity:.25; mix-blend-mode:soft-light; pointer-events:none;
+  position:absolute; inset:0; background:#0b0c10;
 }
 .hero-inner{position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:14px;}
 .kb-symbol{width:min(22vw,160px); height:auto}
 .kb-symbol path{
-  fill:none; stroke:var(--page-fg); stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+  fill:none; stroke:#ffffff; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
   stroke-dasharray:1000; stroke-dashoffset:1000; animation:draw 1.1s ease-out forwards;
 }
 @keyframes draw{to{stroke-dashoffset:0}}
 .hero h1{opacity:0; transform:translateY(18px); animation:fadeUp .9s .7s forwards}
-.hero .lead{opacity:0; transform:translateY(18px); animation:fadeUp .8s 1s forwards}
+.hero .lead{opacity:0; transform:translateY(18px); animation:fadeUp .8s 1s forwards; color:#cfd5e1}
 .hero .cta-row{opacity:0; transform:translateY(12px); animation:fadeUp .7s 1.25s forwards}
 @keyframes fadeUp{to{opacity:1; transform:translateY(0)}}
 
 /* =========================================================
-   CHAPTER A — Light-to-dark pivot (sticky)
+   PIVOT — light storytelling
    ========================================================= */
-.pivot-stage{position:relative; min-height:260vh;}
-.pivot-pin{position:sticky; top:0; height:100svh; overflow:hidden; border-top:1px solid var(--kb-softline); border-bottom:1px solid var(--kb-softline);}
-.pivot-wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:min(6vw,56px); height:100%; align-items:center;}
+.pivot-stage{position:relative; background:#fff;}
+.pivot-pin{position:relative; overflow:hidden; border-top:1px solid #eef1f7; border-bottom:1px solid #eef1f7;}
+.pivot-wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:min(6vw,56px); align-items:center;}
 .pivot-copy{padding-left:clamp(20px,5vw,70px)}
 .pivot-eyebrow{display:inline-flex; gap:10px; padding:8px 14px; border-radius:999px; border:1px solid currentColor; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem;}
-.pivot-card{margin-right: clamp(20px,5vw,70px); background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.02)); border:1px solid #ffffff22;
-  border-radius:var(--kb-radius); overflow:hidden; box-shadow:var(--kb-shadow-xl); backdrop-filter:saturate(160%) blur(8px)}
+.pivot-card{margin-right: clamp(20px,5vw,70px); background:#fff; border:1px solid #e8ecf4;
+  border-radius:var(--kb-radius); overflow:hidden; box-shadow:var(--kb-shadow-xl)}
 .pivot-card img{display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover}
 .pivot-card .meta{padding:16px 18px; font-size:.98rem; opacity:.88}
 
-/* light/dark state colors are driven by body[data-theme] in JS */
-
 /* =========================================================
-   CHAPTER B — Problem/Solution split with diagonal reveal
+   SPLIT — remains light for reading
    ========================================================= */
-.split{position:relative; overflow:hidden}
+.split{position:relative; overflow:hidden; background:#fff; color:#0e1116}
 .split .panel{
   display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
   padding: clamp(60px, 12vh, 120px) 0;
 }
-.split .imgframe{border-radius:var(--kb-radius); overflow:hidden; box-shadow: var(--kb-shadow-md); border:1px solid #ffffff22}
+.split .imgframe{border-radius:var(--kb-radius); overflow:hidden; box-shadow: var(--kb-shadow-md); border:1px solid #e8ecf4}
 .split .imgframe img{display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; transform:scale(1.03); transition:transform .6s ease}
 .split .imgframe:hover img{transform:scale(1.06)}
 .split .diag{
   position:absolute; inset:auto 0 -1px 0; height:80px;
-  background:linear-gradient(180deg, transparent, #ffffff12);
+  background:linear-gradient(180deg, transparent, #00000006);
   clip-path: polygon(0 0, 100% 0, 100% 30%, 0 100%);
-  opacity:.22;
+  opacity:.6;
 }
 
 /* =========================================================
-   CHAPTER C — CRM Sneak Peek (device frame)
+   CRM — dark for device showcase
    ========================================================= */
-.crm{position:relative;}
+.crm{position:relative; background:#0b0c10; color:#fff;}
 .phone{
   width:min(90%,380px); margin-inline:auto; background:linear-gradient(180deg,#2a2e38,#1b1f28);
   border:2px solid #373c4b; border-radius:38px; padding:18px 11px 14px; box-shadow:var(--kb-shadow-xl);
@@ -187,42 +186,37 @@ body{
 .badge{display:inline-block; border:1px solid #3a4051; padding:6px 12px; border-radius:999px; color:#c7cfdd; font-weight:700; margin:0 8px 8px 0}
 
 /* =========================================================
-   CHAPTER D — Pricing w/ toggle (lifetime focus)
+   PRICING — light
    ========================================================= */
-.pricing{position:relative;}
+.pricing{position:relative; background:#fff; color:#0e1116;}
 .pricing-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:26px; margin-top:30px}
-.price-card{background:linear-gradient(135deg,#1a1e27,#12151c); border:1px solid #2c3140; border-radius:18px; padding:24px 22px; box-shadow:var(--kb-shadow-md);}
+.price-card{background:#fff; border:1px solid #e8ecf4; border-radius:18px; padding:24px 22px; box-shadow:var(--kb-shadow-md);}
 .price-card h3{margin-top:2px}
 .price{font-size:2rem; font-weight:800}
-.price small{color:var(--page-muted)}
+.price small{color:#3c4251}
 .price-list{margin:12px 0 0 0; padding-left:18px}
 .price-list li{margin:8px 0; position:relative; list-style:none}
-.price-list li::before{content:'•'; position:absolute; left:-16px; top:0; color:#9aa4b6}
+.price-list li::before{content:'•'; position:absolute; left:-16px; top:0; color:#8d939f}
 .buy{margin-top:18px}
 
 /* =========================================================
-   CHAPTER E — Testimonials marquee
+   FAQ — light + accessible
    ========================================================= */
-.marquee{margin-top:36px; border-top:1px solid #2b3140; border-bottom:1px solid #2b3140; overflow:hidden}
-.marquee-track{display:flex; gap:22px; padding:14px 0; white-space:nowrap; animation:scroll 30s linear infinite}
-.quote{
-  display:inline-flex; align-items:center; gap:12px; padding:10px 16px; border:1px solid #3a4051; border-radius:999px;
-  background:#12151c; color:#cfd5e1; font-weight:600; box-shadow:0 6px 18px rgba(0,0,0,.18);
-}
-@keyframes scroll{to{transform:translateX(-50%)}}
-
-/* =========================================================
-   FAQ ACCORDION
-   ========================================================= */
+#faq{background:#fff; color:#0e1116;}
 .faq{max-width:900px; margin:0 auto}
-.faq-item{border-top:1px solid #2b3140; padding:18px 0}
-.faq-q{display:flex; justify-content:space-between; gap:18px; cursor:pointer; font-weight:800}
+.faq-item{border-top:1px solid #e8ecf4; padding:18px 0}
+.faq-q{
+  background: none; border: 0; color: inherit; font: inherit; text-align: left;
+  display:flex; justify-content:space-between; gap:18px; cursor:pointer; font-weight:800;
+}
+.faq-q:focus-visible{ outline: 3px solid #8aa4ff; outline-offset: 3px; }
 .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease}
 .faq-item.open .faq-a{max-height:220px}
 
 /* =========================================================
-   CONTACT
+   CONTACT / FOOTER — dark close
    ========================================================= */
+#contact{background:#0b0c10; color:#fff;}
 .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:26px}
 .card{background:linear-gradient(135deg,#141821,#10141a); border:1px solid #2b3140; border-radius:16px; padding:22px; box-shadow:var(--kb-shadow-md)}
 input, textarea, select{
@@ -232,7 +226,8 @@ input, textarea, select{
 input:focus, textarea:focus, select:focus{border-color:#cfd5e1}
 label span{display:block; color:#cfd5e1; font-weight:700; margin:6px 0 6px}
 textarea{min-height:90px; resize:vertical}
-footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1px solid #2b3140; margin-top:60px}
+footer{padding:34px 0; color:#aab2bf; text-align:center; border-top:1px solid #2b3140; background:#0a0c12;}
+
 /* Mobile */
 @media (max-width: 980px){
   .pivot-wrap{grid-template-columns:1fr; padding: 0 22px}
@@ -240,9 +235,13 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
   .split .panel{grid-template-columns:1fr; gap:18px}
   .contact-grid{grid-template-columns:1fr}
 }
+
+/* Visible focus globally */
+a:focus-visible, .btn:focus-visible { outline: 3px solid #8aa4ff; outline-offset: 3px; }
+
 </style>
 </head>
-<body data-theme="dark">
+<body data-theme="light">
 <!-- GLOBAL BACKDROP + PROGRESS -->
 <div class="page-bg"></div>
 <div class="page-grain"></div>
@@ -264,11 +263,10 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
   </nav>
 </header>
 
-<!-- HERO -->
-<section id="hero" class="hero vpad container">
+<!-- HERO (dark) -->
+<section id="hero" class="hero vpad">
   <div class="backdrop"></div>
-  <div class="hero-inner center">
-    <!-- Animated KB symbol -->
+  <div class="hero-inner center container">
     <svg class="kb-symbol" viewBox="0 0 100 100" aria-hidden="true">
       <path d="M20 20 L20 80" />
       <path d="M20 50 L50 20" />
@@ -277,7 +275,7 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
       <path d="M50 50 L80 50 C88 50 90 58 90 65 C90 72 88 80 80 80 L50 80" />
     </svg>
     <h1 class="h1">Entrepreneurship. Elevated.</h1>
-    <p class="lead muted">A luxury‑grade, white‑label incubator for churches and communities—turning healed lives into thriving futures.</p>
+    <p class="lead">A luxury‑grade, white‑label incubator for churches and communities—turning healed lives into thriving futures.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#pricing">View Pricing</a>
       <a class="btn btn-ghost" href="#crm">Preview the CRM</a>
@@ -287,9 +285,9 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 
 <hr class="kb-hr">
 
-<!-- PIVOT: light -> dark on scroll -->
-<section id="pivot" class="pivot-stage">
-  <div class="pivot-pin container vpad">
+<!-- PIVOT (light) -->
+<section id="pivot" class="pivot-stage vpad">
+  <div class="pivot-pin container">
     <div class="pivot-wrap">
       <div class="pivot-copy">
         <span class="pivot-eyebrow muted">From Restored → Released</span>
@@ -301,7 +299,7 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
         </div>
       </div>
       <aside class="pivot-card">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1400&auto=format&fit=crop" alt="Leaders collaborating">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1400&auto=format&fit=crop" alt="Leaders collaborating" loading="lazy" decoding="async" width="1400" height="933">
         <div class="meta muted">Church‑owned curriculum • White‑label branding • One license per city</div>
       </aside>
     </div>
@@ -310,26 +308,26 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 
 <hr class="kb-hr">
 
-<!-- SPLIT: Problem / Solution with diagonal reveal -->
+<!-- SPLIT (light) -->
 <section id="split" class="split">
   <div class="panel container">
     <div>
       <h2 class="h1">The Problem We Solve</h2>
-      <p class="lead muted">Communities often stop at healing. But restoration without opportunity leaves families stuck. Churches need a repeatable, brand‑ownable framework to move people from recovery to real‑world building.</p>
-      <ul class="lead muted" style="margin-top:14px; font-size:1.03rem">
+      <p class="lead">Communities often stop at healing. But restoration without opportunity leaves families stuck. Churches need a repeatable, brand‑ownable framework to move people from recovery to real‑world building.</p>
+      <ul class="lead" style="margin-top:14px; font-size:1.03rem">
         <li>• Volunteers stretched thin; systems are scattered</li>
         <li>• “Programs” lack ownership and fade after a season</li>
         <li>• No way to measure progress or export proof</li>
       </ul>
     </div>
     <div class="imgframe">
-      <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1400&auto=format&fit=crop" alt="Community gathering">
+      <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1400&auto=format&fit=crop" alt="Community gathering" loading="lazy" decoding="async" width="1400" height="933">
     </div>
   </div>
   <div class="diag" aria-hidden="true"></div>
   <div class="panel container">
     <div class="imgframe">
-      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1400&auto=format&fit=crop" alt="Team working with tools">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1400&auto=format&fit=crop" alt="Team working with tools" loading="lazy" decoding="async" width="1400" height="933">
     </div>
     <div>
       <h2 class="h1">The Kingdom Builders Framework</h2>
@@ -344,11 +342,11 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 
 <hr class="kb-hr">
 
-<!-- CRM SNEAK PEEK -->
-<section id="crm" class="crm vpad container">
-  <div class="center">
+<!-- CRM (dark) -->
+<section id="crm" class="crm vpad">
+  <div class="center container">
     <h2 class="h1">Your Command Center</h2>
-    <p class="lead muted">Track members, mentors, projects, and milestones. Export polished PDF/Excel reports for boards, donors, and parents.</p>
+    <p class="lead" style="color:#cfd5e1">Track members, mentors, projects, and milestones. Export polished PDF/Excel reports for boards, donors, and parents.</p>
   </div>
   <div class="phone" style="margin-top:38px">
     <div class="pill"></div>
@@ -400,13 +398,13 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 
 <hr class="kb-hr">
 
-<!-- PRICING -->
-<section id="pricing" class="pricing vpad container">
-  <div class="center">
+<!-- PRICING (light) -->
+<section id="pricing" class="pricing vpad">
+  <div class="center container">
     <h2 class="h1">Choose Your Experience</h2>
-    <p class="lead muted">Lifetime license. Unlimited members. Updates included.</p>
+    <p class="lead">Lifetime license. Unlimited members. Updates included.</p>
   </div>
-  <div class="pricing-grid">
+  <div class="pricing-grid container">
     <div class="price-card">
       <h3>Essentials Pack</h3>
       <div class="price">$1,395 <small>(10% off)</small></div>
@@ -442,62 +440,61 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
       <div class="buy"><a class="btn btn-primary" href="#contact">Get Enterprise</a></div>
     </div>
   </div>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span class="quote">Lifetime License</span>
-      <span class="quote">Unlimited Members</span>
-      <span class="quote">One License per City</span>
-      <span class="quote">Brandable Workbook</span>
-      <span class="quote">Mentor Directory</span>
-      <span class="quote">PDF/Excel Exports</span>
-      <span class="quote">Lifetime License</span>
-      <span class="quote">Unlimited Members</span>
-      <span class="quote">One License per City</span>
-      <span class="quote">Brandable Workbook</span>
-      <span class="quote">Mentor Directory</span>
-      <span class="quote">PDF/Excel Exports</span>
-    </div>
-  </div>
 </section>
 
 <hr class="kb-hr">
 
-<!-- FAQ -->
-<section id="faq" class="vpad container">
-  <div class="center">
+<!-- FAQ (light + accessible) -->
+<section id="faq" class="vpad">
+  <div class="center container">
     <h2 class="h1">Frequently Asked Questions</h2>
-    <p class="lead muted">Short answers. Real clarity.</p>
+    <p class="lead">Short answers. Real clarity.</p>
   </div>
-  <div class="faq" style="margin-top:24px">
+  <div class="faq container" style="margin-top:24px">
     <div class="faq-item">
-      <div class="faq-q">Is the CRM really included in every package? <span>+</span></div>
-      <div class="faq-a"><div class="muted" style="padding-top:8px">Yes — unlimited users for life. No surprise fees.</div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="a1" id="q1">
+        Is the CRM really included in every package?
+      </button>
+      <div class="faq-a" id="a1" role="region" aria-labelledby="q1">
+        <div class="muted" style="padding-top:8px">Yes — unlimited users for life. No surprise fees.</div>
+      </div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Can we customize fields and tabs? <span>+</span></div>
-      <div class="faq-a"><div class="muted" style="padding-top:8px">Absolutely. Rename fields, add custom tabs, and request feature upgrades.</div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="a2" id="q2">
+        Can we customize fields and tabs?
+      </button>
+      <div class="faq-a" id="a2" role="region" aria-labelledby="q2">
+        <div class="muted" style="padding-top:8px">Absolutely. Rename fields, add custom tabs, and request feature upgrades.</div>
+      </div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How do we access the dashboard? <span>+</span></div>
-      <div class="faq-a"><div class="muted" style="padding-top:8px">You get an instant login after purchase. It’s browser‑based — works on any device.</div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="a3" id="q3">
+        How do we access the dashboard?
+      </button>
+      <div class="faq-a" id="a3" role="region" aria-labelledby="q3">
+        <div class="muted" style="padding-top:8px">You get an instant login after purchase. It’s browser‑based — works on any device.</div>
+      </div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Do you offer onboarding or support? <span>+</span></div>
-      <div class="faq-a"><div class="muted" style="padding-top:8px">Yes. Training videos, live onboarding, and fast chat support. Real people.</div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="a4" id="q4">
+        Do you offer onboarding or support?
+      </button>
+      <div class="faq-a" id="a4" role="region" aria-labelledby="q4">
+        <div class="muted" style="padding-top:8px">Yes. Training videos, live onboarding, and fast chat support. Real people.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <hr class="kb-hr">
 
-<!-- CONTACT -->
-<section id="contact" class="vpad container">
-  <div class="center">
+<!-- CONTACT (dark) -->
+<section id="contact" class="vpad">
+  <div class="center container">
     <h2 class="h1">Let’s Launch Your Legacy</h2>
-    <p class="lead muted">Tell us a bit about your church or community. We’ll reply fast.</p>
+    <p class="lead" style="color:#cfd5e1">Tell us a bit about your church or community. We’ll reply fast.</p>
   </div>
-  <div class="contact-grid" style="margin-top:26px">
+  <div class="contact-grid container" style="margin-top:26px">
     <div class="card">
       <form id="contact-form" autocomplete="off">
         <label><span>Your Name</span><input type="text" name="name" required placeholder="Full name"></label>
@@ -533,40 +530,38 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 
 <script>
 // =========================================================
-// Scroll theme engine: flips light/dark at defined chapters
+// Hybrid theme engine: map sections to light/dark
 // =========================================================
 (function(){
-  const body = document.body;
-  const pageBg = document.querySelector('.page-bg');
   const progress = document.querySelector('.progress > i');
 
   function setTheme(mode){
     if(mode === 'light'){
-      body.dataset.theme = 'light';
-      document.documentElement.style.setProperty('--page-bg', getComputedStyle(document.documentElement).getPropertyValue('--kb-white'));
-      document.documentElement.style.setProperty('--page-fg', '#0f1218');
-      document.documentElement.style.setProperty('--page-muted', '#3d4350');
-      document.documentElement.style.setProperty('--cta-bg', '#0f1218');
+      document.documentElement.style.setProperty('--page-bg', '#ffffff');
+      document.documentElement.style.setProperty('--page-fg', '#0e1116');
+      document.documentElement.style.setProperty('--page-muted', '#3c4251');
+      document.documentElement.style.setProperty('--cta-bg', '#0e1116');
       document.documentElement.style.setProperty('--cta-fg', '#ffffff');
+      document.body.dataset.theme = 'light';
     }else{
-      body.dataset.theme = 'dark';
-      document.documentElement.style.setProperty('--page-bg', getComputedStyle(document.documentElement).getPropertyValue('--kb-black'));
+      document.documentElement.style.setProperty('--page-bg', '#0b0c10');
       document.documentElement.style.setProperty('--page-fg', '#ffffff');
       document.documentElement.style.setProperty('--page-muted', '#c7cdd7');
       document.documentElement.style.setProperty('--cta-bg', '#ffffff');
       document.documentElement.style.setProperty('--cta-fg', '#0f1218');
+      document.body.dataset.theme = 'dark';
     }
   }
-  setTheme('dark');
+  setTheme('light'); // starting mode
 
   const chapters = [
-    { el: document.getElementById('hero'), theme: 'dark' },
-    { el: document.getElementById('pivot'), theme: 'light' },  // flip to light during pivot
-    { el: document.getElementById('split'), theme: 'dark' },
-    { el: document.getElementById('crm'), theme: 'dark' },
-    { el: document.getElementById('pricing'), theme: 'dark' },
-    { el: document.getElementById('faq'), theme: 'dark' },
-    { el: document.getElementById('contact'), theme: 'dark' }
+    { el: document.getElementById('hero'),    theme: 'dark'  },
+    { el: document.getElementById('pivot'),   theme: 'light' },
+    { el: document.getElementById('split'),   theme: 'light' },
+    { el: document.getElementById('crm'),     theme: 'dark'  },
+    { el: document.getElementById('pricing'), theme: 'light' },
+    { el: document.getElementById('faq'),     theme: 'light' },
+    { el: document.getElementById('contact'), theme: 'dark'  }
   ];
 
   const obs = new IntersectionObserver((entries)=>{
@@ -633,11 +628,14 @@ footer{padding:34px 0; color:var(--page-muted); text-align:center; border-top:1p
 })();
 
 // =========================================================
-// FAQ accordion
+// Accessible FAQ
 // =========================================================
 document.querySelectorAll('.faq-item').forEach(item => {
-  item.querySelector('.faq-q').addEventListener('click', () => {
-    item.classList.toggle('open');
+  const btn = item.querySelector('.faq-q');
+  const panel = item.querySelector('.faq-a');
+  btn.addEventListener('click', () => {
+    const open = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
   });
 });
 
