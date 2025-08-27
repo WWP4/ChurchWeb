@@ -3,650 +3,191 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kingdom Builders — Hybrid Light-First</title>
+<title>Kingdom Builders — Community Impact Hero</title>
 
-<!-- Perf: preconnect + swap -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
 <style>
-/* =========================================================
-   BRAND SYSTEM — Black / White / Silver
-   ========================================================= */
 :root{
   --kb-black:#0b0c10;
-  --kb-deep:#111318;
-  --kb-charcoal:#17181c;
-  --kb-ink:#1c1e24;
+  --kb-ink:#0f1218;
   --kb-white:#ffffff;
   --kb-silver:#dfe3ea;
-  --kb-silver-2:#c7cdd7;
-  --kb-silver-3:#aab2bf;
-  --kb-line:#e6e9f0;
-  --kb-softline:#edf0f6;
-  --kb-shadow-xl: 0 24px 68px rgba(0,0,0,.18), 0 8px 24px rgba(0,0,0,.12);
-  --kb-shadow-md: 0 12px 30px rgba(0,0,0,.14), 0 5px 16px rgba(0,0,0,.08);
-  --kb-radius: 22px;
-  --kb-radius-sm: 14px;
-
-  /* Dynamic variables controlled by JS scroll theme */
-  --page-bg: var(--kb-white);
-  --page-fg: #0e1116;
-  --page-muted: #3c4251;
-  --cta-bg: #0e1116;
-  --cta-fg: #ffffff;
+  --kb-muted:#c7cdd7;
+  --accent:#bfc6d4;
+  --radius:22px;
 }
 
 /* Reset */
 *{box-sizing:border-box}
 html,body{margin:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  color:var(--page-fg);
-  background:var(--page-bg);
-  min-height:100vh;
-  overflow-x:hidden;
-}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:var(--kb-black); color:#fff; overflow-x:hidden}
 
-/* =========================================================
-   GLOBAL CHROME: Sticky nav + progress
-   ========================================================= */
-.header{
-  position:sticky; top:0; z-index:60;
-  background:color-mix(in oklab, var(--page-bg) 92%, #f5f7fb);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
-  border-bottom:1px solid var(--kb-softline);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px clamp(16px,3vw,36px);
-}
-.brand{
-  display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.08em;
-}
-.brand-mark{
-  width:34px; height:34px; border-radius:50%; background:conic-gradient(from 120deg, #fff 0 20%, #bbb 0 40%, #eee 0 60%, #bbb 0 80%, #fff 0);
-  outline:2px solid #30354422; box-shadow: inset 0 0 0 2px #1112;
-}
-.header a{
-  color:var(--page-muted); text-decoration:none; margin-left:24px; font-weight:600;
-  padding-bottom:2px; border-bottom:2px solid transparent; transition:color .16s, border-color .16s;
-}
-.header a:hover, .header a:focus-visible{ color:var(--page-fg); border-color:var(--page-fg); outline: none; }
+/* Header (minimal for demo) */
+header{position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px; background:#0b0c10cc; -webkit-backdrop-filter: blur(8px) saturate(160%); backdrop-filter: blur(8px) saturate(160%);
+  border-bottom:1px solid #1d2130}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.08em}
+.brand-badge{width:28px; height:28px; border-radius:50%; background:conic-gradient(from 120deg,#fff 0 20%,#bbb 0 40%,#eee 0 60%,#bbb 0 80%,#fff 0);
+  outline:2px solid #2c3140; box-shadow:inset 0 0 0 2px #1118}
 
-.progress{
-  position:fixed; inset:auto 0 0 0; height:3px; z-index:70; background:linear-gradient(90deg,#aab2bf55,#aab2bf33);
+/* HERO */
+.hero{position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden; isolation:isolate}
+/* Authentic community photo by Joel Muniz (Unsplash) */
+.hero-bg{
+  position:absolute; inset:-8% -8% -8% -8%;
+  background:url('https://images.unsplash.com/photo-1605902711622-cfb43c44367f?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+  transform:translateZ(0) scale(1.06);
+  filter:saturate(102%) contrast(105%) brightness(0.8);
+  will-change:transform;
 }
-.progress > i{display:block; height:100%; width:8%; background:linear-gradient(90deg, var(--page-fg), var(--kb-silver-3));
-  transform-origin:left center; transform:scaleX(0); transition:transform .15s linear;
-}
+/* Subtle artifacts for cinematic feel */
+.hero-vignette{position:absolute; inset:0; background:radial-gradient(1200px 600px at 75% 30%, #ffffff22, transparent 45%), radial-gradient(800px 500px at 10% 85%, #ffffff18, transparent 55%);
+  mix-blend-mode:soft-light; opacity:.35; pointer-events:none}
+.hero-noise{position:absolute; inset:-50% -50% -50% -50%; background-image:radial-gradient(#00000022 1px, transparent 1px);
+  background-size:3px 3px; opacity:.10; mix-blend-mode:overlay; pointer-events:none}
+.hero-scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 38%, rgba(0,0,0,.60) 100%);}
 
-/* =========================================================
-   PAGE BACKDROP: smooth color morph
-   ========================================================= */
-.page-bg{
-  position:fixed; inset:0; z-index:-1;
-  background:var(--page-bg);
-  transition: background 900ms cubic-bezier(.55,.1,.15,1);
-}
-.page-grain{
-  position:fixed; inset:-50% -50% -50% -50%; z-index:-1; pointer-events:none;
-  background-image:radial-gradient(#0001 1px, transparent 1px);
-  background-size: 3px 3px; opacity:.06; mix-blend-mode:overlay;
-}
-
-/* =========================================================
-   UTILITIES
-   ========================================================= */
-.container{max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,40px);}
-.vpad{padding: clamp(60px, 12vh, 130px) 0;}
-.center{text-align:center}
-.muted{color:var(--page-muted)}
-.h1{font-size:clamp(32px,5.2vw,64px); letter-spacing:.01em; line-height:1.04; font-weight:800; margin:0 0 .5rem}
-.lead{font-size: clamp(18px,1.4vw,20px); opacity:.95; max-width:66ch; margin:0 auto; line-height:1.65}
-.kb-hr{height:1px; background:linear-gradient(90deg,transparent, #c7cdd7, transparent); opacity:.55; border:none}
-
-/* CTA Buttons */
+.hero-inner{position:relative; z-index:2; max-width:1080px; padding:0 6vw; text-align:center}
+.eyebrow{display:inline-block; padding:8px 14px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22);
+  letter-spacing:.14em; text-transform:uppercase; font-weight:800; font-size:.82rem; color:#e9edf6}
+h1{font-size:clamp(32px,6vw,64px); line-height:1.04; margin:16px 0 10px; font-weight:800; letter-spacing:.01em; text-shadow:0 6px 28px rgba(0,0,0,.35)}
+.kicker{font-size:clamp(18px,1.4vw,20px); color:#dbe2ee; max-width:68ch; margin:0 auto}
 .cta-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px}
 .btn{appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.02em; padding:14px 26px; border-radius:999px;
   transition: transform .12s ease, box-shadow .18s ease, background .18s ease, color .18s ease;}
-.btn-primary{background:var(--cta-bg); color:var(--cta-fg); box-shadow: 0 8px 26px rgba(0,0,0,.16);}
-.btn-primary:hover, .btn-primary:focus-visible{transform:translateY(-2px); outline: 3px solid #8aa4ff; outline-offset: 3px;}
-.btn-ghost{background:transparent; color:var(--page-fg); border:2px solid currentColor}
-.btn-ghost:hover, .btn-ghost:focus-visible{transform:translateY(-2px); outline: 3px solid #8aa4ff; outline-offset: 3px;}
+.btn-primary{background:#ffffff; color:#0f1218; box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.btn-secondary{background:transparent; color:#ffffff; border:2px solid currentColor}
+.btn:focus-visible{outline:3px solid #8aa4ff; outline-offset:3px}
+.btn:hover{transform:translateY(-2px)}
 
-/* =========================================================
-   HERO — dark, cinematic
-   ========================================================= */
-.hero{position:relative; min-height:100svh; display:grid; place-items:center; color:#fff;}
-.hero .backdrop{
-  position:absolute; inset:0; background:#0b0c10;
-}
-.hero-inner{position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:14px;}
-.kb-symbol{width:min(22vw,160px); height:auto}
-.kb-symbol path{
-  fill:none; stroke:#ffffff; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
-  stroke-dasharray:1000; stroke-dashoffset:1000; animation:draw 1.1s ease-out forwards;
-}
-@keyframes draw{to{stroke-dashoffset:0}}
-.hero h1{opacity:0; transform:translateY(18px); animation:fadeUp .9s .7s forwards}
-.hero .lead{opacity:0; transform:translateY(18px); animation:fadeUp .8s 1s forwards; color:#cfd5e1}
-.hero .cta-row{opacity:0; transform:translateY(12px); animation:fadeUp .7s 1.25s forwards}
-@keyframes fadeUp{to{opacity:1; transform:translateY(0)}}
+.hero-badges{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px}
+.badge{display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18); color:#e3e8f2; font-weight:700; font-size:.95rem}
 
-/* =========================================================
-   PIVOT — light storytelling
-   ========================================================= */
-.pivot-stage{position:relative; background:#fff;}
-.pivot-pin{position:relative; overflow:hidden; border-top:1px solid #eef1f7; border-bottom:1px solid #eef1f7;}
-.pivot-wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:min(6vw,56px); align-items:center;}
-.pivot-copy{padding-left:clamp(20px,5vw,70px)}
-.pivot-eyebrow{display:inline-flex; gap:10px; padding:8px 14px; border-radius:999px; border:1px solid currentColor; font-weight:800; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem;}
-.pivot-card{margin-right: clamp(20px,5vw,70px); background:#fff; border:1px solid #e8ecf4;
-  border-radius:var(--kb-radius); overflow:hidden; box-shadow:var(--kb-shadow-xl)}
-.pivot-card img{display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover}
-.pivot-card .meta{padding:16px 18px; font-size:.98rem; opacity:.88}
+.scrollcue{position:absolute; left:50%; bottom:22px; transform:translateX(-50%); color:#cfd5e1; font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; opacity:.86}
+.scrollcue::after{content:''; display:block; width:2px; height:28px; margin:10px auto 0; background:#cfd5e1; border-radius:4px; animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0); opacity:.3} 40%{transform:scaleY(1); opacity:1} 100%{transform:scaleY(0); opacity:.2}}
 
-/* =========================================================
-   SPLIT — remains light for reading
-   ========================================================= */
-.split{position:relative; overflow:hidden; background:#fff; color:#0e1116}
-.split .panel{
-  display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
-  padding: clamp(60px, 12vh, 120px) 0;
+/* Kinetic headline effect */
+.clipstack{
+  display:inline-grid; grid-template-rows:1fr; grid-template-columns:1fr;
+  place-items:center; position:relative; height:1.1em;
 }
-.split .imgframe{border-radius:var(--kb-radius); overflow:hidden; box-shadow: var(--kb-shadow-md); border:1px solid #e8ecf4}
-.split .imgframe img{display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; transform:scale(1.03); transition:transform .6s ease}
-.split .imgframe:hover img{transform:scale(1.06)}
-.split .diag{
-  position:absolute; inset:auto 0 -1px 0; height:80px;
-  background:linear-gradient(180deg, transparent, #00000006);
-  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 100%);
-  opacity:.6;
+.clipstack > span{grid-area:1/1; opacity:0; transform:translateY(22px);}
+.clipstack > span.active{opacity:1; transform:translateY(0); transition:opacity .5s ease, transform .6s cubic-bezier(.3,.7,.2,1);}
+.clipstack > span.exit{opacity:0; transform:translateY(-18px); transition:opacity .45s ease, transform .5s ease;}
+
+/* Parallax control & reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .hero-bg{transform:none !important}
+  .clipstack > span{transition:none !important}
+  .scrollcue::after{animation:none}
 }
 
-/* =========================================================
-   CRM — dark for device showcase
-   ========================================================= */
-.crm{position:relative; background:#0b0c10; color:#fff;}
-.phone{
-  width:min(90%,380px); margin-inline:auto; background:linear-gradient(180deg,#2a2e38,#1b1f28);
-  border:2px solid #373c4b; border-radius:38px; padding:18px 11px 14px; box-shadow:var(--kb-shadow-xl);
-}
-.phone .screen{
-  height:520px; border-radius:28px; background:linear-gradient(120deg,#1d212a,#141821); border:1px solid #2b3040; overflow:hidden; position:relative;
-}
-.pill{width:44%; height:6px; border-radius:999px; background:#8891a74d; margin:0 auto 10px}
-.screen .tabbar{display:flex; gap:18px; padding:12px 16px; border-bottom:1px solid #2b3040; background:linear-gradient(0deg,#171b23,#1b1f28)}
-.screen .tab{color:#9ca6b9; font-weight:700; font-size:.95rem; padding:6px 10px; border-bottom:2px solid transparent; cursor:pointer}
-.screen .tab.active{color:#fff; border-color:#fff}
-.screen .pane{position:absolute; inset:48px 0 0 0; padding:16px 18px; display:none}
-.screen .pane.active{display:block}
-.badge{display:inline-block; border:1px solid #3a4051; padding:6px 12px; border-radius:999px; color:#c7cfdd; font-weight:700; margin:0 8px 8px 0}
-
-/* =========================================================
-   PRICING — light
-   ========================================================= */
-.pricing{position:relative; background:#fff; color:#0e1116;}
-.pricing-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:26px; margin-top:30px}
-.price-card{background:#fff; border:1px solid #e8ecf4; border-radius:18px; padding:24px 22px; box-shadow:var(--kb-shadow-md);}
-.price-card h3{margin-top:2px}
-.price{font-size:2rem; font-weight:800}
-.price small{color:#3c4251}
-.price-list{margin:12px 0 0 0; padding-left:18px}
-.price-list li{margin:8px 0; position:relative; list-style:none}
-.price-list li::before{content:'•'; position:absolute; left:-16px; top:0; color:#8d939f}
-.buy{margin-top:18px}
-
-/* =========================================================
-   FAQ — light + accessible
-   ========================================================= */
-#faq{background:#fff; color:#0e1116;}
-.faq{max-width:900px; margin:0 auto}
-.faq-item{border-top:1px solid #e8ecf4; padding:18px 0}
-.faq-q{
-  background: none; border: 0; color: inherit; font: inherit; text-align: left;
-  display:flex; justify-content:space-between; gap:18px; cursor:pointer; font-weight:800;
-}
-.faq-q:focus-visible{ outline: 3px solid #8aa4ff; outline-offset: 3px; }
-.faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease}
-.faq-item.open .faq-a{max-height:220px}
-
-/* =========================================================
-   CONTACT / FOOTER — dark close
-   ========================================================= */
-#contact{background:#0b0c10; color:#fff;}
-.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:26px}
-.card{background:linear-gradient(135deg,#141821,#10141a); border:1px solid #2b3140; border-radius:16px; padding:22px; box-shadow:var(--kb-shadow-md)}
-input, textarea, select{
-  width:100%; padding:12px 12px; border-radius:10px; border:1px solid #3b4152; background:#0f131a; color:#e9eef8;
-  font-family:inherit; font-size:1rem; outline:none; transition:border-color .15s;
-}
-input:focus, textarea:focus, select:focus{border-color:#cfd5e1}
-label span{display:block; color:#cfd5e1; font-weight:700; margin:6px 0 6px}
-textarea{min-height:90px; resize:vertical}
-footer{padding:34px 0; color:#aab2bf; text-align:center; border-top:1px solid #2b3140; background:#0a0c12;}
-
-/* Mobile */
-@media (max-width: 980px){
-  .pivot-wrap{grid-template-columns:1fr; padding: 0 22px}
-  .pivot-copy{padding:0}
-  .split .panel{grid-template-columns:1fr; gap:18px}
-  .contact-grid{grid-template-columns:1fr}
-}
-
-/* Visible focus globally */
-a:focus-visible, .btn:focus-visible { outline: 3px solid #8aa4ff; outline-offset: 3px; }
-
+/* Below-hero band (for context) */
+.band{background:#0b0c10; color:#e9edf6; padding:48px 6vw; border-top:1px solid #1b2030}
+.band .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:22px; max-width:1080px; margin:0 auto}
+.card{background:linear-gradient(135deg,#111522,#0c0f16); border:1px solid #252a3a; border-radius:16px; padding:18px 18px 16px 18px}
+.card h3{margin:6px 0 6px; font-size:1.06rem}
+.card p{margin:0; color:#c8cfdb; font-size:.98rem}
 </style>
 </head>
-<body data-theme="light">
-<!-- GLOBAL BACKDROP + PROGRESS -->
-<div class="page-bg"></div>
-<div class="page-grain"></div>
-<div class="progress"><i></i></div>
+<body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="brand">
-    <div class="brand-mark" aria-hidden="true"></div>
-    <div>KINGDOM BUILDERS</div>
-  </div>
-  <nav>
-    <a href="#hero">Home</a>
-    <a href="#pivot">Vision</a>
-    <a href="#split">Framework</a>
-    <a href="#crm">CRM</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
+<header>
+  <div class="brand"><div class="brand-badge" aria-hidden="true"></div> KINGDOM BUILDERS</div>
+  <nav style="display:flex; gap:18px; align-items:center">
+    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">About</a>
+    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">How It Works</a>
+    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">Buy</a>
   </nav>
 </header>
 
-<!-- HERO (dark) -->
-<section id="hero" class="hero vpad">
-  <div class="backdrop"></div>
-  <div class="hero-inner center container">
-    <svg class="kb-symbol" viewBox="0 0 100 100" aria-hidden="true">
-      <path d="M20 20 L20 80" />
-      <path d="M20 50 L50 20" />
-      <path d="M20 50 L50 80" />
-      <path d="M50 20 L80 20 C88 20 90 28 90 35 C90 42 88 50 80 50 L50 50" />
-      <path d="M50 50 L80 50 C88 50 90 58 90 65 C90 72 88 80 80 80 L50 80" />
-    </svg>
-    <h1 class="h1">Entrepreneurship. Elevated.</h1>
-    <p class="lead">A luxury‑grade, white‑label incubator for churches and communities—turning healed lives into thriving futures.</p>
+<section class="hero" aria-label="Community impact hero">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-noise" aria-hidden="true"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <span class="eyebrow">From Restored → Released</span>
+    <h1>
+      Build a Community that
+      <span class="clipstack" aria-live="polite">
+        <span class="active">Creates Jobs</span>
+        <span>Launches Businesses</span>
+        <span>Changes Families</span>
+        <span>Transforms Cities</span>
+      </span>
+    </h1>
+    <p class="kicker">
+      Past the finish line of healing is a starting line of impact. Give people the skills, tools, and support to build opportunity—together.
+    </p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#pricing">View Pricing</a>
-      <a class="btn btn-ghost" href="#crm">Preview the CRM</a>
+      <a class="btn btn-primary" href="#learn-more">See the Framework</a>
+      <a class="btn btn-secondary" href="#contact">Preview the CRM</a>
     </div>
+    <div class="hero-badges">
+      <span class="badge">Church‑owned License</span>
+      <span class="badge">One License per City</span>
+      <span class="badge">Lifetime Access</span>
+    </div>
+    <div class="scrollcue">Scroll</div>
   </div>
 </section>
 
-<hr class="kb-hr">
-
-<!-- PIVOT (light) -->
-<section id="pivot" class="pivot-stage vpad">
-  <div class="pivot-pin container">
-    <div class="pivot-wrap">
-      <div class="pivot-copy">
-        <span class="pivot-eyebrow muted">From Restored → Released</span>
-        <h2 class="h1" style="margin-top:10px">Where Healing Becomes Building</h2>
-        <p class="lead">Your church becomes the launchpad for entrepreneurs. As you scroll through this chapter, the theme flips—mirroring a journey from recovery to purpose.</p>
-        <div class="cta-row" style="justify-content:flex-start">
-          <a class="btn btn-primary" href="#contact">Claim My City License</a>
-          <a class="btn btn-ghost" href="#crm">See the Dashboard</a>
-        </div>
-      </div>
-      <aside class="pivot-card">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1400&auto=format&fit=crop" alt="Leaders collaborating" loading="lazy" decoding="async" width="1400" height="933">
-        <div class="meta muted">Church‑owned curriculum • White‑label branding • One license per city</div>
-      </aside>
-    </div>
+<section class="band" id="learn-more" aria-label="Impact pillars">
+  <div class="grid">
+    <div class="card"><h3>Opportunity</h3><p>From ideas to income—guided steps that lead to real launches.</p></div>
+    <div class="card"><h3>Ownership</h3><p>Your church’s brand, your leaders, your legacy.</p></div>
+    <div class="card"><h3>Evidence</h3><p>Exportable progress reports for boards, donors, and parents.</p></div>
+    <div class="card"><h3>Community</h3><p>Mentors, peers, and families moving forward—together.</p></div>
   </div>
 </section>
-
-<hr class="kb-hr">
-
-<!-- SPLIT (light) -->
-<section id="split" class="split">
-  <div class="panel container">
-    <div>
-      <h2 class="h1">The Problem We Solve</h2>
-      <p class="lead">Communities often stop at healing. But restoration without opportunity leaves families stuck. Churches need a repeatable, brand‑ownable framework to move people from recovery to real‑world building.</p>
-      <ul class="lead" style="margin-top:14px; font-size:1.03rem">
-        <li>• Volunteers stretched thin; systems are scattered</li>
-        <li>• “Programs” lack ownership and fade after a season</li>
-        <li>• No way to measure progress or export proof</li>
-      </ul>
-    </div>
-    <div class="imgframe">
-      <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1400&auto=format&fit=crop" alt="Community gathering" loading="lazy" decoding="async" width="1400" height="933">
-    </div>
-  </div>
-  <div class="diag" aria-hidden="true"></div>
-  <div class="panel container">
-    <div class="imgframe">
-      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1400&auto=format&fit=crop" alt="Team working with tools" loading="lazy" decoding="async" width="1400" height="933">
-    </div>
-    <div>
-      <h2 class="h1">The Kingdom Builders Framework</h2>
-      <p class="lead">A white‑label curriculum, event toolkits, and a purpose‑built CRM—so your church can brand, run, and measure an incubator with excellence.</p>
-      <div class="cta-row" style="justify-content:flex-start">
-        <a class="btn btn-primary" href="#pricing">Get the License</a>
-        <a class="btn btn-ghost" href="#crm">CRM Sneak Peek</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="kb-hr">
-
-<!-- CRM (dark) -->
-<section id="crm" class="crm vpad">
-  <div class="center container">
-    <h2 class="h1">Your Command Center</h2>
-    <p class="lead" style="color:#cfd5e1">Track members, mentors, projects, and milestones. Export polished PDF/Excel reports for boards, donors, and parents.</p>
-  </div>
-  <div class="phone" style="margin-top:38px">
-    <div class="pill"></div>
-    <div class="screen">
-      <div class="tabbar">
-        <div class="tab active" data-pane="tasks">Tasks</div>
-        <div class="tab" data-pane="members">Members</div>
-        <div class="tab" data-pane="progress">Progress</div>
-      </div>
-      <div class="pane active" id="pane-tasks">
-        <span class="badge">New Cohort · Week 1</span>
-        <span class="badge">Pitch Night · 09/26</span>
-        <div style="margin-top:14px; color:#e9eef8; font-weight:700">Today</div>
-        <ul style="margin:8px 0 0 18px; color:#cdd3e0">
-          <li>Invite mentors to orientation</li>
-          <li>Publish workbook links to group chat</li>
-          <li>Collect first business idea worksheets</li>
-        </ul>
-      </div>
-      <div class="pane" id="pane-members">
-        <span class="badge">24 Members</span>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px">
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:10px; color:#cfd5e1">Alicia — 3/8 tasks</div>
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:10px; color:#cfd5e1">Marcus — 5/8 tasks</div>
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:10px; color:#cfd5e1">Jen — 4/8 tasks</div>
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:10px; color:#cfd5e1">Ty — 2/8 tasks</div>
-        </div>
-      </div>
-      <div class="pane" id="pane-progress">
-        <span class="badge">Cohort Metrics</span>
-        <div style="margin-top:12px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px">
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:12px; color:#cfd5e1">
-            <div style="font-weight:800; font-size:1.4rem" class="count" data-target="98">0</div>
-            <div style="opacity:.8">Satisfaction %</div>
-          </div>
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:12px; color:#cfd5e1">
-            <div style="font-weight:800; font-size:1.4rem" class="count" data-target="1200">0</div>
-            <div style="opacity:.8">Students Trained</div>
-          </div>
-          <div style="background:#10141a; border:1px solid #2b3040; border-radius:10px; padding:12px; color:#cfd5e1">
-            <div style="font-weight:800; font-size:1.4rem" class="count" data-target="3">0</div>
-            <div style="opacity:.8">Weeks to Launch</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="kb-hr">
-
-<!-- PRICING (light) -->
-<section id="pricing" class="pricing vpad">
-  <div class="center container">
-    <h2 class="h1">Choose Your Experience</h2>
-    <p class="lead">Lifetime license. Unlimited members. Updates included.</p>
-  </div>
-  <div class="pricing-grid container">
-    <div class="price-card">
-      <h3>Essentials Pack</h3>
-      <div class="price">$1,395 <small>(10% off)</small></div>
-      <ul class="price-list muted">
-        <li>Complete curriculum (50+ lessons)</li>
-        <li>Workbook builder</li>
-        <li>Launch templates & social kit</li>
-        <li>All updates included</li>
-      </ul>
-      <div class="buy"><a class="btn btn-primary" href="#contact">Get Essentials</a></div>
-    </div>
-    <div class="price-card" style="border:2px solid #cfd5e1">
-      <h3>Custom Branding Pack</h3>
-      <div class="price">$1,665 <small>(10% off)</small></div>
-      <ul class="price-list muted">
-        <li>Everything in Essentials</li>
-        <li>Custom curriculum logo & cover</li>
-        <li>Layout customization</li>
-        <li>1‑on‑1 strategy session</li>
-      </ul>
-      <div class="buy"><a class="btn btn-primary" href="#contact">Get Branding</a></div>
-    </div>
-    <div class="price-card">
-      <h3>Enterprise Incubator Pack</h3>
-      <div class="price">$2,880 <small>(10% off)</small></div>
-      <ul class="price-list muted">
-        <li>Everything in Branding</li>
-        <li>8‑week launch guide</li>
-        <li>Cohort planning tools</li>
-        <li>Coaching templates & certificates</li>
-        <li>Multi‑campus license</li>
-      </ul>
-      <div class="buy"><a class="btn btn-primary" href="#contact">Get Enterprise</a></div>
-    </div>
-  </div>
-</section>
-
-<hr class="kb-hr">
-
-<!-- FAQ (light + accessible) -->
-<section id="faq" class="vpad">
-  <div class="center container">
-    <h2 class="h1">Frequently Asked Questions</h2>
-    <p class="lead">Short answers. Real clarity.</p>
-  </div>
-  <div class="faq container" style="margin-top:24px">
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false" aria-controls="a1" id="q1">
-        Is the CRM really included in every package?
-      </button>
-      <div class="faq-a" id="a1" role="region" aria-labelledby="q1">
-        <div class="muted" style="padding-top:8px">Yes — unlimited users for life. No surprise fees.</div>
-      </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false" aria-controls="a2" id="q2">
-        Can we customize fields and tabs?
-      </button>
-      <div class="faq-a" id="a2" role="region" aria-labelledby="q2">
-        <div class="muted" style="padding-top:8px">Absolutely. Rename fields, add custom tabs, and request feature upgrades.</div>
-      </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false" aria-controls="a3" id="q3">
-        How do we access the dashboard?
-      </button>
-      <div class="faq-a" id="a3" role="region" aria-labelledby="q3">
-        <div class="muted" style="padding-top:8px">You get an instant login after purchase. It’s browser‑based — works on any device.</div>
-      </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false" aria-controls="a4" id="q4">
-        Do you offer onboarding or support?
-      </button>
-      <div class="faq-a" id="a4" role="region" aria-labelledby="q4">
-        <div class="muted" style="padding-top:8px">Yes. Training videos, live onboarding, and fast chat support. Real people.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="kb-hr">
-
-<!-- CONTACT (dark) -->
-<section id="contact" class="vpad">
-  <div class="center container">
-    <h2 class="h1">Let’s Launch Your Legacy</h2>
-    <p class="lead" style="color:#cfd5e1">Tell us a bit about your church or community. We’ll reply fast.</p>
-  </div>
-  <div class="contact-grid container" style="margin-top:26px">
-    <div class="card">
-      <form id="contact-form" autocomplete="off">
-        <label><span>Your Name</span><input type="text" name="name" required placeholder="Full name"></label>
-        <label><span>Email</span><input type="email" name="email" required placeholder="you@email.com"></label>
-        <label><span>Church / Organization</span><input type="text" name="org" placeholder="Organization name"></label>
-        <label><span>Reason</span>
-          <select name="reason" required>
-            <option value="">Choose one…</option>
-            <option>Help / Support</option>
-            <option>Request a Quote</option>
-            <option>General Question</option>
-            <option>Other</option>
-          </select>
-        </label>
-        <label><span>Your Message</span><textarea name="message" rows="5" placeholder="How can we help?"></textarea></label>
-        <button class="btn btn-primary" type="submit">Send Message</button>
-        <div id="contact-success" class="muted" style="display:none; margin-top:12px">Thank you! Your message has been received.</div>
-      </form>
-    </div>
-    <div class="card">
-      <h3 style="margin-top:0">Fastest Support — Guaranteed</h3>
-      <p class="muted">We know your project matters. That’s why every message is answered by a real team member.</p>
-      <ul class="muted" style="margin-top:10px">
-        <li>• Under 1 business hour for most replies</li>
-        <li>• No robots — just friendly, expert help</li>
-        <li>• 24/7 urgent line for partners & live projects</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<footer>© 2025 Kingdom Builders. Built with purpose.</footer>
 
 <script>
-// =========================================================
-// Hybrid theme engine: map sections to light/dark
-// =========================================================
+// Parallax background + kinetic headline
 (function(){
-  const progress = document.querySelector('.progress > i');
+  const bg = document.getElementById('heroBg');
+  const stack = document.querySelector('.clipstack');
+  const words = Array.from(stack.children);
+  let idx = 0;
 
-  function setTheme(mode){
-    if(mode === 'light'){
-      document.documentElement.style.setProperty('--page-bg', '#ffffff');
-      document.documentElement.style.setProperty('--page-fg', '#0e1116');
-      document.documentElement.style.setProperty('--page-muted', '#3c4251');
-      document.documentElement.style.setProperty('--cta-bg', '#0e1116');
-      document.documentElement.style.setProperty('--cta-fg', '#ffffff');
-      document.body.dataset.theme = 'light';
-    }else{
-      document.documentElement.style.setProperty('--page-bg', '#0b0c10');
-      document.documentElement.style.setProperty('--page-fg', '#ffffff');
-      document.documentElement.style.setProperty('--page-muted', '#c7cdd7');
-      document.documentElement.style.setProperty('--cta-bg', '#ffffff');
-      document.documentElement.style.setProperty('--cta-fg', '#0f1218');
-      document.body.dataset.theme = 'dark';
-    }
+  // Kinetic headline cycle
+  function cycle(){
+    const cur = words[idx % words.length];
+    const next = words[(idx + 1) % words.length];
+    cur.classList.remove('active');
+    cur.classList.add('exit');
+    next.classList.add('active');
+    setTimeout(() => cur.classList.remove('exit'), 520);
+    idx++;
   }
-  setTheme('light'); // starting mode
+  let timer = setInterval(cycle, 2600);
 
-  const chapters = [
-    { el: document.getElementById('hero'),    theme: 'dark'  },
-    { el: document.getElementById('pivot'),   theme: 'light' },
-    { el: document.getElementById('split'),   theme: 'light' },
-    { el: document.getElementById('crm'),     theme: 'dark'  },
-    { el: document.getElementById('pricing'), theme: 'light' },
-    { el: document.getElementById('faq'),     theme: 'light' },
-    { el: document.getElementById('contact'), theme: 'dark'  }
-  ];
-
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e => {
-      if(e.isIntersecting && e.intersectionRatio > 0.55){
-        const chap = chapters.find(c => c.el === e.target);
-        if(chap){ setTheme(chap.theme); }
-      }
-    });
-  }, { threshold: [0.55] });
-
-  chapters.forEach(c => c.el && obs.observe(c.el));
-
-  // Page progress
-  document.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const frac = Math.max(0, Math.min(1, window.scrollY / max));
-    progress.style.transform = 'scaleX(' + frac + ')';
-  }, { passive:true });
-})();
-
-// =========================================================
-// CRM demo tab switching + counter animation
-// =========================================================
-(function(){
-  const tabs = document.querySelectorAll('.screen .tab');
-  const panes = {
-    tasks: document.getElementById('pane-tasks'),
-    members: document.getElementById('pane-members'),
-    progress: document.getElementById('pane-progress')
-  };
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(tt => tt.classList.remove('active'));
-    t.classList.add('active');
-    Object.values(panes).forEach(p => p.classList.remove('active'));
-    const key = t.dataset.pane;
-    panes[key].classList.add('active');
-  }));
-
-  // animate counters when progress pane is shown
-  function animateCounts(){
-    panes.progress.querySelectorAll('.count').forEach(el => {
-      const target = parseInt(el.dataset.target, 10) || 0;
-      let cur = 0;
-      const step = Math.max(1, Math.round(target / 80));
-      const tick = () => {
-        cur += step;
-        if(cur >= target){ cur = target; }
-        el.textContent = cur + (el.dataset.target === '98' ? '%' : '');
-        if(cur < target) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    });
-  }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        animateCounts();
-        io.disconnect();
-      }
-    });
-  }, { threshold: .6 });
-  io.observe(document.getElementById('crm'));
-})();
-
-// =========================================================
-// Accessible FAQ
-// =========================================================
-document.querySelectorAll('.faq-item').forEach(item => {
-  const btn = item.querySelector('.faq-q');
-  const panel = item.querySelector('.faq-a');
-  btn.addEventListener('click', () => {
-    const open = item.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(open));
+  // Pause on visibility change to save CPU
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){ clearInterval(timer); }
+    else { timer = setInterval(cycle, 2600); }
   });
-});
 
-// =========================================================
-// Contact form (demo-only)
-// =========================================================
-document.getElementById('contact-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  document.getElementById('contact-success').style.display = 'block';
-  this.reset();
-});
+  // Parallax
+  const supportsRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!supportsRM && bg){
+    const onScroll = () => {
+      const y = window.scrollY;
+      // subtle parallax scale + translate
+      const t = Math.min(1, y / 600);
+      bg.style.transform = `translateY(${t * 14}px) scale(${1.06 + t * 0.02})`;
+    };
+    onScroll();
+    document.addEventListener('scroll', onScroll, { passive:true });
+  }
+})();
 </script>
+
 </body>
 </html>
