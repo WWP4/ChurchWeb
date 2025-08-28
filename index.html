@@ -1,189 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kingdom Builders — Community Impact Hero</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KB – Hero (Garage Reveal)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --kb-black:#0b0c10;
+      --kb-ink:#0f1218;
+      --kb-white:#ffffff;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--kb-black);
+      color:#fff;
+      overflow-x:hidden;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:40;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 20px;
+      background:#0b0c10cc;
+      -webkit-backdrop-filter: blur(8px) saturate(160%);
+      backdrop-filter: blur(8px) saturate(160%);
+      border-bottom:1px solid #1d2130
+    }
+    header .brand{font-weight:800; letter-spacing:.08em}
 
-<style>
-:root{
-  --kb-black:#0b0c10;
-  --kb-ink:#0f1218;
-  --kb-white:#ffffff;
-  --kb-silver:#dfe3ea;
-  --kb-muted:#c7cdd7;
-  --accent:#bfc6d4;
-  --radius:22px;
-}
+    /* HERO */
+    .hero{position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden; isolation:isolate}
+    .hero-bg{
+      position:absolute; inset:-8% -8% -8% -8%;
+      background:url('ChatGPT Image Aug 27, 2025, 09_21_11 PM.png') center/cover no-repeat;
+      transform:translateZ(0) scale(1.08);
+      filter:saturate(104%) contrast(106%) brightness(0.92);
+      will-change:transform, opacity;
+      opacity:0;
+    }
+    .hero-scrim{position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 38%, rgba(0,0,0,.60) 100%);
+    }
 
-/* Reset */
-*{box-sizing:border-box}
-html,body{margin:0}
-body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:var(--kb-black); color:#fff; overflow-x:hidden}
+    .hero-inner{
+      position:relative; z-index:2; max-width:1080px; padding:0 6vw;
+      text-align:center; opacity:0; transform:translateY(16px)
+    }
+    .eyebrow{
+      display:inline-block; padding:8px 14px; border-radius:999px;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22);
+      letter-spacing:.14em; text-transform:uppercase; font-weight:800;
+      font-size:.82rem; color:#e9edf6
+    }
+    h1{font-size:clamp(32px,6vw,64px); line-height:1.04; margin:16px 0 10px;
+      font-weight:800; letter-spacing:.01em; text-shadow:0 6px 28px rgba(0,0,0,.35)}
+    .kicker{font-size:clamp(18px,1.4vw,20px); color:#dbe2ee; max-width:68ch; margin:0 auto}
+    .cta-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px}
+    .btn{
+      appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.02em;
+      padding:14px 26px; border-radius:999px;
+      transition: transform .12s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    }
+    .btn-primary{background:#ffffff; color:#0f1218; box-shadow:0 8px 26px rgba(0,0,0,.28)}
+    .btn-secondary{background:transparent; color:#ffffff; border:2px solid currentColor}
+    .btn:focus-visible{outline:3px solid #8aa4ff; outline-offset:3px}
+    .btn:hover{transform:translateY(-2px)}
 
-/* Header (minimal for demo) */
-header{position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;
-  padding:12px 20px; background:#0b0c10cc; -webkit-backdrop-filter: blur(8px) saturate(160%); backdrop-filter: blur(8px) saturate(160%);
-  border-bottom:1px solid #1d2130}
-.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.08em}
-.brand-badge{width:28px; height:28px; border-radius:50%; background:conic-gradient(from 120deg,#fff 0 20%,#bbb 0 40%,#eee 0 60%,#bbb 0 80%,#fff 0);
-  outline:2px solid #2c3140; box-shadow:inset 0 0 0 2px #1118}
+    .scrollcue{position:absolute; left:50%; bottom:22px; transform:translateX(-50%);
+      color:#cfd5e1; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+      font-size:.78rem; opacity:.86}
+    .scrollcue::after{
+      content:''; display:block; width:2px; height:28px; margin:10px auto 0;
+      background:#cfd5e1; border-radius:4px; animation:drop 1.8s ease-in-out infinite
+    }
+    @keyframes drop{
+      0%{transform:scaleY(0); opacity:.3}
+      40%{transform:scaleY(1); opacity:1}
+      100%{transform:scaleY(0); opacity:.2}
+    }
 
-/* HERO */
-.hero{position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden; isolation:isolate}
-/* Authentic community photo by Joel Muniz (Unsplash) */
-.hero-bg{
-  position:absolute; inset:-8% -8% -8% -8%;
-  background:url('https://images.unsplash.com/photo-1605902711622-cfb43c44367f?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-  transform:translateZ(0) scale(1.06);
-  filter:saturate(102%) contrast(105%) brightness(0.8);
-  will-change:transform;
-}
-/* Subtle artifacts for cinematic feel */
-.hero-vignette{position:absolute; inset:0; background:radial-gradient(1200px 600px at 75% 30%, #ffffff22, transparent 45%), radial-gradient(800px 500px at 10% 85%, #ffffff18, transparent 55%);
-  mix-blend-mode:soft-light; opacity:.35; pointer-events:none}
-.hero-noise{position:absolute; inset:-50% -50% -50% -50%; background-image:radial-gradient(#00000022 1px, transparent 1px);
-  background-size:3px 3px; opacity:.10; mix-blend-mode:overlay; pointer-events:none}
-.hero-scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 38%, rgba(0,0,0,.60) 100%);}
+    /* GARAGE REVEAL */
+    .garage{
+      position:absolute; inset:0; z-index:3; display:grid;
+      grid-template-rows:repeat(var(--slats,8), 1fr);
+    }
+    .garage .slat{
+      background:#0a0b0f; border-bottom:1px solid #141721;
+      will-change:transform; transform:translateY(0);
+    }
+    @keyframes lift{to{transform:translateY(-100%)}}
+    .garage.ready .slat{ animation: lift 900ms cubic-bezier(.55,.1,.15,1) forwards; }
+    .garage.ready .slat:nth-child(1){ animation-delay: 30ms; }
+    .garage.ready .slat:nth-child(2){ animation-delay: 70ms; }
+    .garage.ready .slat:nth-child(3){ animation-delay: 110ms; }
+    .garage.ready .slat:nth-child(4){ animation-delay: 150ms; }
+    .garage.ready .slat:nth-child(5){ animation-delay: 190ms; }
+    .garage.ready .slat:nth-child(6){ animation-delay: 230ms; }
+    .garage.ready .slat:nth-child(7){ animation-delay: 270ms; }
+    .garage.ready .slat:nth-child(8){ animation-delay: 310ms; }
 
-.hero-inner{position:relative; z-index:2; max-width:1080px; padding:0 6vw; text-align:center}
-.eyebrow{display:inline-block; padding:8px 14px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22);
-  letter-spacing:.14em; text-transform:uppercase; font-weight:800; font-size:.82rem; color:#e9edf6}
-h1{font-size:clamp(32px,6vw,64px); line-height:1.04; margin:16px 0 10px; font-weight:800; letter-spacing:.01em; text-shadow:0 6px 28px rgba(0,0,0,.35)}
-.kicker{font-size:clamp(18px,1.4vw,20px); color:#dbe2ee; max-width:68ch; margin:0 auto}
-.cta-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px}
-.btn{appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.02em; padding:14px 26px; border-radius:999px;
-  transition: transform .12s ease, box-shadow .18s ease, background .18s ease, color .18s ease;}
-.btn-primary{background:#ffffff; color:#0f1218; box-shadow:0 8px 26px rgba(0,0,0,.28)}
-.btn-secondary{background:transparent; color:#ffffff; border:2px solid currentColor}
-.btn:focus-visible{outline:3px solid #8aa4ff; outline-offset:3px}
-.btn:hover{transform:translateY(-2px)}
+    .revealed .hero-bg{ opacity:1; transition:opacity 520ms ease 80ms, transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms; transform:scale(1.02); }
+    .revealed .hero-inner{ opacity:1; transform:none; transition:opacity 520ms ease 120ms, transform 520ms ease 120ms; }
 
-.hero-badges{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px}
-.badge{display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18); color:#e3e8f2; font-weight:700; font-size:.95rem}
-
-.scrollcue{position:absolute; left:50%; bottom:22px; transform:translateX(-50%); color:#cfd5e1; font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; opacity:.86}
-.scrollcue::after{content:''; display:block; width:2px; height:28px; margin:10px auto 0; background:#cfd5e1; border-radius:4px; animation:drop 1.8s ease-in-out infinite}
-@keyframes drop{0%{transform:scaleY(0); opacity:.3} 40%{transform:scaleY(1); opacity:1} 100%{transform:scaleY(0); opacity:.2}}
-
-/* Kinetic headline effect */
-.clipstack{
-  display:inline-grid; grid-template-rows:1fr; grid-template-columns:1fr;
-  place-items:center; position:relative; height:1.1em;
-}
-.clipstack > span{grid-area:1/1; opacity:0; transform:translateY(22px);}
-.clipstack > span.active{opacity:1; transform:translateY(0); transition:opacity .5s ease, transform .6s cubic-bezier(.3,.7,.2,1);}
-.clipstack > span.exit{opacity:0; transform:translateY(-18px); transition:opacity .45s ease, transform .5s ease;}
-
-/* Parallax control & reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .hero-bg{transform:none !important}
-  .clipstack > span{transition:none !important}
-  .scrollcue::after{animation:none}
-}
-
-/* Below-hero band (for context) */
-.band{background:#0b0c10; color:#e9edf6; padding:48px 6vw; border-top:1px solid #1b2030}
-.band .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:22px; max-width:1080px; margin:0 auto}
-.card{background:linear-gradient(135deg,#111522,#0c0f16); border:1px solid #252a3a; border-radius:16px; padding:18px 18px 16px 18px}
-.card h3{margin:6px 0 6px; font-size:1.06rem}
-.card p{margin:0; color:#c8cfdb; font-size:.98rem}
-</style>
+    @media (prefers-reduced-motion: reduce){
+      .garage .slat{display:none}
+      .hero-bg{opacity:1; transform:none}
+      .hero-inner{opacity:1; transform:none}
+      .scrollcue::after{animation:none}
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="brand"><div class="brand-badge" aria-hidden="true"></div> KINGDOM BUILDERS</div>
-  <nav style="display:flex; gap:18px; align-items:center">
-    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">About</a>
-    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">How It Works</a>
-    <a href="#" style="color:#cfd5e1; text-decoration:none; font-weight:600">Buy</a>
-  </nav>
-</header>
+<header><div class="brand">KINGDOM BUILDERS</div></header>
 
-<section class="hero" aria-label="Community impact hero">
+<section class="hero" aria-label="Summit hero">
   <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
-  <div class="hero-vignette" aria-hidden="true"></div>
-  <div class="hero-noise" aria-hidden="true"></div>
   <div class="hero-scrim" aria-hidden="true"></div>
+
+  <!-- Slats -->
+  <div class="garage" id="garage" style="--slats:8" aria-hidden="true">
+    <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
+    <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
+  </div>
 
   <div class="hero-inner">
     <span class="eyebrow">From Restored → Released</span>
-    <h1>
-      Build a Community that
-      <span class="clipstack" aria-live="polite">
-        <span class="active">Creates Jobs</span>
-        <span>Launches Businesses</span>
-        <span>Changes Families</span>
-        <span>Transforms Cities</span>
-      </span>
-    </h1>
-    <p class="kicker">
-      Past the finish line of healing is a starting line of impact. Give people the skills, tools, and support to build opportunity—together.
-    </p>
+    <h1>Build a Community that Leads People to the Summit</h1>
+    <p class="kicker">Beyond healing is ascent. Give people a clear path, a trusted team, and a church-owned framework to climb together.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#learn-more">See the Framework</a>
+      <a class="btn btn-primary" href="#next">See the Framework</a>
       <a class="btn btn-secondary" href="#contact">Preview the CRM</a>
-    </div>
-    <div class="hero-badges">
-      <span class="badge">Church‑owned License</span>
-      <span class="badge">One License per City</span>
-      <span class="badge">Lifetime Access</span>
     </div>
     <div class="scrollcue">Scroll</div>
   </div>
 </section>
 
-<section class="band" id="learn-more" aria-label="Impact pillars">
-  <div class="grid">
-    <div class="card"><h3>Opportunity</h3><p>From ideas to income—guided steps that lead to real launches.</p></div>
-    <div class="card"><h3>Ownership</h3><p>Your church’s brand, your leaders, your legacy.</p></div>
-    <div class="card"><h3>Evidence</h3><p>Exportable progress reports for boards, donors, and parents.</p></div>
-    <div class="card"><h3>Community</h3><p>Mentors, peers, and families moving forward—together.</p></div>
-  </div>
-</section>
-
 <script>
-// Parallax background + kinetic headline
 (function(){
+  const garage = document.getElementById('garage');
+  const hero = document.querySelector('.hero');
   const bg = document.getElementById('heroBg');
-  const stack = document.querySelector('.clipstack');
-  const words = Array.from(stack.children);
-  let idx = 0;
 
-  // Kinetic headline cycle
-  function cycle(){
-    const cur = words[idx % words.length];
-    const next = words[(idx + 1) % words.length];
-    cur.classList.remove('active');
-    cur.classList.add('exit');
-    next.classList.add('active');
-    setTimeout(() => cur.classList.remove('exit'), 520);
-    idx++;
-  }
-  let timer = setInterval(cycle, 2600);
-
-  // Pause on visibility change to save CPU
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden){ clearInterval(timer); }
-    else { timer = setInterval(cycle, 2600); }
+  window.addEventListener('load', () => {
+    garage.classList.add('ready');
+    const last = garage.lastElementChild;
+    last.addEventListener('animationend', () => {
+      hero.classList.add('revealed');
+      setTimeout(() => garage.style.display = 'none', 80);
+    });
   });
 
-  // Parallax
-  const supportsRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!supportsRM && bg){
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && bg){
     const onScroll = () => {
       const y = window.scrollY;
-      // subtle parallax scale + translate
       const t = Math.min(1, y / 600);
-      bg.style.transform = `translateY(${t * 14}px) scale(${1.06 + t * 0.02})`;
+      bg.style.transform = `translateY(${t * 14}px) scale(${1.02 + t * 0.02})`;
     };
-    onScroll();
     document.addEventListener('scroll', onScroll, { passive:true });
   }
 })();
