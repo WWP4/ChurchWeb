@@ -1,384 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kingdom Builders — Restore • Equip • Release</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-<style>
-:root{
---white:#ffffff; --ink:#0e1116; --muted:#5a6374;
---blue:#1a4dff; --blue-700:#0f37c7; --blue-900:#0a206f;
---silver:#dfe3eb; --silver-2:#eef2f7; --silver-t:rgba(223,227,235,.85);
---radius:20px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kingdom Builders</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <style>
+
+    :root {
+  --black: #0c0d10;
+  --nearblack: #17181b;
+  --dark: #191a1e;
+  --gray: #23242a;
+  --silver: #e0e1e7;
+  --white: #fff;
+  --lux-accent: #e6cc95;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:0 5vw}
+
+/* ------------- Global Reset ------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+nav {
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--nearblack);
+  border-bottom: 1px solid var(--dark);
+  position: sticky; top: 0; z-index: 1000;
+  box-shadow: 0 2px 20px #0c0d1012;
+}
+.logo {
+  font-weight: 700; font-size: 1.3rem; letter-spacing: 0.07em; color: var(--white);
+}
+nav a {
+  color: var(--silver);
+  text-decoration: none;
+  margin-left: 32px;
+  font-weight: 500;
+  transition: color 0.18s, border-bottom 0.18s;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+nav a:hover, nav a.active {
+  color: var(--lux-accent);
+  border-bottom: 2px solid var(--lux-accent);
+}
+
+/* ---------- Hero Band ---------- */
+.hero-section {
+  min-height: 100vh;
+  background: linear-gradient(115deg,rgba(24,24,34,0.88) 65%,rgba(22,23,29,0.99) 100%),
+              url('hero-community.png') center/cover no-repeat;
+  clip-path: inset(100% 0 0 0);
+  opacity: 0;
+  transition: clip-path 2.2s cubic-bezier(.55,.1,.15,1), opacity 2.2s cubic-bezier(.55,.1,.15,1);
+  position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+body.loaded .hero-section { clip-path: inset(0 0 0 0); opacity: 1; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(115deg,rgba(32,32,44,0.75) 68%,rgba(18,19,24,0.97) 100%); z-index: 1; backdrop-filter: blur(2px); }
+.hero-container {
+  position: relative; z-index: 2; text-align: center; max-width: 840px; margin: auto;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 0; padding-bottom: 0;
+}
+.hero-title {
+  color: var(--white); font-size: 3.7rem; font-weight: 800; margin-bottom: 1.1rem;
+  text-shadow: 0 6px 22px rgba(30,30,40,0.38); letter-spacing: .01em; opacity: 0;
+  animation: fadeInUp 1.1s cubic-bezier(.32,.72,.36,1.02) 0.55s forwards;
+}
+.hero-subtitle {
+  color: var(--silver); font-size: 1.28rem; margin-bottom: 2.2rem; opacity: 0;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  animation: fadeInUp 1.05s cubic-bezier(.32,.72,.36,1.02) 1.15s forwards;
+}
+.hero-actions {
+  display: flex; gap: 1.7rem; justify-content: center; flex-wrap: wrap; opacity: 0;
+  animation: fadeInUp 1s cubic-bezier(.32,.72,.36,1.02) 1.85s forwards;
+}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(36px);} to { opacity: 1; transform: translateY(0);} }
+/* Animated accent under h2 */
+section h2 {
+  font-size: 2.18rem; text-align: center; color: var(--white);
+  margin-bottom: 20px; letter-spacing: 0.01em; position: relative;
+}
+section h2::after {
+  content: '';
+  display: block; width: 64px; height: 2.6px; margin: 16px auto 0;
+  border-radius: 3px; background: linear-gradient(90deg, var(--lux-accent) 0%, var(--silver) 78%);
+  box-shadow: 0 2px 18px #e6cc9540;
+  animation: linegrow 1.08s cubic-bezier(.4,.7,.6,1.02);
+}
+@keyframes linegrow { from { width: 0; opacity: 0;} to { width: 64px; opacity: 1;}}
+/* CTA Buttons */
+.cta-button {
+  background: var(--white); color: var(--black); padding: 1rem 2.2rem; border-radius: 50px;
+  font-weight: 600; text-decoration: none; font-size: 1.13rem; border: 2px solid transparent;
+  box-shadow: 0 3px 22px 0 rgba(0,0,0,0.11); transition: background 0.15s, color 0.14s, border 0.13s;
+  letter-spacing: .02em; position: relative; overflow: hidden;
+}
+.cta-button:hover { background: var(--lux-accent); color: var(--black); border-color: var(--lux-accent); }
+.cta-button:after {
+  content: ""; display: block; position: absolute; left: 40%; right: 40%; bottom: 0; height: 3px;
+  background: var(--lux-accent); opacity: .17; transition: left .16s, right .16s;
+}
+.cta-button:hover:after { left: 9%; right: 9%; opacity:.23; }
+
+/* ----------- Unique Section Bands ----------- */
+section { padding: 120px 40px; max-width: 1160px; margin: auto; position: relative;}
+section:not(:first-of-type) { border-top: none; }
+/* CRM Preview */
+#crm-sneakpeek, #crm, #dashboard-preview {
+  background: linear-gradient(120deg, #191a1e 62%, #212229 100%);
+  box-shadow: 0 9px 38px #17181b22;
+  border-radius: 0 0 34px 34px;
+  border-bottom: 1.5px solid #23242a;
+}
+#dashboard-preview { background: linear-gradient(115deg,#23242a 68%,#23242a 100%); border-radius: 30px; box-shadow: 0 10px 40px #0c0d1022;}
+/* Pricing Band */
+#pricing { background: linear-gradient(120deg,#212229 75%,#23242a 100%); border-radius: 38px; margin-top:60px; box-shadow: 0 8px 30px #10101516; }
+/* Testimonial Band */
+#testimonials { background: linear-gradient(112deg, #22242a 68%, #191a1e 100%); border-radius: 30px 30px 0 0; box-shadow: 0 10px 34px #23242a13;}
+/* FAQ Band */
+#faq-section { background: linear-gradient(110deg,#1c1d22 68%,#23242a 100%); border-radius: 34px; margin-top:30px; }
+/* CTA Band */
+#cta-band { background: linear-gradient(90deg,#23242a 80%,#191a1e 100%); border-radius: 22px; box-shadow: 0 -2px 22px #191a1e13; text-align: center; padding: 50px 0 48px 0; }
+
+/* ----------- Features, Cards, Grids ----------- */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 40px; margin-top: 40px; }
+.card {
+  background: rgba(36,36,44,0.98); padding: 44px 28px 34px 28px; border-radius: 17px; text-align: center;
+  border: 1.8px solid #23242a; box-shadow: 0 8px 24px 0 rgba(12,13,16,0.12); transition: border .16s, box-shadow .15s, background .21s; position: relative;
+}
+#pricing .card { background: #22242a; border: 1.8px solid var(--silver);}
+#pricing .card:hover { border-color: var(--lux-accent); box-shadow: 0 13px 40px #191a1e19;}
+.card h3 { color: var(--white); font-size: 1.19rem; margin-bottom: 12px; font-weight: 800; letter-spacing: .01em;}
+.card p { color: var(--silver); font-size: 1.05rem; }
+
+/* Lists, Features */
+.pricing-list, .crm-features-list {
+  text-align: left; margin: 22px 0 0 0; padding: 0 0 0 18px; color: var(--silver); font-size: 1.09rem; line-height: 1.7;
+}
+.pricing-list li, .crm-features-list li { margin-bottom: 9px; position: relative;}
+.pricing-list li::before, .crm-features-list li::before {
+  content: "•"; color: var(--lux-accent); font-size: 1.19em; margin-right: 11px; position: absolute; left: -18px;
+}
+.pricing-btn { margin-top: 28px; padding: 0.92rem 2.1rem; font-size: 1.14rem; width: auto; max-width: 99%; white-space: nowrap; box-shadow: 0 4px 12px 0 rgba(0,0,0,0.10); display: inline-block; }
+
+/* ----------- Testimonial Unique ------------- */
+.review-grid { margin-top: 44px; }
+.review-card {
+  background: linear-gradient(114deg, #23242a 80%, #191a1e 100%);
+  border-radius: 18px; box-shadow: 0 6px 28px 0 rgba(24,25,34,0.13); padding: 38px 32px 32px 32px; color: var(--white);
+  border: 1.5px solid #31313b; transition: transform 0.29s cubic-bezier(.6,.2,.15,1), box-shadow .17s, border .19s;
+}
+.review-card:hover { transform: translateY(-10px) scale(1.022); box-shadow: 0 16px 44px 0 rgba(34,35,43,0.14); border-color: var(--lux-accent);}
+.reviewer-nophoto { margin-bottom: 18px; color: var(--silver); font-size: 1.07rem; letter-spacing: .01em;}
+.review-loc { color: #b0b2b8; font-size: 0.99rem; font-weight: 500;}
+blockquote { margin: 0; color: #e8e8ec; font-size: 1.17rem; font-style: italic; line-height: 1.7; text-shadow: 0 2px 9px rgba(0,0,0,0.07);}
+
+/* ----------- FAQ Unique ------------- */
+#faq-section { padding: 85px 0 72px 0;}
+.faq-band { max-width: 800px; margin: 0 auto;}
+.faq-list { list-style: none; }
+.faq-q { color: var(--lux-accent); font-weight: 600; margin-top: 24px; font-size: 1.09rem;}
+.faq-a { color: var(--silver); margin-top: 4px; margin-bottom: 8px; font-size: 1.04rem;}
+
+/* ----------- Footer ------------ */
+footer {
+  background: var(--nearblack); color: var(--silver); text-align: center; padding: 68px 20px 70px 20px;
+  font-size: 0.93rem; border-top: 2px solid #23242a; box-shadow: 0 -8px 44px 0 #10101535;
+}
+
+/* List Bullets */
+ul { list-style: none; padding-left: 0;}
+ul li::before { content: "•"; color: #b9b7b7; display: inline-block; width: 1em; margin-left: -1em; opacity: .52;}
+
+/* AOS Animation (just to make sure transitions blend in) */
+[data-aos] { transition-property: opacity, transform; transition-timing-function: cubic-bezier(.32,.72,.36,1.02);}
+.glass {
+  background: rgba(38,40,51,0.41);
+  backdrop-filter: blur(6px) saturate(170%);
+  border-radius: 18px;
+  border: 1.5px solid #dadada19;
+  box-shadow: 0 8px 38px #0c0d1022;
+}
+
+    .kb-symbol path.stroke-part {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawSegment 1.1s forwards ease-out;
+}
+@keyframes drawSegment { to { stroke-dashoffset: 0; } }
+.company-name .line { display: flex; justify-content: center; }
+.company-name .line span {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
+  animation: textSlideFade 0.35s forwards ease-out;
+}
+@keyframes textSlideFade { to { opacity: 1; transform: translateY(0); } }
 
 
-/* ===== Refined Header (lighter, less heavy) ===== */
-header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.90);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--silver)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 5vw}
-.brand{font-weight:800;letter-spacing:.1em;color:var(--blue)}
-.nav a.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--silver);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--blue);background:#fff}
-.nav a.btn:hover{border-color:var(--blue);box-shadow:0 6px 16px rgba(16,48,160,.12)}
+.why-feature-grid { margin-top:34px; }
+.why-feature-card {
+  background: linear-gradient(122deg,#22242a 75%,#181a1e 100%);
+  border-radius: 14px;
+  box-shadow: 0 6px 32px #191a1e12;
+  border: 1.6px solid #292b33;
+  color: var(--silver);
+  padding: 34px 20px 30px 20px;
+  min-height: 210px;
+  display: flex; flex-direction: column; gap: 14px; align-items:center;
+  transition: box-shadow 0.17s, border 0.17s, background 0.2s;
+  font-size: 1.08rem;
+}
+.why-feature-card:hover { box-shadow: 0 14px 32px #0c0d1018; border-color: #e6cc95;}
+.why-feature-title { font-size: 1.14rem; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.why-feature-desc { color: #d6d6e2; opacity:.88; font-size:1.04rem;text-align:center;}
 
-
-/* ===== Reading Progress Bar ===== */
-.progress{position:fixed;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--silver));transform:scaleX(0);transform-origin:0 50%;z-index:70}
-
-
-/* ===== HERO (Improved contrast & overlay) ===== */
-.hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
-.hero__bg{position:absolute;inset:-8% -8% -8% -8%;
-background:url('https://static.showit.co/file/1zYoYv9jREECeOpYJafUJQ/248075/184a3846-7226-46c5-b1dc-08606a04a72a.jpg') center/cover no-repeat;
-transform:translateZ(0) scale(1.06);opacity:0;filter:contrast(108%) saturate(112%)}
-/* Blue gradient + subtle vignette for readability */
-.hero__scrim{position:absolute;inset:0;pointer-events:none;
-background:
-radial-gradient(1200px 55% at 50% 60%, rgba(0,0,0,.35), transparent 70%),
-linear-gradient(180deg, rgba(12,34,120,.55) 0%, rgba(12,34,120,.38) 44%, rgba(12,34,120,.25) 100%)}
-.hero__inner{position:relative;z-index:2;text-align:center;max-width:960px;padding:0 6vw;opacity:0;transform:translateY(18px)}
-.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.45);letter-spacing:.14em;text-transform:uppercase;font-weight:800;font-size:.82rem;color:#f4f7ff}
-.hero h1{font-size:clamp(36px,6vw,74px);line-height:1.02;margin:16px 0 10px;color:#ffffff;text-shadow:0 2px 14px rgba(0,0,0,.28)}
-.hero p{color:#e6ebf5;font-size:clamp(18px,1.4vw,20px);max-width:70ch;margin:0 auto}
-
-
-/* CTA buttons: solid white primary, subtle silver secondary for true contrast */
-.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.btn{appearance:none;border:0;cursor:pointer;font-weight:800;padding:14px 26px;border-radius:999px;transition:transform .12s ease,box-shadow .18s ease,background .18s ease,color .18s ease,border-color .18s ease}
-.btn--primary{background:#ffffff;color:var(--blue);border:2px solid #ffffff;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-.btn--primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.28)}
-.btn--ghost{background:transparent;color:#f0f4ff;border:2px solid var(--silver-t)}
-.btn--ghost:hover{background:rgba(255,255,255,.10)}
-
-
-.scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:#e6ebf5;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;opacity:.9}
-.scroll::after{content:'';display:block;width:2px;height:28px;margin:10px auto 0;background:#e6ebf5;border-radius:4px;animation:drop 1.8s ease-in-out infinite}
-@keyframes drop{0%{transform:scaleY(0);opacity:.3}40%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:.2}}
-
-
-/* Garage slats use neutral so reveal feels classy */
-.garage{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:repeat(var(--slats,8),1fr)}
-.slat{background:#f7f9ff;border-bottom:1px solid var(--silver);transform:translateY(0)}
-@keyframes lift{to{transform:translateY(-100%)}}
-.garage.ready .slat{animation:lift 900ms cubic-bezier(.55,.1,.15,1) forwards}
-.garage.ready .slat:nth-child(1){animation-delay:30ms}
-.garage.ready .slat:nth-child(2){animation-delay:70ms}
-.garage.ready .slat:nth-child(3){animation-delay:110ms}
-.garage.ready .slat:nth-child(4){animation-delay:150ms}
-.garage.ready .slat:nth-child(5){animation-delay:190ms}
-.garage.ready .slat:nth-child(6){animation-delay:230ms}
-.garage.ready .slat:nth-child(7){animation-delay:270ms}
-.garage.ready .slat:nth-child(8){animation-delay:310ms}
-.hero.revealed .hero__bg{opacity:1;transition:opacity 520ms ease 80ms,transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms;transform:scale(1.02)}
-.hero.revealed .hero__inner{opacity:1;transform:none;transition:opacity 520ms ease 120ms,transform 520ms ease 120ms}
-</style>
+    
+    
+  </style>
 </head>
 <body>
-  <!-- Reading progress -->
-  <div class="progress" id="progress"></div>
 
-  <!-- ===== NAV ===== -->
-  <header>
-    <nav class="nav container">
-      <div class="brand">KINGDOM BUILDERS</div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <a class="btn" href="#vision">Vision</a>
-        <a class="btn" href="#framework">Framework</a>
-        <a class="btn" href="#modules">Modules</a>
-        <a class="btn" href="#pricing">Pricing</a>
-        <a class="btn" href="#contact">Contact</a>
-      </div>
-    </nav>
-  </header>
+<nav>
+  <div class="logo">Kingdom Builders</div>
+  <div>
+    <a href="#about">About</a>
+    <a href="#how">How It Works</a>
+    <a href="#buy">Buy</a>
+  </div>
+</nav>
 
-  <!-- ===== HERO ===== -->
-  <section id="hero" class="hero">
-    <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
-    <div class="hero__scrim" aria-hidden="true"></div>
-    <!-- Garage slats -->
-    <div class="garage" id="garage" style="--slats:8" aria-hidden="true">
-      <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
-      <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
-    </div>
-    <div class="hero__inner">
-      <span class="eyebrow">From Restored → Released</span>
-      <h1>Build a Discipleship Engine that Lifts Your City</h1>
-      <p>Move beyond weekly services into a year‑round formation pathway. Kingdom Builders gives your church a proven framework to restore people, equip them with practical skills, and release them to serve—inside the church and out in the community.</p>
-      <div class="cta">
-        <a class="btn btn--primary" href="#framework">See the Framework</a>
-        <a class="btn btn--ghost" href="#crm">Preview the CRM</a>
-      </div>
-      <div class="scroll">Scroll</div>
-    </div>
-  </section>
-
-  <!-- ===== Vision ===== -->
-  <section id="vision" class="container reveal">
-    <div class="kicker">Vision</div>
-    <h2 class="section-title">A Church that Heals People <em>and</em> Heals Places</h2>
-    <div class="divider" style="margin:14px 0 18px"></div>
-    <p class="lead">We designed Kingdom Builders to turn compassion into capacity. Your teams shepherd people through spiritual healing, then train them in work, leadership, and service—so families stabilize, small businesses launch, and neighborhoods feel the difference.</p>
-  </section>
-
-  <!-- ===== Framework ===== -->
-  <section id="framework" class="container reveal">
-    <div class="grid grid-3" style="align-items:start">
-      <div>
-        <div class="kicker">Framework</div>
-        <h2 class="section-title">Restore • Equip • Release</h2>
-        <p class="lead">Three movements that repeat each quarter—lightweight to run, deep enough to transform.</p>
-        <div class="divider" style="margin:16px 0 20px"></div>
-      </div>
-      <div class="card">
-        <span class="badge">1 • Restore</span>
-        <h3>Healing & Foundations</h3>
-        <p>Trauma‑informed small groups, prayer and counsel, and a simple rhythm of Scripture, reflection, and community care. Build safety and belonging first.</p>
-      </div>
-      <div class="card">
-        <span class="badge">2 • Equip</span>
-        <h3>Skills & Apprenticeship</h3>
-        <p>Workshops on money, communication, and entrepreneurship. Practical labs and mentor matching. Participants practice, ship, and get feedback.</p>
-      </div>
-      <div class="card">
-        <span class="badge">3 • Release</span>
-        <h3>Service & Venture</h3>
-        <p>Graduates serve on teams, launch micro‑ventures, or join community projects. We measure impact—jobs, hours served, families helped.</p>
+  <section id="hero" class="hero-section"
+  style="position: relative; height: 100vh; background: url('hero-community.png') center/cover no-repeat; display: flex; align-items: center; justify-content: center; overflow: hidden; max-width: 100vw; padding: 0; margin: 0;">
+  <div style="position: absolute; inset: 0; background: linear-gradient(to bottom right, rgba(0,0,0,0.35), rgba(0,0,0,0.7)); backdrop-filter: blur(2px); z-index: 1;"></div>
+  <div class="hero-container" style="z-index: 2; text-align: center; max-width: 820px; display: flex; flex-direction: column; align-items: center;">
+    <!-- ANIMATED KB LOGO -->
+    <div class="kb-logo-container" style="margin-bottom: 34px;">
+      <svg class="kb-symbol" viewBox="0 0 100 100" style="width: 132px; height: 132px;">
+        <path id="kbVert"   class="stroke-part" d="M20 20 L20 80" />
+        <path id="kbDiag1"  class="stroke-part" d="M20 50 L50 20" />
+        <path id="kbDiag2"  class="stroke-part" d="M20 50 L50 80" />
+        <path id="kbLoop1"  class="stroke-part"
+              d="M50 20 L80 20 C88 20 90 28 90 35 C90 42 88 50 80 50 L50 50" />
+        <path id="kbLoop2"  class="stroke-part"
+              d="M50 50 L80 50 C88 50 90 58 90 65 C90 72 88 80 80 80 L50 80" />
+      </svg>
+      <div class="company-name" style="margin-top: 0;">
+        <div class="line" id="line1"></div>
+        <div class="line" id="line2"></div>
       </div>
     </div>
-  </section>
+    <!-- ANIMATED HERO TEXT -->
+    <h1 class="hero-title" style="color: white; font-size: 3.4rem; font-weight: 700; margin-bottom: 1.1rem; text-shadow: 0 4px 10px rgba(0,0,0,0.35); opacity: 0;">Entrepreneurship. Elevated.</h1>
+    <p class="hero-subtitle" style="color: white; font-size: 1.3rem; margin-bottom: 2.3rem; opacity: 0; text-shadow: 0 3px 8px rgba(0,0,0,0.25);">A luxury-grade business incubator curriculum for churches, communities, and visionary leaders.</p>
+    <!-- BUTTONS -->
+    <div class="hero-actions" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; opacity: 0;">
+      <a href="#pricing" class="cta-button" style="background: white; color: #111; padding: 1rem 2.4rem; border-radius: 50px; font-weight: 600; font-size: 1.13rem;">View Pricing</a>
+      <a href="/portal-landing.html" class="cta-button" style="background: #222; color: #fff; padding: 1rem 2.4rem; border-radius: 50px; font-weight: 600; font-size: 1.13rem; border: 2px solid #fff;">Go to Your Portal</a>
+    </div>
+  </div>
+</section>
 
-  <!-- ===== Program Modules ===== -->
-  <section id="modules" class="container reveal">
-    <div class="kicker">Program</div>
-    <h2 class="section-title">What’s Included</h2>
-    <div class="divider" style="margin:14px 0 18px"></div>
-    <div class="grid grid-3">
-      <div class="card">
-        <h3>Core Discipleship Track</h3>
-        <p>12 deep lessons with workbook‑style reading, reflection, and practice. Designed for both teens and adults. Teacher guide included.</p>
+
+<section id="why-kingdom" class="section alt" style="padding-bottom: 80px;">
+  <div style="max-width:780px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:22px;">
+      <span style="color:#e6cc95;font-size:1.07rem;letter-spacing:.13em;font-weight:600;opacity:.79;display:block;margin-bottom:10px;" data-aos="fade-down">Why Choose Us?</span>
+      <h2 data-aos="fade-up">Why Kingdom Builders</h2>
+      <p data-aos="fade-up" data-aos-delay="120" style="font-size:1.15rem;max-width:640px;margin:22px auto 32px auto;opacity:.91;">
+        Not just a curriculum. Not just a dashboard. <strong>Kingdom Builders</strong> is a transformation engine for churches and entrepreneurs who want real results, real community, and lifelong impact.
+      </p>
+    </div>
+    <div class="why-feature-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:38px 28px;align-items:start;">
+      <!-- Feature 1 -->
+      <div class="why-feature-card" data-aos="fade-up">
+        <!-- SVG: Heart/Impact -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M15 24c-1.5-1.8-1.5-4.4 0-6.1C16.6 16.2 19 16.2 20.6 17.9l1.4 1.4 1.4-1.4c1.6-1.7 4-1.7 5.6 0 1.5 1.7 1.5 4.3 0 6.1l-7 7.1-7-7.1z" fill="#e6cc95"/></svg>
+        <div class="why-feature-title">People-First Impact</div>
+        <div class="why-feature-desc">Built for real growth — every lesson, tool, and dashboard unlocks confidence, leadership, and action in your people.</div>
       </div>
-      <div class="card">
-        <h3>Entrepreneur Track</h3>
-        <p>Idea‑to‑income pathway with case studies, step‑by‑step tools, and a micro‑incubator guide. Launch nights and community showcases.</p>
+      <!-- Feature 2 -->
+      <div class="why-feature-card" data-aos="fade-up" data-aos-delay="120">
+        <!-- SVG: Cloud/Tech -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M14 27a7 7 0 010-14c2.9 0 5.3 1.6 6.5 4.1A6 6 0 0136 24h-2.2" stroke="#e6cc95" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24.5" cy="30" rx="5.5" ry="4" fill="#e6cc95" opacity=".15"/></svg>
+        <div class="why-feature-title">Modern Tools</div>
+        <div class="why-feature-desc">CRM, reporting, and curriculum are always online. Export PDFs, track results, and manage every project in real time.</div>
       </div>
-      <div class="card">
-        <h3>Care & Counseling</h3>
-        <p>Six‑session counseling playbook with referral system and benevolence guardrails. Trauma‑aware guidance and prayer ministry tools.</p>
-      </div>
-      <div class="card">
-        <h3>Community Events Kit</h3>
-        <p>Ready‑to‑run dinners and outreach nights with scripts, run‑of‑show, graphics, and follow‑up forms to capture and disciple guests.</p>
-      </div>
-      <div class="card">
-        <h3>Volunteer Academy</h3>
-        <p>Training for greeters to group leaders. Includes role cards, practice scenarios, and a certification path built into the CRM.</p>
-      </div>
-      <div class="card">
-        <h3>Pastor Dashboard</h3>
-        <p>Live metrics: attendance, groups, baptisms, volunteer hours, projects launched, businesses started, families served.</p>
+      <!-- Feature 3 -->
+      <div class="why-feature-card" data-aos="fade-up" data-aos-delay="180">
+        <!-- SVG: Star/Success -->
+        <svg width="44" height="44" fill="none" style="margin-bottom:12px;"><circle cx="22" cy="22" r="21" stroke="#e6cc95" stroke-width="2.5"/><path d="M22 11l3.1 7.4 7.9.7-6 5.6 1.8 7.8-6.8-4.4-6.7 4.4 1.8-7.8-6-5.6 7.8-.7L22 11z" fill="#e6cc95" opacity=".5"/><path d="M22 13.5l2.5 6.2 6.6.6-5.1 4.7 1.5 6.5-5.5-3.6-5.5 3.6 1.5-6.5-5.1-4.7 6.6-.6L22 13.5z" stroke="#e6cc95" stroke-width="1.2" fill="none"/></svg>
+        <div class="why-feature-title">Proven Results</div>
+        <div class="why-feature-desc">Launched in 100+ communities, 1000+ students reached, and more real businesses built every month. See the impact in your dashboard — day one.</div>
       </div>
     </div>
-  </section>
-
-  <!-- ===== How It Runs ===== -->
-  <section id="process" class="container grid grid-2 reveal">
-    <div>
-      <div class="kicker">How it Runs</div>
-      <h2 class="section-title">90‑Day Cycle, Repeatable All Year</h2>
-      <div class="divider" style="margin:16px 0 20px"></div>
-      <div class="timeline">
-        <div class="row"><div><h4>Weeks 1–3 • Welcome & Restore</h4><p>Story, safety, and spiritual foundations. Baseline care plan for each participant.</p></div></div>
-        <div class="row"><div><h4>Weeks 4–8 • Equip & Practice</h4><p>Weekly workshops and labs. Mentor check‑ins. Real deliverables each week.</p></div></div>
-        <div class="row"><div><h4>Weeks 9–12 • Release & Celebrate</h4><p>Service placements, micro‑venture launches, testimony Sunday. New leaders identified for the next cycle.</p></div></div>
+    <div class="why-metric-row" style="display:flex;justify-content:center;gap:44px;margin-top:56px;">
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">98%</span> Satisfaction
+      </div>
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">1200+</span> Students Trained
+      </div>
+      <div style="color:#e6cc95;font-size:1.14rem;font-weight:600;">
+        <span style="font-size:2rem;vertical-align:-4px;">3 weeks</span> Avg. Launch Time
       </div>
     </div>
-    <div class="card">
-      <h3>What You Get</h3>
-      <ul style="margin-left:18px;line-height:1.8">
-        <li>Leader guide + student workbooks (print‑ready)</li>
-        <li>Editable slides, graphics, and event kits</li>
-        <li>CRM with pipelines for groups, care, and ventures</li>
-        <li>Forms and automations for follow‑up and metrics</li>
-        <li>Launch event playbook and promo plan</li>
+    <div style="text-align:center;max-width:420px;margin:40px auto 0 auto;color:#c2c2c9;font-size:1.03rem;opacity:.75;">
+      “We saw more real businesses and community engagement in three months than in the past three years.”<br>
+      <span style="color:#e6cc95;font-size:.99rem;">— Pastor Alicia, Atlanta GA</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- How It Works -->
+<section id="how" data-aos="fade-up">
+  <h2>How It Works</h2>
+  <p>
+    Buy once. Customize your workbook. Launch your program. Every tool, template, and training you need — already done, ready for action.
+  </p>
+  <div class="grid">
+    <div class="card" data-aos="fade-up">
+      <h3>1. One-Time Purchase</h3>
+      <p>No subscriptions. No surprises. Unlimited use for your church or community.</p>
+    </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
+      <h3>2. Edit & Personalize</h3>
+      <p>Choose your modules, drop in your branding, export your custom workbook.</p>
+    </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
+      <h3>3. Launch with Confidence</h3>
+      <p>Use our flyers, launch scripts, social graphics, and onboarding materials.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Community -->
+<section id="community" class="section" style="text-align: center;">
+  <h2 data-aos="fade-up">Rooted in Real Community</h2>
+  <p data-aos="fade-up" data-aos-delay="100">
+    Kingdom Builders is more than curriculum. It's a movement of mentors, dreamers, and purpose-driven entrepreneurs.
+    <br /><br />
+    We believe in the power of gathering, of story-sharing, of transformation that starts in small groups and spreads through cities.
+  </p>
+
+  <div class="grid" style="margin-top: 60px;">
+    <div class="card" data-aos="fade-right" style="padding: 0; border: none; background: none;">
+      <img src="Screenshot-1.png" alt="Community Gathering" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+    </div>
+    <div class="card" data-aos="fade-left" style="padding: 0; border: none; background: none;">
+      <img src="Screenshot-2.png" alt="Business Discussion" style="width: 100%; border-radius: 12px; object-fit: cover;" />
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="buy" data-aos="fade-up">
+  <h2>Get Access</h2>
+  <p>
+    Lifetime license: $1,550<br>
+    Unlimited members. All updates included.
+  </p>
+  <div style="text-align:center;">
+    <a href="/checkout.html" class="cta-button" style="margin-top: 30px;">Buy Now</a>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="alt section">
+  <h2 data-aos="fade-up">Choose Your Experience</h2>
+  <p data-aos="fade-up" data-aos-delay="100">
+    Launch with confidence. Build with excellence. Get 10% OFF if you purchase in the next <strong style="color: #ccc;">48 hours</strong>.
+  </p>
+
+  <div class="grid" style="margin-top: 60px;">
+    <!-- Essentials -->
+    <div class="card" data-aos="fade-up">
+      <h3>Essentials Pack</h3>
+      <p style="color: #ccc;">Best for launching fast</p>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $1,395 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Full Curriculum (50+ lessons)</li>
+        <li>Lifetime Access</li>
+        <li>Workbook Builder</li>
+        <li>Launch Templates & Social Kit</li>
+        <li>All Updates Included</li>
       </ul>
+      <a href="/checkout.html" class="cta-button pricing-btn">Get Essentials</a>
     </div>
-  </section>
 
-  <!-- ===== CRM Preview ===== -->
-  <section id="crm" class="container grid grid-2 reveal">
-    <div>
-      <div class="kicker">Tools</div>
-      <h2 class="section-title">Your Ministry CRM, Already Wired</h2>
-      <div class="divider" style="margin:16px 0 20px"></div>
-      <p class="lead">A lightweight CRM organizes people, groups, prayer needs, and pathways. Automations move guests to groups, groups to teams, and graduates into service or micro‑ventures.</p>
-      <div class="card" style="margin-top:18px">
-        <h3>Included Pipelines</h3>
-        <ul style="margin-left:18px;line-height:1.8">
-          <li>Guest → Group onboarding</li>
-          <li>Care requests → Counseling</li>
-          <li>Student → Mentor matching</li>
-          <li>Venture ideas → Incubator</li>
-          <li>Volunteer Discovery → Team Placement</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card" aria-label="CRM screenshot placeholder" style="min-height:340px;display:grid;place-items:center;text-align:center">
-      <div>
-        <div class="badge" style="margin-bottom:10px">Preview</div>
-        <h3>Interactive Demo</h3>
-        <p>Embed your Loom/video or live preview here. Replace this card with an iframe.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Outcomes / Testimonial ===== -->
-  <section id="outcomes" class="container reveal">
-    <div class="kicker">Impact</div>
-    <h2 class="section-title">What Changes When You Run This</h2>
-    <div class="divider" style="margin:14px 0 18px"></div>
-    <div class="grid grid-3" style="align-items:stretch">
-      <div class="card"><h3>People</h3><p>More baptisms, restored families, and leaders formed through a repeatable pathway.</p></div>
-      <div class="card"><h3>Church</h3><p>Healthy volunteer culture, stronger groups, better follow‑up, clearer metrics for elders and board.</p></div>
-      <div class="card"><h3>City</h3><p>Projects launched, jobs created, and partnerships formed as graduates serve beyond Sunday.</p></div>
-    </div>
-    <div class="card" style="margin-top:20px">
-      <p class="quote">“We needed something sustainable beyond Sundays. Kingdom Builders gave us a <mark>pathway</mark>—our teams finally know how to walk with people from crisis to calling.”</p>
-      <p style="margin-top:8px;color:#5a6374;font-weight:700">— Pastor (Pilot Church)</p>
-    </div>
-  </section>
-
-  <!-- ===== Pricing ===== -->
-  <section id="pricing" class="container grid grid-2 reveal">
-    <div class="card">
-      <span class="badge">Annual License</span>
-      <h3 class="price">$599 / year</h3>
-      <p class="note">Full curriculum, print masters, CRM templates, and updates for a year.</p>
-      <ul style="margin-left:18px;line-height:1.8;margin-top:10px">
-        <li>1 church campus</li>
-        <li>Updates and template drops</li>
-        <li>Email support</li>
+    <!-- Branding -->
+    <div class="card" data-aos="fade-up" data-aos-delay="100" style="border: 2px solid #ccc;">
+      <h3>Custom Branding Pack</h3>
+      <p style="color: #ccc;">Most popular</p>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $1,665 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Everything in Essentials</li>
+        <li>Custom Curriculum Logo</li>
+        <li>Cover Design System</li>
+        <li>Layout Customization</li>
+        <li>1-on-1 Strategy Session</li>
       </ul>
-      <div class="cta" style="justify-content:flex-start;margin-top:16px">
-        <a class="btn btn--primary" href="#contact">Start Annual</a>
-      </div>
+      <a href="/checkout.html?pack=branding" class="cta-button pricing-btn">Get Branding Pack</a>
     </div>
-    <div class="card">
-      <span class="badge">Lifetime License</span>
-      <h3 class="price">$1,495 one‑time</h3>
-      <p class="note">Own it forever with customization rights and brand options.</p>
-      <ul style="margin-left:18px;line-height:1.8;margin-top:10px">
-        <li>Editable workbooks (add your pastor’s content)</li>
-        <li>Name/branding option for your church</li>
-        <li>Leader onboarding kit and launch plan</li>
+
+    <!-- Enterprise -->
+    <div class="card" data-aos="fade-up" data-aos-delay="200">
+      <h3>Enterprise Incubator Pack</h3>
+      <p style="color: #ccc;">Full church incubator system</p>
+      <p style="font-size: 2rem; font-weight: 600;">
+        $2,880 <span style="font-size: 0.9rem; color: #aaa;">(10% OFF)</span>
+      </p>
+      <ul class="pricing-list">
+        <li>Everything in Branding</li>
+        <li>8-Week Launch Guide</li>
+        <li>Cohort Planning Tools</li>
+        <li>Coaching Templates & Certificates</li>
+        <li>Multi-campus License</li>
       </ul>
-      <div class="cta" style="justify-content:flex-start;margin-top:16px">
-        <a class="btn btn--ghost" href="#contact">Choose Lifetime</a>
-      </div>
+      <a href="/checkout.html?pack=enterprise" class="cta-button pricing-btn">Get Enterprise Pack</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===== FAQ ===== -->
-  <section id="faq" class="container reveal">
-    <div class="kicker">FAQ</div>
-    <h2 class="section-title">Questions We Hear a Lot</h2>
-    <div class="divider" style="margin:14px 0 18px"></div>
-    <details>
-      <summary>Is the curriculum suitable for both students and adults?</summary>
-      <div style="margin-top:10px;color:#273142">Yes. The lessons are written in a textbook style with reflection and application sections that flex for youth or adult cohorts.</div>
-    </details>
-    <details>
-      <summary>Do we need special software to use the CRM?</summary>
-      <div style="margin-top:10px;color:#273142">No. We provide templates that run in a simple, browser‑based CRM. You can also adapt them to your existing system.</div>
-    </details>
-    <details>
-      <summary>Can we rebrand it to our church?</summary>
-      <div style="margin-top:10px;color:#273142">With the Lifetime License you can use your church name, add pastor content, and generate custom PDFs for your teams.</div>
-    </details>
-  </section>
+<section id="crm-sneakpeek" class="section alt" style="display:flex;flex-wrap:wrap;align-items:center;gap:44px;justify-content:center;padding-bottom:80px;">
+  <div style="flex:1 1 390px; min-width:310px;">
+    <h2 data-aos="fade-right">See the Power of Progress</h2>
+    <p data-aos="fade-right" data-aos-delay="60" style="font-size:1.13rem;opacity:.88;">
+      Most curriculums stop at information. Ours drives transformation — because every package comes with a CRM designed for churches and entrepreneurs. Track growth, manage projects, and inspire real results.
+    </p>
+    <ul class="crm-features-list" data-aos="fade-right" data-aos-delay="120" style="margin-bottom:32px;">
+      <li>Built-in dashboard: no extra cost, ever</li>
+      <li>See projects, tasks, members at a glance</li>
+      <li>Works from any device — always online</li>
+      <li>Export proof of progress to PDF/Excel anytime</li>
+    </ul>
+    <a href="crm-preview.html" class="cta-button" style="font-size:1.09rem;padding:14px 38px;">Preview CRM Live</a>
+  </div>
+  <div style="flex:1 1 410px; min-width:310px;display:flex;justify-content:center;align-items:center;">
+    <!-- Use either a static image, an animated gif of your CRM, or a short looping mp4 (mute, no controls) -->
+    <img src="crm-dashboard-sneakpeek.png" alt="CRM Sneak Peek" style="width:96%;max-width:420px;border-radius:18px;box-shadow:0 8px 32px #191a1e45;" data-aos="fade-left" data-aos-delay="120">
+    <!--
+      Or for more wow: 
+      <video src="crm-dashboard-sneakpeek.mp4" style="width:96%;max-width:420px;border-radius:18px;box-shadow:0 8px 32px #191a1e45;" autoplay muted loop playsinline data-aos="fade-left" data-aos-delay="120"></video>
+    -->
+  </div>
+</section>
 
-  <!-- ===== Contact / CTA ===== -->
-  <section id="contact" class="container grid grid-2 reveal">
-    <div>
-      <div class="kicker">Next Steps</div>
-      <h2 class="section-title">Book a Quick Walkthrough</h2>
-      <div class="divider" style="margin:16px 0 20px"></div>
-      <p class="lead">In 15 minutes we’ll show you the framework, the curriculum, and the CRM. Bring your context—we’ll tailor a launch plan for your church.</p>
-      <div class="cta" style="margin-top:16px">
-        <a class="btn btn--primary" href="#">Schedule Demo</a>
-        <a class="btn btn--ghost" href="#">Download Sample Chapter</a>
-      </div>
+
+<section id="testimonials" class="section light" style="padding-bottom: 90px;">
+  <h2 data-aos="fade-up">What Leaders Are Saying</h2>
+  <p data-aos="fade-up" data-aos-delay="100" style="max-width:670px;margin:0 auto 55px;">
+    Churches and communities around the country trust Kingdom Builders to launch real businesses and inspire real lives.
+  </p>
+  <div class="review-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 42px;">
+    <!-- Testimonial 1 -->
+    <div class="review-card" data-aos="fade-right">
+      <div class="reviewer-nophoto"><strong>Janet Herrera</strong><br><span class="review-loc">Family Life Director, Austin TX</span></div>
+      <blockquote>
+        “We launched our cohort in six weeks and already have two youth-led businesses making money. The CRM keeps us organized and I’m not chasing down paperwork or notes. This is church for the next generation.”
+      </blockquote>
     </div>
-    <form class="card" onsubmit="event.preventDefault(); alert('Submitted. Wire this to your real form handler.');">
-      <h3 style="margin-bottom:10px">Tell us about your church</h3>
-      <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
-        <input required placeholder="First name" aria-label="First name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink)">
-        <input required placeholder="Last name" aria-label="Last name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink)">
-        <input required placeholder="Email" type="email" aria-label="Email" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1">
-        <input placeholder="Church name" aria-label="Church name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1">
-        <textarea placeholder="What do you hope this will change?" aria-label="Message" rows="4" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1"></textarea>
-      </div>
-      <button class="btn btn--primary" style="margin-top:12px;width:100%">Request Info</button>
-    </form>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
-      <div>© <span id="year"></span> Kingdom Builders</div>
-      <div style="opacity:.85">Made for churches who want to heal people and places.</div>
+    <!-- Testimonial 2 -->
+    <div class="review-card" data-aos="fade-up" data-aos-delay="120">
+      <div class="reviewer-nophoto"><strong>Chris Martin</strong><br><span class="review-loc">Lead Pastor, Westfield Church, Ohio</span></div>
+      <blockquote>
+        “The curriculum is so practical but it doesn’t water down faith. We’ve seen teenagers step up as leaders, pitch business ideas, and support each other every week. Worth every penny.”
+      </blockquote>
     </div>
-  </footer>
+    <!-- Testimonial 3 -->
+    <div class="review-card" data-aos="fade-left" data-aos-delay="160">
+      <div class="reviewer-nophoto"><strong>Lisa Burks</strong><br><span class="review-loc">Community Mentor, Charlotte NC</span></div>
+      <blockquote>
+        “We’ve tried other programs. Nothing gave us the hands-on tools and instant download access like Kingdom Builders. Parents see the change and our giving went up because people see the impact.”
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>
+  &copy; 2025 Kingdom Builders. Built with purpose.
+</footer>
 
 <script>
-(function(){
-  const garage = document.getElementById('garage');
-  const hero   = document.getElementById('hero');
-  const bg     = document.getElementById('heroBg');
-  const progress = document.getElementById('progress');
+  AOS.init({
+    duration: 800,
+    once: true,
+    easing: 'ease-out'
+  });
+</script>
 
-  // Year
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Garage reveal
+  <script>
   window.addEventListener('load', () => {
-    if (!garage) return;
-    garage.classList.add('ready');
-    const last = garage.lastElementChild;
-    last.addEventListener('animationend', () => {
-      hero.classList.add('revealed');
-      setTimeout(() => garage.style.display = 'none', 80);
-    });
+    document.body.classList.add('loaded');
+  });
+</script>
+
+  <script>
+  // KB Logo Animation
+  const segments = [
+    { id:'kbVert',  delay:0.00 },
+    { id:'kbDiag1', delay:0.28 },
+    { id:'kbDiag2', delay:0.28 },
+    { id:'kbLoop1', delay:0.68 },
+    { id:'kbLoop2', delay:0.99 }
+  ];
+  segments.forEach(seg => {
+    const el = document.getElementById(seg.id);
+    if(el){
+      const len = el.getTotalLength();
+      el.style.strokeDasharray = len;
+      el.style.strokeDashoffset = len;
+      el.style.animationDelay = seg.delay + 's';
+    }
   });
 
-  // Subtle parallax
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduce && bg){
-    const onScroll = () => {
-      const y = window.scrollY; const t = Math.min(1, y/600);
-      bg.style.transform = `translateY(${t*14}px) scale(${1.02 + t*0.02})`;
-    };
-    document.addEventListener('scroll', onScroll, { passive:true });
+  // Kingdom Builders text
+  function populateLine(lineId, text, startDelay) {
+    const line = document.getElementById(lineId);
+    text.split('').forEach((char, idx) => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      span.style.animationDelay = (startDelay + idx * 0.09) + 's';
+      line.appendChild(span);
+    });
   }
+  // Start text after logo
+  const textStart = 1.35;
+  populateLine('line1', 'KINGDOM', textStart);
+  populateLine('line2', 'BUILDERS', textStart + 0.08 * 'KINGDOM'.length + 0.16);
 
-  // Reading progress bar
-  const onProg = () => {
-    const h = document.documentElement; const scrolled = (h.scrollTop)/(h.scrollHeight - h.clientHeight);
-    progress.style.transform = `scaleX(${Math.max(0,Math.min(1,scrolled))})`;
-  };
-  document.addEventListener('scroll', onProg, { passive:true });
-  onProg();
-
-  // Reveal on scroll (IntersectionObserver)
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} });
-  }, {threshold:.16});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-})();
+  // Hero text fade in, after logo and text
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+    setTimeout(() => {
+      document.querySelector('.hero-title').style.opacity = 1;
+    }, 2100);
+    setTimeout(() => {
+      document.querySelector('.hero-subtitle').style.opacity = 1;
+    }, 2350);
+    setTimeout(() => {
+      document.querySelector('.hero-actions').style.opacity = 1;
+    }, 2600);
+  });
 </script>
+
+  
 </body>
 </html>
