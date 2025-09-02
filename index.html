@@ -1,119 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kingdom Builders — Restore • Equip • Release</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root{
-      --white:#ffffff; --silver:#e4e7ec; --silver-2:#eef1f6; --ink:#0e1116;
-      --blue:#1a4dff; --blue-700:#1237bd; --blue-100:#e8efff;
-      --line:#d8dce5; --muted:#5a6374;
-      --radius:20px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1200px;margin:0 auto;padding:0 5vw}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kingdom Builders — Restore • Equip • Release</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+--white:#ffffff; --ink:#0e1116; --muted:#5a6374;
+--blue:#1a4dff; --blue-700:#0f37c7; --blue-900:#0a206f;
+--silver:#dfe3eb; --silver-2:#eef2f7; --silver-t:rgba(223,227,235,.85);
+--radius:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 5vw}
 
-    /* ===== Sticky Header ===== */
-    header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 5vw}
-    .brand{font-weight:800;letter-spacing:.1em;color:var(--blue)}
-    .nav a.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--ink)}
-    .nav a.btn:hover{border-color:var(--blue);color:var(--blue)}
 
-    /* ===== Reading Progress Bar ===== */
-    .progress{position:fixed;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--silver));transform:scaleX(0);transform-origin:0 50%;z-index:70}
+/* ===== Refined Header (lighter, less heavy) ===== */
+header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.90);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--silver)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 5vw}
+.brand{font-weight:800;letter-spacing:.1em;color:var(--blue)}
+.nav a.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--silver);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--blue);background:#fff}
+.nav a.btn:hover{border-color:var(--blue);box-shadow:0 6px 16px rgba(16,48,160,.12)}
 
-    /* ===== HERO (Garage Reveal) ===== */
-    .hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
-    .hero__bg{position:absolute;inset:-8% -8% -8% -8%;
-      background:url('https://static.showit.co/file/rMawxBcvBZmQOL5oJjuwQQ/248075/c0231089-a3f9-4a9c-bb8d-870cd1961e7b.png') center/cover no-repeat;
-      filter:contrast(106%) saturate(110%) brightness(.98);transform:translateZ(0) scale(1.08);opacity:0}
-    .hero__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.55) 38%,rgba(255,255,255,.18) 100%)}
-    .hero__inner{position:relative;z-index:2;text-align:center;max-width:960px;padding:0 6vw;opacity:0;transform:translateY(18px)}
-    .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(26,77,255,.08);border:1px solid rgba(26,77,255,.18);letter-spacing:.14em;text-transform:uppercase;font-weight:800;font-size:.82rem;color:var(--blue)}
-    .hero h1{font-size:clamp(36px,6vw,74px);line-height:1.02;margin:16px 0 10px;color:var(--ink)}
-    .hero p{color:#273142;font-size:clamp(18px,1.4vw,20px);max-width:70ch;margin:0 auto}
-    .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
-    .btn{appearance:none;border:0;cursor:pointer;font-weight:800;padding:14px 26px;border-radius:999px;transition:transform .12s ease,box-shadow .18s ease,background .18s ease,color .18s ease}
-    .btn--primary{background:var(--blue);color:#fff;box-shadow:0 10px 26px rgba(26,77,255,.28)}
-    .btn--ghost{background:transparent;color:var(--blue);border:2px solid var(--blue)}
-    .btn:focus-visible{outline:3px solid var(--blue-100);outline-offset:3px}
-    .btn:hover{transform:translateY(-2px)}
-    .scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:var(--blue);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;opacity:.88}
-    .scroll::after{content:'';display:block;width:2px;height:28px;margin:10px auto 0;background:var(--blue);border-radius:4px;animation:drop 1.8s ease-in-out infinite}
-    @keyframes drop{0%{transform:scaleY(0);opacity:.3}40%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:.2}}
 
-    /* Garage slats */
-    .garage{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:repeat(var(--slats,8),1fr)}
-    .slat{background:var(--white);border-bottom:1px solid var(--silver);transform:translateY(0)}
-    @keyframes lift{to{transform:translateY(-100%)}}
-    .garage.ready .slat{animation:lift 900ms cubic-bezier(.55,.1,.15,1) forwards}
-    .garage.ready .slat:nth-child(1){animation-delay:30ms}
-    .garage.ready .slat:nth-child(2){animation-delay:70ms}
-    .garage.ready .slat:nth-child(3){animation-delay:110ms}
-    .garage.ready .slat:nth-child(4){animation-delay:150ms}
-    .garage.ready .slat:nth-child(5){animation-delay:190ms}
-    .garage.ready .slat:nth-child(6){animation-delay:230ms}
-    .garage.ready .slat:nth-child(7){animation-delay:270ms}
-    .garage.ready .slat:nth-child(8){animation-delay:310ms}
-    .hero.revealed .hero__bg{opacity:1;transition:opacity 520ms ease 80ms,transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms;transform:scale(1.02)}
-    .hero.revealed .hero__inner{opacity:1;transform:none;transition:opacity 520ms ease 120ms,transform 520ms ease 120ms}
+/* ===== Reading Progress Bar ===== */
+.progress{position:fixed;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--silver));transform:scaleX(0);transform-origin:0 50%;z-index:70}
 
-    /* ===== Section Basics ===== */
-    section{position:relative;padding:88px 0;border-top:1px solid var(--line)}
-    .section-title{font-size:clamp(24px,3.2vw,40px);line-height:1.1;margin-bottom:16px;color:var(--ink)}
-    .kicker{color:var(--blue);text-transform:uppercase;letter-spacing:.12em;font-weight:800;margin-bottom:8px}
-    .lead{color:#273142;max-width:80ch}
-    .grid{display:grid;gap:28px}
-    @media(min-width:900px){.grid-2{grid-template-columns:1.15fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-    /* Blue animated dividers */
-    .divider{height:2px;background:linear-gradient(90deg,var(--blue),transparent);width:0;animation:grow 1s ease forwards}
-    @keyframes grow{to{width:100%}}
+/* ===== HERO (Improved contrast & overlay) ===== */
+.hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
+.hero__bg{position:absolute;inset:-8% -8% -8% -8%;
+background:url('https://static.showit.co/file/1zYoYv9jREECeOpYJafUJQ/248075/184a3846-7226-46c5-b1dc-08606a04a72a.jpg') center/cover no-repeat;
+transform:translateZ(0) scale(1.06);opacity:0;filter:contrast(108%) saturate(112%)}
+/* Blue gradient + subtle vignette for readability */
+.hero__scrim{position:absolute;inset:0;pointer-events:none;
+background:
+radial-gradient(1200px 55% at 50% 60%, rgba(0,0,0,.35), transparent 70%),
+linear-gradient(180deg, rgba(12,34,120,.55) 0%, rgba(12,34,120,.38) 44%, rgba(12,34,120,.25) 100%)}
+.hero__inner{position:relative;z-index:2;text-align:center;max-width:960px;padding:0 6vw;opacity:0;transform:translateY(18px)}
+.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.45);letter-spacing:.14em;text-transform:uppercase;font-weight:800;font-size:.82rem;color:#f4f7ff}
+.hero h1{font-size:clamp(36px,6vw,74px);line-height:1.02;margin:16px 0 10px;color:#ffffff;text-shadow:0 2px 14px rgba(0,0,0,.28)}
+.hero p{color:#e6ebf5;font-size:clamp(18px,1.4vw,20px);max-width:70ch;margin:0 auto}
 
-    /* Cards */
-    .card{background:var(--white);border:1px solid var(--silver);border-radius:var(--radius);padding:22px;box-shadow:0 10px 26px rgba(10,20,40,.04)}
-    .card h3{font-size:20px;margin-bottom:8px;color:var(--ink)}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--silver);background:var(--blue);color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 
-    /* Pricing */
-    .price{font-size:42px;font-weight:800}
-    .note{color:#42506a;font-size:.95rem}
+/* CTA buttons: solid white primary, subtle silver secondary for true contrast */
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{appearance:none;border:0;cursor:pointer;font-weight:800;padding:14px 26px;border-radius:999px;transition:transform .12s ease,box-shadow .18s ease,background .18s ease,color .18s ease,border-color .18s ease}
+.btn--primary{background:#ffffff;color:var(--blue);border:2px solid #ffffff;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.btn--primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.28)}
+.btn--ghost{background:transparent;color:#f0f4ff;border:2px solid var(--silver-t)}
+.btn--ghost:hover{background:rgba(255,255,255,.10)}
 
-    /* Timeline */
-    .timeline{display:grid;gap:18px}
-    .timeline .row{display:grid;gap:8px;border-left:2px solid var(--silver);padding-left:18px}
-    .timeline .row h4{margin-bottom:2px}
 
-    /* Testimonial */
-    .quote{font-size:20px;line-height:1.6;color:#182235}
-    .quote mark{background:var(--blue-100);padding:0 .25em;border-radius:6px}
+.scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:#e6ebf5;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;opacity:.9}
+.scroll::after{content:'';display:block;width:2px;height:28px;margin:10px auto 0;background:#e6ebf5;border-radius:4px;animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);opacity:.3}40%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:.2}}
 
-    /* FAQ */
-    details{border:1px solid var(--silver);border-radius:12px;padding:14px 16px;background:#fff}
-    details+details{margin-top:12px}
-    summary{cursor:pointer;font-weight:700}
 
-    /* Footer */
-    footer{border-top:1px solid var(--line);padding:48px 0;color:#555;background:var(--silver-2)}
-
-    /* Reveal on scroll */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
-    .reveal.show{opacity:1;transform:none}
-
-    @media (prefers-reduced-motion: reduce){
-      .garage .slat{display:none}
-      .hero__bg{opacity:1;transform:none}
-      .hero__inner{opacity:1;transform:none}
-      .scroll::after{animation:none}
-      .reveal{opacity:1;transform:none}
-    }
-  </style>
+/* Garage slats use neutral so reveal feels classy */
+.garage{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:repeat(var(--slats,8),1fr)}
+.slat{background:#f7f9ff;border-bottom:1px solid var(--silver);transform:translateY(0)}
+@keyframes lift{to{transform:translateY(-100%)}}
+.garage.ready .slat{animation:lift 900ms cubic-bezier(.55,.1,.15,1) forwards}
+.garage.ready .slat:nth-child(1){animation-delay:30ms}
+.garage.ready .slat:nth-child(2){animation-delay:70ms}
+.garage.ready .slat:nth-child(3){animation-delay:110ms}
+.garage.ready .slat:nth-child(4){animation-delay:150ms}
+.garage.ready .slat:nth-child(5){animation-delay:190ms}
+.garage.ready .slat:nth-child(6){animation-delay:230ms}
+.garage.ready .slat:nth-child(7){animation-delay:270ms}
+.garage.ready .slat:nth-child(8){animation-delay:310ms}
+.hero.revealed .hero__bg{opacity:1;transition:opacity 520ms ease 80ms,transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms;transform:scale(1.02)}
+.hero.revealed .hero__inner{opacity:1;transform:none;transition:opacity 520ms ease 120ms,transform 520ms ease 120ms}
+</style>
 </head>
 <body>
   <!-- Reading progress -->
