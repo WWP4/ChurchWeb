@@ -41,21 +41,93 @@
     nav a{color:#2a3142;margin-left:28px;font-weight:600;padding-bottom:3px;border-bottom:2px solid transparent;transition:color .18s,border-color .18s}
     nav a:hover,nav a.active{color:var(--blue);border-bottom:2px solid var(--blue)}
 
-    /* ---------- Hero Band (light with blue overlay) ---------- */
-    .hero-section{
-      min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;
-      background:url('hero-community.png') center/cover no-repeat
-    }
-    .hero-overlay{position:absolute;inset:0;z-index:1;
-      background:linear-gradient(115deg,rgba(26,77,255,.28) 0%,rgba(26,77,255,.44) 55%,rgba(10,18,40,.25) 100%),
-                 radial-gradient(900px 55% at 50% 60%,rgba(0,0,0,.18),transparent 70%);
-      backdrop-filter:blur(1.5px)
-    }
-    .hero-container{position:relative;z-index:2;text-align:center;max-width:880px;margin:auto;display:flex;flex-direction:column;align-items:center}
-    .hero-title{color:#fff;font-size:clamp(36px,6vw,64px);font-weight:800;margin-bottom:16px;text-shadow:0 6px 22px rgba(20,26,60,.35);letter-spacing:.01em;opacity:0;animation:fadeInUp 1.1s cubic-bezier(.32,.72,.36,1.02) .55s forwards}
-    .hero-subtitle{color:#eaf0ff;font-size:clamp(18px,1.4vw,20px);margin-bottom:28px;opacity:0;text-shadow:0 3px 8px rgba(0,0,0,.18);animation:fadeInUp 1.05s cubic-bezier(.32,.72,.36,1.02) 1.15s forwards}
-    .hero-actions{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeInUp 1s cubic-bezier(.32,.72,.36,1.02) 1.85s forwards}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+  /* ---------- Hero Band (light with blue overlay) ---------- */
+.hero-section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background image layer (used for parallax/zoom effect) */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('hero-community.png') center/cover no-repeat;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-out;
+  z-index: 0;
+}
+
+/* Blue gradient + vignette overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: 
+    linear-gradient(
+      115deg,
+      rgba(26,77,255,.28) 0%,
+      rgba(26,77,255,.44) 55%,
+      rgba(10,18,40,.25) 100%
+    ),
+    radial-gradient(
+      900px 55% at 50% 60%,
+      rgba(0,0,0,.18),
+      transparent 70%
+    );
+  backdrop-filter: blur(1.5px);
+}
+
+/* Hero content container */
+.hero-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 880px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hero text + animations */
+.hero-title {
+  color: #fff;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-shadow: 0 6px 22px rgba(20,26,60,.35);
+  letter-spacing: .01em;
+  opacity: 0;
+  animation: fadeInUp 1.1s cubic-bezier(.32,.72,.36,1.02) .55s forwards;
+}
+
+.hero-subtitle {
+  color: #eaf0ff;
+  font-size: clamp(18px, 1.4vw, 20px);
+  margin-bottom: 28px;
+  text-shadow: 0 3px 8px rgba(0,0,0,.18);
+  opacity: 0;
+  animation: fadeInUp 1.05s cubic-bezier(.32,.72,.36,1.02) 1.15s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeInUp 1s cubic-bezier(.32,.72,.36,1.02) 1.85s forwards;
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
     /* CTA Buttons */
     .cta-button{display:inline-block;border-radius:999px;font-weight:800;letter-spacing:.02em;font-size:1.05rem;padding:14px 28px;border:2px solid transparent;box-shadow:0 6px 22px rgba(0,0,0,.08);transition:background .15s,color .14s,border .13s,transform .12s,box-shadow .18s}
@@ -142,9 +214,10 @@
   </nav>
 
   <!-- HERO -->
-  <section id="hero" class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-container">
+<section id="hero" class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-container">
       <!-- ANIMATED KB LOGO -->
       <div class="kb-logo-container" style="margin-bottom: 28px;">
         <svg class="kb-symbol" viewBox="0 0 100 100" style="width: 120px; height: 120px;">
