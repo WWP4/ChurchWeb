@@ -3,169 +3,385 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kingdom Builders — Garage Hero</title>
+  <title>Kingdom Builders — Restore • Equip • Release</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --kb-black:#0b0c10;
-      --kb-white:#ffffff;
+    :root{
+      --white:#ffffff; --silver:#e4e7ec; --silver-2:#eef1f6; --ink:#0e1116;
+      --blue:#1a4dff; --blue-700:#1237bd; --blue-100:#e8efff;
+      --line:#d8dce5; --muted:#5a6374;
+      --radius:20px;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:var(--kb-black);
-      color:#fff;
-      overflow-x:hidden;
-    }
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 5vw}
 
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:40;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:12px 20px;
-      background:#0b0c10cc;
-      -webkit-backdrop-filter: blur(8px) saturate(160%);
-      backdrop-filter: blur(8px) saturate(160%);
-      border-bottom:1px solid #1d2130
-    }
-    header .brand{font-weight:800; letter-spacing:.08em}
+    /* ===== Sticky Header ===== */
+    header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 5vw}
+    .brand{font-weight:800;letter-spacing:.1em;color:var(--blue)}
+    .nav a.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--ink)}
+    .nav a.btn:hover{border-color:var(--blue);color:var(--blue)}
 
-    /* HERO */
-    .kb-hero{
-      position:relative;
-      height:100vh;
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-      isolation:isolate;
-    }
-    .kb-hero__bg{
-      position:absolute; inset:-8% -8% -8% -8%;
-      background:url('istockphoto-1220539364-612x612.jpg') center/cover no-repeat;
-      transform:translateZ(0) scale(1.08);
-      filter:saturate(104%) contrast(106%) brightness(0.92);
-      will-change:transform, opacity;
-      opacity:0;
-    }
-    .kb-hero__scrim{
-      position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 38%, rgba(0,0,0,.60) 100%);
-    }
-    .kb-hero__inner{
-      position:relative; z-index:2; text-align:center; max-width:860px;
-      padding:0 6vw; opacity:0; transform:translateY(16px);
-    }
-    .kb-eyebrow{
-      display:inline-block; padding:8px 14px; border-radius:999px;
-      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22);
-      letter-spacing:.14em; text-transform:uppercase; font-weight:800;
-      font-size:.82rem; color:#e9edf6;
-    }
-    .kb-hero h1{
-      color:#fff; font-size:clamp(32px,6vw,64px);
-      line-height:1.06; margin:14px 0 10px; font-weight:800;
-    }
-    .kb-hero p{
-      color:#dbe2ee; font-size:clamp(18px,1.4vw,20px);
-      max-width:68ch; margin:0 auto 18px;
-    }
-    .kb-cta{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:22px; }
-    .kb-btn{
-      appearance:none; border:0; cursor:pointer; font-weight:800;
-      padding:14px 26px; border-radius:999px;
-      transition: transform .12s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
-    }
-    .kb-btn--primary{ background:#fff; color:#0f1218; box-shadow:0 8px 26px rgba(0,0,0,.28); }
-    .kb-btn--ghost{ background:transparent; color:#fff; border:2px solid currentColor; }
-    .kb-btn:focus-visible{ outline:3px solid #8aa4ff; outline-offset:3px; }
-    .kb-btn:hover{ transform:translateY(-2px); }
+    /* ===== Reading Progress Bar ===== */
+    .progress{position:fixed;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--silver));transform:scaleX(0);transform-origin:0 50%;z-index:70}
 
-    .kb-scroll{
-      position:absolute; left:50%; bottom:22px; transform:translateX(-50%);
-      color:#cfd5e1; font-weight:700; letter-spacing:.08em;
-      text-transform:uppercase; font-size:.78rem; opacity:.88;
-    }
-    .kb-scroll::after{
-      content:''; display:block; width:2px; height:28px; margin:10px auto 0;
-      background:#cfd5e1; border-radius:4px; animation:kbDrop 1.8s ease-in-out infinite;
-    }
-    @keyframes kbDrop{
-      0%{transform:scaleY(0); opacity:.3}
-      40%{transform:scaleY(1); opacity:1}
-      100%{transform:scaleY(0); opacity:.2}
-    }
+    /* ===== HERO (Garage Reveal) ===== */
+    .hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
+    .hero__bg{position:absolute;inset:-8% -8% -8% -8%;
+      background:url('https://static.showit.co/file/1zYoYv9jREECeOpYJafUJQ/248075/184a3846-7226-46c5-b1dc-08606a04a72a.jpg') center/cover no-repeat;
+      filter:contrast(106%) saturate(110%) brightness(.98);transform:translateZ(0) scale(1.08);opacity:0}
+    .hero__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.55) 38%,rgba(255,255,255,.18) 100%)}
+    .hero__inner{position:relative;z-index:2;text-align:center;max-width:960px;padding:0 6vw;opacity:0;transform:translateY(18px)}
+    .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(26,77,255,.08);border:1px solid rgba(26,77,255,.18);letter-spacing:.14em;text-transform:uppercase;font-weight:800;font-size:.82rem;color:var(--blue)}
+    .hero h1{font-size:clamp(36px,6vw,74px);line-height:1.02;margin:16px 0 10px;color:var(--ink)}
+    .hero p{color:#273142;font-size:clamp(18px,1.4vw,20px);max-width:70ch;margin:0 auto}
+    .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+    .btn{appearance:none;border:0;cursor:pointer;font-weight:800;padding:14px 26px;border-radius:999px;transition:transform .12s ease,box-shadow .18s ease,background .18s ease,color .18s ease}
+    .btn--primary{background:var(--blue);color:#fff;box-shadow:0 10px 26px rgba(26,77,255,.28)}
+    .btn--ghost{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+    .btn:focus-visible{outline:3px solid var(--blue-100);outline-offset:3px}
+    .btn:hover{transform:translateY(-2px)}
+    .scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:var(--blue);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;opacity:.88}
+    .scroll::after{content:'';display:block;width:2px;height:28px;margin:10px auto 0;background:var(--blue);border-radius:4px;animation:drop 1.8s ease-in-out infinite}
+    @keyframes drop{0%{transform:scaleY(0);opacity:.3}40%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:.2}}
 
-    /* Garage overlay */
-    .kb-garage{
-      position:absolute; inset:0; z-index:3; display:grid;
-      grid-template-rows:repeat(var(--slats,8),1fr);
-    }
-    .kb-garage .kb-slat{
-      background:#0a0b0f; border-bottom:1px solid #141721;
-      transform:translateY(0); will-change:transform;
-    }
-    @keyframes kbLift{ to{ transform:translateY(-100%) } }
-    .kb-garage.ready .kb-slat{ animation: kbLift 900ms cubic-bezier(.55,.1,.15,1) forwards; }
-    .kb-garage.ready .kb-slat:nth-child(1){ animation-delay: 30ms }
-    .kb-garage.ready .kb-slat:nth-child(2){ animation-delay: 70ms }
-    .kb-garage.ready .kb-slat:nth-child(3){ animation-delay:110ms }
-    .kb-garage.ready .kb-slat:nth-child(4){ animation-delay:150ms }
-    .kb-garage.ready .kb-slat:nth-child(5){ animation-delay:190ms }
-    .kb-garage.ready .kb-slat:nth-child(6){ animation-delay:230ms }
-    .kb-garage.ready .kb-slat:nth-child(7){ animation-delay:270ms }
-    .kb-garage.ready .kb-slat:nth-child(8){ animation-delay:310ms }
+    /* Garage slats */
+    .garage{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:repeat(var(--slats,8),1fr)}
+    .slat{background:var(--white);border-bottom:1px solid var(--silver);transform:translateY(0)}
+    @keyframes lift{to{transform:translateY(-100%)}}
+    .garage.ready .slat{animation:lift 900ms cubic-bezier(.55,.1,.15,1) forwards}
+    .garage.ready .slat:nth-child(1){animation-delay:30ms}
+    .garage.ready .slat:nth-child(2){animation-delay:70ms}
+    .garage.ready .slat:nth-child(3){animation-delay:110ms}
+    .garage.ready .slat:nth-child(4){animation-delay:150ms}
+    .garage.ready .slat:nth-child(5){animation-delay:190ms}
+    .garage.ready .slat:nth-child(6){animation-delay:230ms}
+    .garage.ready .slat:nth-child(7){animation-delay:270ms}
+    .garage.ready .slat:nth-child(8){animation-delay:310ms}
+    .hero.revealed .hero__bg{opacity:1;transition:opacity 520ms ease 80ms,transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms;transform:scale(1.02)}
+    .hero.revealed .hero__inner{opacity:1;transform:none;transition:opacity 520ms ease 120ms,transform 520ms ease 120ms}
 
-    .kb-hero.revealed .kb-hero__bg{
-      opacity:1;
-      transition:opacity 520ms ease 80ms,
-                 transform 1200ms cubic-bezier(.22,.65,.14,1) 80ms;
-      transform:scale(1.02);
-    }
-    .kb-hero.revealed .kb-hero__inner{
-      opacity:1; transform:none;
-      transition:opacity 520ms ease 120ms, transform 520ms ease 120ms;
-    }
+    /* ===== Section Basics ===== */
+    section{position:relative;padding:88px 0;border-top:1px solid var(--line)}
+    .section-title{font-size:clamp(24px,3.2vw,40px);line-height:1.1;margin-bottom:16px;color:var(--ink)}
+    .kicker{color:var(--blue);text-transform:uppercase;letter-spacing:.12em;font-weight:800;margin-bottom:8px}
+    .lead{color:#273142;max-width:80ch}
+    .grid{display:grid;gap:28px}
+    @media(min-width:900px){.grid-2{grid-template-columns:1.15fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+
+    /* Blue animated dividers */
+    .divider{height:2px;background:linear-gradient(90deg,var(--blue),transparent);width:0;animation:grow 1s ease forwards}
+    @keyframes grow{to{width:100%}}
+
+    /* Cards */
+    .card{background:var(--white);border:1px solid var(--silver);border-radius:var(--radius);padding:22px;box-shadow:0 10px 26px rgba(10,20,40,.04)}
+    .card h3{font-size:20px;margin-bottom:8px;color:var(--ink)}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--silver);background:var(--blue);color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+    /* Pricing */
+    .price{font-size:42px;font-weight:800}
+    .note{color:#42506a;font-size:.95rem}
+
+    /* Timeline */
+    .timeline{display:grid;gap:18px}
+    .timeline .row{display:grid;gap:8px;border-left:2px solid var(--silver);padding-left:18px}
+    .timeline .row h4{margin-bottom:2px}
+
+    /* Testimonial */
+    .quote{font-size:20px;line-height:1.6;color:#182235}
+    .quote mark{background:var(--blue-100);padding:0 .25em;border-radius:6px}
+
+    /* FAQ */
+    details{border:1px solid var(--silver);border-radius:12px;padding:14px 16px;background:#fff}
+    details+details{margin-top:12px}
+    summary{cursor:pointer;font-weight:700}
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);padding:48px 0;color:#555;background:var(--silver-2)}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+    .reveal.show{opacity:1;transform:none}
 
     @media (prefers-reduced-motion: reduce){
-      .kb-garage .kb-slat{ display:none }
-      .kb-hero__bg{ opacity:1; transform:none }
-      .kb-hero__inner{ opacity:1; transform:none }
-      .kb-scroll::after{ animation:none }
+      .garage .slat{display:none}
+      .hero__bg{opacity:1;transform:none}
+      .hero__inner{opacity:1;transform:none}
+      .scroll::after{animation:none}
+      .reveal{opacity:1;transform:none}
     }
   </style>
 </head>
 <body>
+  <!-- Reading progress -->
+  <div class="progress" id="progress"></div>
 
-<header><div class="brand">KINGDOM BUILDERS</div></header>
+  <!-- ===== NAV ===== -->
+  <header>
+    <nav class="nav container">
+      <div class="brand">KINGDOM BUILDERS</div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="btn" href="#vision">Vision</a>
+        <a class="btn" href="#framework">Framework</a>
+        <a class="btn" href="#modules">Modules</a>
+        <a class="btn" href="#pricing">Pricing</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
 
-<section id="hero" class="kb-hero">
-  <div class="kb-hero__bg" id="kbHeroBg" aria-hidden="true"></div>
-  <div class="kb-hero__scrim" aria-hidden="true"></div>
-
-  <!-- Garage slats -->
-  <div class="kb-garage" id="kbGarage" style="--slats:8" aria-hidden="true">
-    <div class="kb-slat"></div><div class="kb-slat"></div><div class="kb-slat"></div><div class="kb-slat"></div>
-    <div class="kb-slat"></div><div class="kb-slat"></div><div class="kb-slat"></div><div class="kb-slat"></div>
-  </div>
-
-  <div class="kb-hero__inner">
-    <span class="kb-eyebrow">From Restored → Released</span>
-    <h1>Build a Community that Lifts People Up</h1>
-    <p>Move beyond healing into impact. Give people a church-owned framework to climb together—mentors, skills, and real opportunity.</p>
-    <div class="kb-cta">
-      <a class="kb-btn kb-btn--primary" href="#process">See the Framework</a>
-      <a class="kb-btn kb-btn--ghost" href="#contact">Preview the CRM</a>
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="hero">
+    <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <!-- Garage slats -->
+    <div class="garage" id="garage" style="--slats:8" aria-hidden="true">
+      <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
+      <div class="slat"></div><div class="slat"></div><div class="slat"></div><div class="slat"></div>
     </div>
-    <div class="kb-scroll">Scroll</div>
-  </div>
-</section>
+    <div class="hero__inner">
+      <span class="eyebrow">From Restored → Released</span>
+      <h1>Build a Discipleship Engine that Lifts Your City</h1>
+      <p>Move beyond weekly services into a year‑round formation pathway. Kingdom Builders gives your church a proven framework to restore people, equip them with practical skills, and release them to serve—inside the church and out in the community.</p>
+      <div class="cta">
+        <a class="btn btn--primary" href="#framework">See the Framework</a>
+        <a class="btn btn--ghost" href="#crm">Preview the CRM</a>
+      </div>
+      <div class="scroll">Scroll</div>
+    </div>
+  </section>
+
+  <!-- ===== Vision ===== -->
+  <section id="vision" class="container reveal">
+    <div class="kicker">Vision</div>
+    <h2 class="section-title">A Church that Heals People <em>and</em> Heals Places</h2>
+    <div class="divider" style="margin:14px 0 18px"></div>
+    <p class="lead">We designed Kingdom Builders to turn compassion into capacity. Your teams shepherd people through spiritual healing, then train them in work, leadership, and service—so families stabilize, small businesses launch, and neighborhoods feel the difference.</p>
+  </section>
+
+  <!-- ===== Framework ===== -->
+  <section id="framework" class="container reveal">
+    <div class="grid grid-3" style="align-items:start">
+      <div>
+        <div class="kicker">Framework</div>
+        <h2 class="section-title">Restore • Equip • Release</h2>
+        <p class="lead">Three movements that repeat each quarter—lightweight to run, deep enough to transform.</p>
+        <div class="divider" style="margin:16px 0 20px"></div>
+      </div>
+      <div class="card">
+        <span class="badge">1 • Restore</span>
+        <h3>Healing & Foundations</h3>
+        <p>Trauma‑informed small groups, prayer and counsel, and a simple rhythm of Scripture, reflection, and community care. Build safety and belonging first.</p>
+      </div>
+      <div class="card">
+        <span class="badge">2 • Equip</span>
+        <h3>Skills & Apprenticeship</h3>
+        <p>Workshops on money, communication, and entrepreneurship. Practical labs and mentor matching. Participants practice, ship, and get feedback.</p>
+      </div>
+      <div class="card">
+        <span class="badge">3 • Release</span>
+        <h3>Service & Venture</h3>
+        <p>Graduates serve on teams, launch micro‑ventures, or join community projects. We measure impact—jobs, hours served, families helped.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Program Modules ===== -->
+  <section id="modules" class="container reveal">
+    <div class="kicker">Program</div>
+    <h2 class="section-title">What’s Included</h2>
+    <div class="divider" style="margin:14px 0 18px"></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Core Discipleship Track</h3>
+        <p>12 deep lessons with workbook‑style reading, reflection, and practice. Designed for both teens and adults. Teacher guide included.</p>
+      </div>
+      <div class="card">
+        <h3>Entrepreneur Track</h3>
+        <p>Idea‑to‑income pathway with case studies, step‑by‑step tools, and a micro‑incubator guide. Launch nights and community showcases.</p>
+      </div>
+      <div class="card">
+        <h3>Care & Counseling</h3>
+        <p>Six‑session counseling playbook with referral system and benevolence guardrails. Trauma‑aware guidance and prayer ministry tools.</p>
+      </div>
+      <div class="card">
+        <h3>Community Events Kit</h3>
+        <p>Ready‑to‑run dinners and outreach nights with scripts, run‑of‑show, graphics, and follow‑up forms to capture and disciple guests.</p>
+      </div>
+      <div class="card">
+        <h3>Volunteer Academy</h3>
+        <p>Training for greeters to group leaders. Includes role cards, practice scenarios, and a certification path built into the CRM.</p>
+      </div>
+      <div class="card">
+        <h3>Pastor Dashboard</h3>
+        <p>Live metrics: attendance, groups, baptisms, volunteer hours, projects launched, businesses started, families served.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How It Runs ===== -->
+  <section id="process" class="container grid grid-2 reveal">
+    <div>
+      <div class="kicker">How it Runs</div>
+      <h2 class="section-title">90‑Day Cycle, Repeatable All Year</h2>
+      <div class="divider" style="margin:16px 0 20px"></div>
+      <div class="timeline">
+        <div class="row"><div><h4>Weeks 1–3 • Welcome & Restore</h4><p>Story, safety, and spiritual foundations. Baseline care plan for each participant.</p></div></div>
+        <div class="row"><div><h4>Weeks 4–8 • Equip & Practice</h4><p>Weekly workshops and labs. Mentor check‑ins. Real deliverables each week.</p></div></div>
+        <div class="row"><div><h4>Weeks 9–12 • Release & Celebrate</h4><p>Service placements, micro‑venture launches, testimony Sunday. New leaders identified for the next cycle.</p></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>What You Get</h3>
+      <ul style="margin-left:18px;line-height:1.8">
+        <li>Leader guide + student workbooks (print‑ready)</li>
+        <li>Editable slides, graphics, and event kits</li>
+        <li>CRM with pipelines for groups, care, and ventures</li>
+        <li>Forms and automations for follow‑up and metrics</li>
+        <li>Launch event playbook and promo plan</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CRM Preview ===== -->
+  <section id="crm" class="container grid grid-2 reveal">
+    <div>
+      <div class="kicker">Tools</div>
+      <h2 class="section-title">Your Ministry CRM, Already Wired</h2>
+      <div class="divider" style="margin:16px 0 20px"></div>
+      <p class="lead">A lightweight CRM organizes people, groups, prayer needs, and pathways. Automations move guests to groups, groups to teams, and graduates into service or micro‑ventures.</p>
+      <div class="card" style="margin-top:18px">
+        <h3>Included Pipelines</h3>
+        <ul style="margin-left:18px;line-height:1.8">
+          <li>Guest → Group onboarding</li>
+          <li>Care requests → Counseling</li>
+          <li>Student → Mentor matching</li>
+          <li>Venture ideas → Incubator</li>
+          <li>Volunteer Discovery → Team Placement</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" aria-label="CRM screenshot placeholder" style="min-height:340px;display:grid;place-items:center;text-align:center">
+      <div>
+        <div class="badge" style="margin-bottom:10px">Preview</div>
+        <h3>Interactive Demo</h3>
+        <p>Embed your Loom/video or live preview here. Replace this card with an iframe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Outcomes / Testimonial ===== -->
+  <section id="outcomes" class="container reveal">
+    <div class="kicker">Impact</div>
+    <h2 class="section-title">What Changes When You Run This</h2>
+    <div class="divider" style="margin:14px 0 18px"></div>
+    <div class="grid grid-3" style="align-items:stretch">
+      <div class="card"><h3>People</h3><p>More baptisms, restored families, and leaders formed through a repeatable pathway.</p></div>
+      <div class="card"><h3>Church</h3><p>Healthy volunteer culture, stronger groups, better follow‑up, clearer metrics for elders and board.</p></div>
+      <div class="card"><h3>City</h3><p>Projects launched, jobs created, and partnerships formed as graduates serve beyond Sunday.</p></div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <p class="quote">“We needed something sustainable beyond Sundays. Kingdom Builders gave us a <mark>pathway</mark>—our teams finally know how to walk with people from crisis to calling.”</p>
+      <p style="margin-top:8px;color:#5a6374;font-weight:700">— Pastor (Pilot Church)</p>
+    </div>
+  </section>
+
+  <!-- ===== Pricing ===== -->
+  <section id="pricing" class="container grid grid-2 reveal">
+    <div class="card">
+      <span class="badge">Annual License</span>
+      <h3 class="price">$599 / year</h3>
+      <p class="note">Full curriculum, print masters, CRM templates, and updates for a year.</p>
+      <ul style="margin-left:18px;line-height:1.8;margin-top:10px">
+        <li>1 church campus</li>
+        <li>Updates and template drops</li>
+        <li>Email support</li>
+      </ul>
+      <div class="cta" style="justify-content:flex-start;margin-top:16px">
+        <a class="btn btn--primary" href="#contact">Start Annual</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge">Lifetime License</span>
+      <h3 class="price">$1,495 one‑time</h3>
+      <p class="note">Own it forever with customization rights and brand options.</p>
+      <ul style="margin-left:18px;line-height:1.8;margin-top:10px">
+        <li>Editable workbooks (add your pastor’s content)</li>
+        <li>Name/branding option for your church</li>
+        <li>Leader onboarding kit and launch plan</li>
+      </ul>
+      <div class="cta" style="justify-content:flex-start;margin-top:16px">
+        <a class="btn btn--ghost" href="#contact">Choose Lifetime</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="container reveal">
+    <div class="kicker">FAQ</div>
+    <h2 class="section-title">Questions We Hear a Lot</h2>
+    <div class="divider" style="margin:14px 0 18px"></div>
+    <details>
+      <summary>Is the curriculum suitable for both students and adults?</summary>
+      <div style="margin-top:10px;color:#273142">Yes. The lessons are written in a textbook style with reflection and application sections that flex for youth or adult cohorts.</div>
+    </details>
+    <details>
+      <summary>Do we need special software to use the CRM?</summary>
+      <div style="margin-top:10px;color:#273142">No. We provide templates that run in a simple, browser‑based CRM. You can also adapt them to your existing system.</div>
+    </details>
+    <details>
+      <summary>Can we rebrand it to our church?</summary>
+      <div style="margin-top:10px;color:#273142">With the Lifetime License you can use your church name, add pastor content, and generate custom PDFs for your teams.</div>
+    </details>
+  </section>
+
+  <!-- ===== Contact / CTA ===== -->
+  <section id="contact" class="container grid grid-2 reveal">
+    <div>
+      <div class="kicker">Next Steps</div>
+      <h2 class="section-title">Book a Quick Walkthrough</h2>
+      <div class="divider" style="margin:16px 0 20px"></div>
+      <p class="lead">In 15 minutes we’ll show you the framework, the curriculum, and the CRM. Bring your context—we’ll tailor a launch plan for your church.</p>
+      <div class="cta" style="margin-top:16px">
+        <a class="btn btn--primary" href="#">Schedule Demo</a>
+        <a class="btn btn--ghost" href="#">Download Sample Chapter</a>
+      </div>
+    </div>
+    <form class="card" onsubmit="event.preventDefault(); alert('Submitted. Wire this to your real form handler.');">
+      <h3 style="margin-bottom:10px">Tell us about your church</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+        <input required placeholder="First name" aria-label="First name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink)">
+        <input required placeholder="Last name" aria-label="Last name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink)">
+        <input required placeholder="Email" type="email" aria-label="Email" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1">
+        <input placeholder="Church name" aria-label="Church name" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1">
+        <textarea placeholder="What do you hope this will change?" aria-label="Message" rows="4" style="padding:12px;border-radius:10px;border:1px solid var(--silver);background:#fff;color:var(--ink);grid-column:1/-1"></textarea>
+      </div>
+      <button class="btn btn--primary" style="margin-top:12px;width:100%">Request Info</button>
+    </form>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center">
+      <div>© <span id="year"></span> Kingdom Builders</div>
+      <div style="opacity:.85">Made for churches who want to heal people and places.</div>
+    </div>
+  </footer>
 
 <script>
 (function(){
-  const garage = document.getElementById('kbGarage');
+  const garage = document.getElementById('garage');
   const hero   = document.getElementById('hero');
-  const bg     = document.getElementById('kbHeroBg');
+  const bg     = document.getElementById('heroBg');
+  const progress = document.getElementById('progress');
 
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Garage reveal
   window.addEventListener('load', () => {
     if (!garage) return;
     garage.classList.add('ready');
@@ -176,18 +392,30 @@
     });
   });
 
-  // Gentle parallax after reveal
+  // Subtle parallax
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduce && bg){
     const onScroll = () => {
-      const y = window.scrollY;
-      const t = Math.min(1, y / 600);
-      bg.style.transform = `translateY(${t * 14}px) scale(${1.02 + t * 0.02})`;
+      const y = window.scrollY; const t = Math.min(1, y/600);
+      bg.style.transform = `translateY(${t*14}px) scale(${1.02 + t*0.02})`;
     };
     document.addEventListener('scroll', onScroll, { passive:true });
   }
+
+  // Reading progress bar
+  const onProg = () => {
+    const h = document.documentElement; const scrolled = (h.scrollTop)/(h.scrollHeight - h.clientHeight);
+    progress.style.transform = `scaleX(${Math.max(0,Math.min(1,scrolled))})`;
+  };
+  document.addEventListener('scroll', onProg, { passive:true });
+  onProg();
+
+  // Reveal on scroll (IntersectionObserver)
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} });
+  }, {threshold:.16});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 </script>
-
 </body>
 </html>
