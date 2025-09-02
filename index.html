@@ -42,21 +42,9 @@
     nav a:hover,nav a.active{color:var(--blue);border-bottom:2px solid var(--blue)}
 
     /* ---------- Hero Band (light with blue overlay) ---------- */
-
-    
     .hero-section{
       min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;
       background:url('hero-community.png') center/cover no-repeat
-
-      .hero-bg {
-  position:absolute;
-  inset:0;
-  background:url('hero-community.png') center/cover no-repeat;
-  transform:scale(1.05);
-  transition:transform .3s ease-out;
-  z-index:0;
-}
-
     }
     .hero-overlay{position:absolute;inset:0;z-index:1;
       background:linear-gradient(115deg,rgba(26,77,255,.28) 0%,rgba(26,77,255,.44) 55%,rgba(10,18,40,.25) 100%),
@@ -154,10 +142,9 @@
   </nav>
 
   <!-- HERO -->
- <section id="hero" class="hero-section">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-container">
+  <section id="hero" class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-container">
       <!-- ANIMATED KB LOGO -->
       <div class="kb-logo-container" style="margin-bottom: 28px;">
         <svg class="kb-symbol" viewBox="0 0 100 100" style="width: 120px; height: 120px;">
@@ -388,14 +375,5 @@
       setTimeout(()=>{document.querySelector('.hero-actions').style.opacity=1;},2600);
     });
   </script>
-    <script>
-  const heroBg = document.querySelector('.hero-bg');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    const offset = Math.min(y * 0.2, 80); // limit movement
-    heroBg.style.transform = `translateY(${offset}px) scale(${1.05 + offset/2000})`;
-  });
-</script>
-
 </body>
 </html>
