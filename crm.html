@@ -1,73 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kingdom Builders CRM</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Kingdom Builders Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     :root {
       --blue:#002D72;
-      --blue-light:#1a4fa3;
-      --silver:#d9dee8;
+      --blue-light:#2c5cc5;
+      --silver:#e4e8f0;
       --bg:#f9fafc;
-      --card:#ffffff;
-      --ink:#101828;
-      --muted:#667085;
-      --line:#e5e9f2;
+      --card:#fff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --line:#eceff4;
       --radius:14px;
-      --shadow:0 6px 20px rgba(0,45,114,.06);
+      --shadow:0 8px 28px rgba(0,45,114,.06);
     }
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box;margin:0;padding:0}
     body {
-      margin:0; font-family:Inter, sans-serif; background:var(--bg); color:var(--ink);
-      display:flex; min-height:100vh;
+      font-family:Inter,sans-serif;background:var(--bg);color:var(--ink);
+      display:flex;min-height:100vh;overflow:hidden;
     }
-    aside {
-      width:220px; background:#fff; border-right:1px solid var(--line); padding:20px;
-      display:flex; flex-direction:column; gap:20px;
+    /* Sidebar */
+    .sidebar {
+      width:240px;flex-shrink:0;
+      background:var(--card);border-right:1px solid var(--line);
+      padding:20px;display:flex;flex-direction:column;transition:.3s;
     }
-    .brand {font-weight:700;font-size:16px;color:var(--blue);}
+    .sidebar.collapsed {width:72px;}
+    .brand {font-weight:700;font-size:18px;color:var(--blue);margin-bottom:30px;}
+    .sidebar.collapsed .brand {font-size:0;}
+    nav {flex:1;}
     nav a {
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px; border-radius:10px;
-      text-decoration:none; font-size:14px; color:var(--muted);
-      transition:.2s;
+      display:flex;align-items:center;gap:12px;
+      color:var(--muted);text-decoration:none;font-size:14px;
+      padding:12px;border-radius:10px;transition:.2s;margin-bottom:6px;
     }
-    nav a.active, nav a:hover {background:var(--blue);color:#fff;}
-    main {flex:1; padding:32px; overflow:auto;}
-    header {display:flex; justify-content:space-between; align-items:center; margin-bottom:28px;}
-    header h1 {font-size:20px;font-weight:600;}
+    nav a:hover,nav a.active{background:var(--blue);color:#fff;}
+    .collapse-btn {
+      border:none;background:none;cursor:pointer;padding:10px;color:var(--muted);
+    }
+    /* Main */
+    main {
+      flex:1;overflow-y:auto;padding:28px;transition:.3s;
+    }
+    header {
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;
+    }
+    header h1{font-size:20px;font-weight:600;}
     .btn {
-      padding:8px 14px; border-radius:10px; border:1px solid var(--line);
-      font-size:14px; cursor:pointer; background:#fff; transition:.2s;
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 16px;border-radius:10px;font-size:14px;cursor:pointer;
+      border:1px solid var(--line);background:#fff;transition:.2s;
     }
-    .btn.primary {background:var(--blue);color:#fff;border:none;}
-    .cards {display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:28px;}
-    .card {
-      background:var(--card); padding:18px; border-radius:var(--radius);
-      border:1px solid var(--line); box-shadow:var(--shadow);
+    .btn.primary{background:var(--blue);color:#fff;border:none;}
+    /* Cards */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:30px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+    .card h2{font-size:13px;color:var(--muted);margin-bottom:6px;}
+    .card p{font-size:26px;font-weight:700;}
+    /* Table */
+    table{width:100%;border-collapse:collapse;margin-top:10px;}
+    th,td{padding:12px;font-size:14px;text-align:left;}
+    th{color:var(--muted);border-bottom:1px solid var(--line);}
+    tr{transition:.2s;}
+    tr:hover td{background:#f1f6ff;}
+    /* Drawer */
+    .drawer{
+      position:fixed;top:0;right:-420px;width:400px;height:100%;
+      background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 28px rgba(0,0,0,.08);
+      padding:24px;transition:.3s;overflow:auto;z-index:50;
     }
-    .card h2 {font-size:13px; color:var(--muted); margin:0;}
-    .card p {font-size:24px; font-weight:700; margin:6px 0 0;}
-    table {width:100%; border-collapse:collapse; margin-top:16px;}
-    th,td {padding:12px; font-size:14px; text-align:left;}
-    th {color:var(--muted); border-bottom:1px solid var(--line);}
-    tr:hover td {background:#f1f6ff;}
+    .drawer.open{right:0;}
+    .field{display:flex;flex-direction:column;margin-bottom:16px;}
+    .field label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+    .field input,.field select,.field textarea{padding:10px;border:1px solid var(--line);border-radius:10px;}
+    /* Responsive */
+    @media(max-width:900px){
+      .sidebar{position:fixed;left:-240px;top:0;bottom:0;z-index:60;}
+      .sidebar.open{left:0;}
+      main{padding:20px;}
+    }
   </style>
 </head>
 <body>
-  <aside>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
     <div class="brand">Kingdom Builders</div>
     <nav>
       <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
       <a href="#"><i data-lucide="file-text"></i> Curriculum</a>
       <a href="#"><i data-lucide="book-open"></i> Courses</a>
       <a href="#"><i data-lucide="calendar"></i> Events</a>
+      <a href="#"><i data-lucide="bar-chart-3"></i> Impact</a>
       <a href="#"><i data-lucide="settings"></i> Settings</a>
     </nav>
+    <button class="collapse-btn" id="collapseBtn"><i data-lucide="chevron-left"></i></button>
   </aside>
+
+  <!-- Main -->
   <main>
     <header>
       <h1>Dashboard</h1>
@@ -84,9 +118,7 @@
     <section class="card">
       <h2>Recent Activity</h2>
       <table>
-        <thead>
-          <tr><th>Action</th><th>User</th><th>Date</th></tr>
-        </thead>
+        <thead><tr><th>Action</th><th>User</th><th>Date</th></tr></thead>
         <tbody>
           <tr><td>Uploaded new PDF</td><td>Pastor James</td><td>Sept 3, 2025</td></tr>
           <tr><td>Created course “Faith & Finance”</td><td>Admin</td><td>Sept 1, 2025</td></tr>
@@ -95,6 +127,30 @@
       </table>
     </section>
   </main>
-  <script>lucide.createIcons();</script>
+
+  <!-- Drawer -->
+  <div class="drawer" id="drawer">
+    <h2>Participant Details</h2>
+    <div class="field"><label>Name</label><input value="Ava Johnson"/></div>
+    <div class="field"><label>Status</label>
+      <select><option>Enrolled</option><option>In Training</option><option>Graduated</option></select>
+    </div>
+    <div class="field"><label>Notes</label><textarea rows="5"></textarea></div>
+    <button class="btn primary">Save</button>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const sidebar=document.getElementById('sidebar');
+    const collapseBtn=document.getElementById('collapseBtn');
+    collapseBtn.addEventListener('click',()=>{
+      sidebar.classList.toggle('collapsed');
+      collapseBtn.innerHTML= sidebar.classList.contains('collapsed')
+        ? '<i data-lucide=\"chevron-right\"></i>'
+        : '<i data-lucide=\"chevron-left\"></i>';
+      lucide.createIcons();
+    });
+  </script>
 </body>
 </html>
