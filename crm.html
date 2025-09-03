@@ -2,155 +2,974 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Kingdom Builders Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Kingdom Builders — CRM Hub</title>
+  <meta name="description" content="Minimal, premium single-page CRM for Kingdom Builders: curriculum PDFs, course builder, events, impact, settings.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
-    :root {
-      --blue:#002D72;
-      --blue-light:#2c5cc5;
-      --silver:#e4e8f0;
-      --bg:#f9fafc;
-      --card:#fff;
-      --ink:#111827;
-      --muted:#6b7280;
-      --line:#eceff4;
-      --radius:14px;
-      --shadow:0 8px 28px rgba(0,45,114,.06);
+    :root{
+      --blue:#002D72;       /* brand primary */
+      --blue-600:#0E47A6;   /* hover/active */
+      --silver:#C9D3E6;     /* accents */
+      --bg:#F6F8FC;         /* app background */
+      --card:#FFFFFF;       /* surfaces */
+      --ink:#0B1220;        /* headings */
+      --text:#1C2333;       /* body */
+      --muted:#667190;      /* muted text */
+      --line:#E6ECF6;       /* borders */
+      --radius:16px;
+      --shadow:0 16px 40px rgba(0,45,114,.08);
+      --shadow-soft:0 6px 18px rgba(0,0,0,.05);
+      --glass: rgba(255,255,255,.72);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body {
-      font-family:Inter,sans-serif;background:var(--bg);color:var(--ink);
-      display:flex;min-height:100vh;overflow:hidden;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text); background:var(--bg);
+      display:grid; grid-template-columns:260px 1fr; grid-template-rows:1fr; overflow:hidden;
     }
+
     /* Sidebar */
-    .sidebar {
-      width:240px;flex-shrink:0;
-      background:var(--card);border-right:1px solid var(--line);
-      padding:20px;display:flex;flex-direction:column;transition:.3s;
+    aside{
+      position:relative; z-index:3;
+      border-right:1px solid var(--line);
+      background:var(--card);
+      padding:18px;
+      transition:width .28s ease;
+      display:flex; flex-direction:column; gap:12px;
+      width:260px;
     }
-    .sidebar.collapsed {width:72px;}
-    .brand {font-weight:700;font-size:18px;color:var(--blue);margin-bottom:30px;}
-    .sidebar.collapsed .brand {font-size:0;}
-    nav {flex:1;}
-    nav a {
-      display:flex;align-items:center;gap:12px;
-      color:var(--muted);text-decoration:none;font-size:14px;
-      padding:12px;border-radius:10px;transition:.2s;margin-bottom:6px;
+    aside.collapsed{ width:84px; }
+    .brand{
+      display:flex; align-items:center; gap:12px; padding:8px;
+      border-radius:12px;
     }
-    nav a:hover,nav a.active{background:var(--blue);color:#fff;}
-    .collapse-btn {
-      border:none;background:none;cursor:pointer;padding:10px;color:var(--muted);
+    .brand-badge{
+      width:38px; height:38px; border-radius:12px;
+      display:grid; place-items:center;
+      font-weight:800; color:#fff;
+      background:linear-gradient(135deg,var(--blue),var(--blue-600));
+      box-shadow:0 10px 26px rgba(0,45,114,.28);
+      letter-spacing:.3px;
     }
+    .brand-name{font-weight:800; color:var(--blue); letter-spacing:.4px}
+    aside.collapsed .brand-name{display:none}
+
+    nav{display:flex; flex-direction:column; gap:6px; margin-top:6px;}
+    nav a{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none; color:var(--muted);
+      padding:10px 12px; border-radius:12px; border:1px solid transparent;
+      transition:all .18s ease;
+    }
+    nav a:hover{ background:#EFF4FF; color:var(--blue); border-color:#E3EBFF; }
+    nav a.active{ background:var(--blue); color:#fff; }
+    nav i{min-width:20px}
+    nav .label{white-space:nowrap}
+    aside.collapsed nav .label{display:none}
+
+    .side-sep{height:1px; background:var(--line); margin:10px 0}
+    .collapse-row{margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding:8px}
+    .collapse-row button{
+      border:none; background:transparent; cursor:pointer; color:var(--muted);
+      padding:8px; border-radius:10px; transition:background .2s ease;
+    }
+    .collapse-row button:hover{ background:#F2F6FF; color:var(--blue); }
+
     /* Main */
-    main {
-      flex:1;overflow-y:auto;padding:28px;transition:.3s;
+    main{
+      position:relative; overflow:hidden; display:grid; grid-template-rows:auto 1fr; min-width:0;
     }
-    header {
-      display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;
+    header.top{
+      position:sticky; top:0; z-index:2;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:16px 22px;
+      background:rgba(255,255,255,.75);
+      backdrop-filter:saturate(1.1) blur(10px);
+      border-bottom:1px solid var(--line);
     }
-    header h1{font-size:20px;font-weight:600;}
-    .btn {
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 16px;border-radius:10px;font-size:14px;cursor:pointer;
-      border:1px solid var(--line);background:#fff;transition:.2s;
+    .left-head{display:flex; align-items:center; gap:12px}
+    .search{
+      display:flex; align-items:center; gap:8px; min-width:280px;
+      background:#fff; border:1px solid var(--line); border-radius:12px; padding:8px 10px;
+      box-shadow:var(--shadow-soft);
     }
-    .btn.primary{background:var(--blue);color:#fff;border:none;}
-    /* Cards */
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:30px;}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
-    .card h2{font-size:13px;color:var(--muted);margin-bottom:6px;}
-    .card p{font-size:26px;font-weight:700;}
+    .search input{border:none; outline:none; background:transparent; font-size:14px; width:100%}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:12px; font-size:14px;
+      border:1px solid var(--line); background:#fff; cursor:pointer; transition:all .18s ease;
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-soft); }
+    .btn.primary{ background:var(--blue); border-color:transparent; color:#fff; }
+    .btn.ghost{ background:transparent; }
+    .btn.small{ padding:8px 10px; border-radius:10px; font-size:13px; }
+
+    .content{ position:relative; overflow:auto; padding:22px; isolation:isolate; }
+
+    /* Sections / Routes */
+    .route{
+      opacity:0; transform:translateY(10px); pointer-events:none;
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    .route.active{ opacity:1; transform:none; pointer-events:auto; }
+
+    /* Cards (glass / slim) */
+    .card{
+      position:relative; border-radius:var(--radius);
+      padding:18px; border:1px solid var(--line);
+      background:var(--card);
+      box-shadow:var(--shadow);
+    }
+    .card.slim{ padding:14px; }
+    .card h3{ margin:0 0 6px; font-size:13px; color:var(--muted); font-weight:600; }
+    .card .big{ font-size:28px; font-weight:800; color:var(--ink); }
+
+    /* KPI Grid */
+    .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+
+    /* Layout helpers */
+    .grid{ display:grid; gap:16px; }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+    .stack{ display:grid; gap:12px; }
+
     /* Table */
-    table{width:100%;border-collapse:collapse;margin-top:10px;}
-    th,td{padding:12px;font-size:14px;text-align:left;}
-    th{color:var(--muted);border-bottom:1px solid var(--line);}
-    tr{transition:.2s;}
-    tr:hover td{background:#f1f6ff;}
-    /* Drawer */
-    .drawer{
-      position:fixed;top:0;right:-420px;width:400px;height:100%;
-      background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 28px rgba(0,0,0,.08);
-      padding:24px;transition:.3s;overflow:auto;z-index:50;
+    table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
+    th{ font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); text-align:left; padding:0 12px; }
+    td{ background:#fff; border:1px solid var(--line); padding:12px; }
+    tr:hover td{ background:#F3F7FF }
+
+    /* Fields */
+    .field{ display:grid; gap:6px; }
+    .field label{ font-size:12px; color:var(--muted); font-weight:600; }
+    .field input,.field select,.field textarea{
+      border:1px solid var(--line); border-radius:10px; padding:10px; font-size:14px; background:#fff; outline:none;
     }
-    .drawer.open{right:0;}
-    .field{display:flex;flex-direction:column;margin-bottom:16px;}
-    .field label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;}
-    .field input,.field select,.field textarea{padding:10px;border:1px solid var(--line);border-radius:10px;}
+
+    /* Dropzone */
+    .dropzone{
+      display:grid; place-items:center; text-align:center; padding:26px; border:1px dashed #D8E1F2; border-radius:14px;
+      background:linear-gradient(180deg,#FFFFFF 0%, #FBFDFF 100%);
+      transition:border-color .2s ease, background .2s ease;
+    }
+    .dropzone.drag{ border-color:var(--blue); background:#F1F6FF; }
+
+    /* Module Builder */
+    .module{
+      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fff;
+      cursor:grab;
+    }
+    .module:active{ cursor:grabbing; }
+    .module .handle{ color:var(--muted); }
+    .module .title{ font-weight:600; }
+    .module .meta{ font-size:12px; color:var(--muted); }
+    .module .actions button{ border:none; background:transparent; cursor:pointer; color:var(--muted); padding:6px; border-radius:8px; }
+    .module .actions button:hover{ background:#F1F6FF; color:var(--blue); }
+
+    /* Calendar */
+    .cal-head{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.4px; }
+    .calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+    .day{ min-height:100px; border:1px solid var(--line); border-radius:12px; background:#fff; padding:10px; display:grid; align-content:start; gap:6px; }
+    .day .dnum{ font-weight:700; color:var(--ink); }
+    .event{ font-size:12px; padding:6px 8px; border-radius:999px; border:1px solid #E1E8FF; background:#F2F6FF; color:#163B8F; }
+
+    /* Toast */
+    .toast{ position:fixed; bottom:22px; right:22px; background:rgba(20,24,34,.85); color:#fff; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px); opacity:0; transform:translateY(10px); transition: all .25s ease; z-index:50 }
+    .toast.show{ opacity:1; transform:translateY(0) }
+
+    /* Dialog / Modal */
+    .modal{ position:fixed; inset:0; display:none; place-items:center; background:rgba(10,12,18,.4); z-index:60; }
+    .modal.open{ display:grid; }
+    .dialog{ width:min(720px,92vw); background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
+    .dialog-header{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line); }
+    .dialog-body{ padding:16px; }
+
     /* Responsive */
-    @media(max-width:900px){
-      .sidebar{position:fixed;left:-240px;top:0;bottom:0;z-index:60;}
-      .sidebar.open{left:0;}
-      main{padding:20px;}
+    @media (max-width:1080px){
+      body{ grid-template-columns:84px 1fr; }
+      aside{ width:84px !important; }
+      .brand-name, nav .label{ display:none; }
+      .kpis{ grid-template-columns:repeat(2,1fr); }
+      .row{ grid-template-columns:1fr; }
+      .row3{ grid-template-columns:1fr; }
+    }
+    @media (max-width:720px){
+      header.top{ flex-wrap:wrap; gap:10px; }
+      .search{ min-width:0; width:100%; order:2; }
+      .btn-group{ width:100%; display:flex; gap:8px; justify-content:flex-end; }
+      .kpis{ grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
   <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">Kingdom Builders</div>
+  <aside id="sidebar">
+    <div class="brand">
+      <div class="brand-badge">KB</div>
+      <div class="brand-name">Kingdom Builders</div>
+    </div>
     <nav>
-      <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-      <a href="#"><i data-lucide="file-text"></i> Curriculum</a>
-      <a href="#"><i data-lucide="book-open"></i> Courses</a>
-      <a href="#"><i data-lucide="calendar"></i> Events</a>
-      <a href="#"><i data-lucide="bar-chart-3"></i> Impact</a>
-      <a href="#"><i data-lucide="settings"></i> Settings</a>
+      <a href="#" class="active" data-route="dashboard"><i data-lucide="layout-dashboard"></i><span class="label">Dashboard</span></a>
+      <a href="#" data-route="curriculum"><i data-lucide="file-text"></i><span class="label">Curriculum</span></a>
+      <a href="#" data-route="courses"><i data-lucide="book-open"></i><span class="label">Courses</span></a>
+      <a href="#" data-route="events"><i data-lucide="calendar"></i><span class="label">Events</span></a>
+      <a href="#" data-route="impact"><i data-lucide="bar-chart-3"></i><span class="label">Impact</span></a>
+      <a href="#" data-route="settings"><i data-lucide="settings"></i><span class="label">Settings</span></a>
     </nav>
-    <button class="collapse-btn" id="collapseBtn"><i data-lucide="chevron-left"></i></button>
+    <div class="side-sep"></div>
+    <div class="collapse-row">
+      <small>Collapse</small>
+      <button id="collapseBtn" aria-label="Collapse sidebar"><i data-lucide="chevron-left"></i></button>
+    </div>
   </aside>
 
   <!-- Main -->
   <main>
-    <header>
-      <h1>Dashboard</h1>
-      <button class="btn primary"><i data-lucide="plus"></i> New Course</button>
+    <header class="top">
+      <div class="left-head">
+        <button class="btn ghost small" id="mobileToggle" aria-label="Toggle sidebar" title="Toggle sidebar"><i data-lucide="panel-left"></i></button>
+        <div class="search"><i data-lucide="search"></i><input id="globalSearch" placeholder="Search participants, PDFs, courses"/></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="quickUpload"><i data-lucide="upload"></i> Upload PDF</button>
+        <button class="btn primary" id="newCourse"><i data-lucide="plus"></i> New Course</button>
+      </div>
     </header>
 
-    <section class="cards">
-      <div class="card"><h2>Curriculum PDFs</h2><p>12</p></div>
-      <div class="card"><h2>Custom Courses</h2><p>5</p></div>
-      <div class="card"><h2>Active Churches</h2><p>8</p></div>
-      <div class="card"><h2>Participants</h2><p>143</p></div>
-    </section>
+    <div class="content">
+      <!-- DASHBOARD -->
+      <section id="route-dashboard" class="route active" aria-labelledby="h-dashboard">
+        <div class="grid">
+          <div class="kpis">
+            <div class="card slim">
+              <h3>Curriculum PDFs</h3>
+              <div class="big" id="kpiPdfs">0</div>
+            </div>
+            <div class="card slim">
+              <h3>Custom Courses</h3>
+              <div class="big" id="kpiCourses">0</div>
+            </div>
+            <div class="card slim">
+              <h3>Active Churches</h3>
+              <div class="big" id="kpiChurches">0</div>
+            </div>
+            <div class="card slim">
+              <h3>Participants</h3>
+              <div class="big" id="kpiParticipants">0</div>
+            </div>
+          </div>
 
-    <section class="card">
-      <h2>Recent Activity</h2>
-      <table>
-        <thead><tr><th>Action</th><th>User</th><th>Date</th></tr></thead>
-        <tbody>
-          <tr><td>Uploaded new PDF</td><td>Pastor James</td><td>Sept 3, 2025</td></tr>
-          <tr><td>Created course “Faith & Finance”</td><td>Admin</td><td>Sept 1, 2025</td></tr>
-          <tr><td>Church license claimed</td><td>New Hope</td><td>Aug 29, 2025</td></tr>
-        </tbody>
-      </table>
-    </section>
+          <div class="row">
+            <div class="card">
+              <h3>Recent Activity</h3>
+              <table class="table" id="activityTable">
+                <thead><tr><th>Action</th><th>User</th><th>Date</th></tr></thead>
+                <tbody>
+                  <!-- Filled by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>Quick Actions</h3>
+              <div class="stack">
+                <button class="btn" id="qaUpload"><i data-lucide="upload"></i> Upload new curriculum PDF</button>
+                <button class="btn" id="qaStartCourse"><i data-lucide="wand-2"></i> Start a course from PDFs</button>
+                <button class="btn" id="qaSchedule"><i data-lucide="calendar-plus"></i> Schedule a workshop</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CURRICULUM -->
+      <section id="route-curriculum" class="route" aria-labelledby="h-curriculum">
+        <div class="grid">
+          <div class="card">
+            <h3>Upload PDFs</h3>
+            <div id="drop" class="dropzone">
+              <div>
+                <div style="margin-bottom:6px;font-weight:700;color:var(--ink)">Drag & drop PDFs here</div>
+                <div class="muted" style="color:var(--muted);font-size:13px">or</div>
+                <div style="margin-top:8px">
+                  <label class="btn small">
+                    <input id="pdfInput" type="file" accept="application/pdf" multiple style="display:none"/>
+                    Choose Files
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Library</h3>
+            <table class="table" id="pdfTable">
+              <thead><tr><th>Title</th><th>Size</th><th>Added</th><th>Use</th></tr></thead>
+              <tbody>
+                <!-- Filled by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row">
+            <div class="card">
+              <h3>Create Curriculum Set</h3>
+              <div class="stack">
+                <div class="field"><label>Set Name</label><input id="setName" placeholder="e.g., Foundations Cohort A"/></div>
+                <div class="field">
+                  <label>Selected PDFs</label>
+                  <div id="selectedList" class="stack"></div>
+                </div>
+                <div>
+                  <button class="btn primary" id="saveSet"><i data-lucide="save"></i> Save Set</button>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Saved Sets</h3>
+              <table class="table" id="setsTable">
+                <thead><tr><th>Name</th><th>Items</th><th>Created</th><th>Actions</th></tr></thead>
+                <tbody><!-- JS --></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COURSES -->
+      <section id="route-courses" class="route" aria-labelledby="h-courses">
+        <div class="row">
+          <div class="card">
+            <h3>New Course</h3>
+            <div class="row">
+              <div class="field">
+                <label>Course Title</label>
+                <input id="courseTitle" placeholder="e.g., Faith & Finance"/>
+              </div>
+              <div class="field">
+                <label>Cohort</label>
+                <input id="courseCohort" placeholder="Fall 2025"/>
+              </div>
+            </div>
+            <div class="stack" style="margin-top:6px">
+              <div class="field">
+                <label>Description</label>
+                <textarea id="courseDesc" rows="3" placeholder="Short course description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Module Library</h3>
+            <div class="stack" id="moduleLibrary">
+              <!-- Example library items (click to add) -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Course Builder (drag to reorder)</h3>
+          <div class="stack" id="modulesList">
+            <!-- Modules -->
+          </div>
+          <div style="margin-top:10px; display:flex; gap:8px;">
+            <button class="btn small" id="addBlank"><i data-lucide="plus"></i> Add Blank Module</button>
+            <button class="btn primary" id="saveCourse"><i data-lucide="save"></i> Save Course</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Saved Courses</h3>
+          <table class="table" id="coursesTable">
+            <thead><tr><th>Title</th><th>Modules</th><th>Cohort</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody><!-- JS --></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EVENTS -->
+      <section id="route-events" class="route" aria-labelledby="h-events">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h3>Calendar</h3>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn small" id="prevMonth"><i data-lucide="chevron-left"></i></button>
+              <div id="calLabel" style="color:var(--muted);font-size:14px;min-width:140px;text-align:center"></div>
+              <button class="btn small" id="nextMonth"><i data-lucide="chevron-right"></i></button>
+              <button class="btn small" id="newEvent"><i data-lucide="calendar-plus"></i> Add</button>
+            </div>
+          </div>
+          <div class="cal-head" style="margin-top:10px"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+          <div id="calendar" class="calendar" style="margin-top:8px"></div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Upcoming</h3>
+          <table class="table" id="eventsTable">
+            <thead><tr><th>Event</th><th>Date</th><th>Time</th><th>Notes</th><th>Actions</th></tr></thead>
+            <tbody><!-- JS --></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- IMPACT -->
+      <section id="route-impact" class="route" aria-labelledby="h-impact">
+        <div class="row">
+          <div class="card"><h3>Participants Over Time</h3><canvas id="chartParticipants" height="120"></canvas></div>
+          <div class="card"><h3>Businesses Launched</h3><canvas id="chartBusinesses" height="120"></canvas></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="route-settings" class="route" aria-labelledby="h-settings">
+        <div class="row">
+          <div class="card">
+            <h3>Brand</h3>
+            <div class="row">
+              <div class="field"><label>Organization Name</label><input id="orgName" placeholder="e.g., New Hope Church"/></div>
+              <div class="field"><label>Primary Color</label><input id="primaryColor" type="color" value="#002D72"/></div>
+            </div>
+            <div style="margin-top:10px">
+              <button id="saveBrand" class="btn primary"><i data-lucide="save"></i> Save Brand</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Data (Demo)</h3>
+            <div class="stack">
+              <button class="btn" id="seedDemo"><i data-lucide="database"></i> Seed demo data</button>
+              <button class="btn" id="clearData"><i data-lucide="trash-2"></i> Clear local data</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <!-- Drawer -->
-  <div class="drawer" id="drawer">
-    <h2>Participant Details</h2>
-    <div class="field"><label>Name</label><input value="Ava Johnson"/></div>
-    <div class="field"><label>Status</label>
-      <select><option>Enrolled</option><option>In Training</option><option>Graduated</option></select>
+  <!-- Drawer / Modal -->
+  <div class="modal" id="eventModal" aria-hidden="true">
+    <div class="dialog">
+      <div class="dialog-header">
+        <strong id="emTitle">Create Event</strong>
+        <button class="btn small" id="emClose"><i data-lucide="x"></i> Close</button>
+      </div>
+      <div class="dialog-body">
+        <div class="row">
+          <div class="field"><label>Event Name</label><input id="emName" placeholder="Launch Sunday"/></div>
+          <div class="field"><label>Type</label>
+            <select id="emType">
+              <option>Workshop</option><option>Pitch Night</option><option>Mentor Meet-Up</option><option>Graduation</option><option>Community Idea Night</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Date</label><input id="emDate" type="date"/></div>
+          <div class="field"><label>Time</label><input id="emTime" type="time"/></div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="emNotes" rows="3" placeholder="Location, setup, resources"></textarea></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn primary" id="emSave"><i data-lucide="save"></i> Save</button>
+          <button class="btn" id="emCancel">Cancel</button>
+        </div>
+      </div>
     </div>
-    <div class="field"><label>Notes</label><textarea rows="5"></textarea></div>
-    <button class="btn primary">Save</button>
   </div>
 
+  <!-- Toast -->
+  <div class="toast" id="toast">Saved</div>
+
   <script>
+    // Icons
     lucide.createIcons();
 
-    const sidebar=document.getElementById('sidebar');
-    const collapseBtn=document.getElementById('collapseBtn');
-    collapseBtn.addEventListener('click',()=>{
-      sidebar.classList.toggle('collapsed');
-      collapseBtn.innerHTML= sidebar.classList.contains('collapsed')
-        ? '<i data-lucide=\"chevron-right\"></i>'
-        : '<i data-lucide=\"chevron-left\"></i>';
+    // QS helpers
+    const $ = (s, d=document)=>d.querySelector(s);
+    const $$ = (s, d=document)=>Array.from(d.querySelectorAll(s));
+
+    // Toast
+    function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
+
+    // Theme / Settings persistence
+    const DBKEY = "kb_crm_state_v1";
+    let state = JSON.parse(localStorage.getItem(DBKEY) || "{}");
+    if(!state.brand){ state.brand = { orgName: "Your Church", color: "#002D72" }; }
+    if(!state.kpis){ state.kpis = { pdfs: 0, courses: 0, churches: 0, participants: 0 }; }
+    if(!state.activity){ state.activity = []; }
+    if(!state.pdfs){ state.pdfs = []; }           // [{id,name,size,added}]
+    if(!state.sets){ state.sets = []; }           // [{id,name,items,created}]
+    if(!state.courses){ state.courses = []; }     // [{id,title,cohort,desc,modules,created}]
+    if(!state.events){ state.events = []; }       // [{id,name,type,date,time,notes}]
+    function save(){ localStorage.setItem(DBKEY, JSON.stringify(state)); }
+
+    // Apply brand color
+    function applyBrand(){
+      document.documentElement.style.setProperty('--blue', state.brand.color || '#002D72');
+      $("#orgName").value = state.brand.orgName || "Your Church";
+      $("#primaryColor").value = state.brand.color || "#002D72";
+    }
+    applyBrand();
+
+    // Sidebar collapse
+    const sidebar = $("#sidebar");
+    $("#collapseBtn").addEventListener("click", ()=>{
+      sidebar.classList.toggle("collapsed");
+      const icon = sidebar.classList.contains("collapsed") ? "chevron-right" : "chevron-left";
+      $("#collapseBtn").innerHTML = `<i data-lucide="${icon}"></i>`;
       lucide.createIcons();
     });
+    $("#mobileToggle").addEventListener("click", ()=>{
+      sidebar.classList.toggle("collapsed");
+      const icon = sidebar.classList.contains("collapsed") ? "panel-right" : "panel-left";
+      $("#mobileToggle").innerHTML = `<i data-lucide="${icon}"></i>`;
+      lucide.createIcons();
+    });
+
+    // Routing
+    const routes = $$(".nav a", sidebar);
+    routes.forEach(a=>{
+      a.addEventListener("click", (e)=>{
+        e.preventDefault();
+        const r = a.dataset.route;
+        selectRoute(r);
+      });
+    });
+    function selectRoute(name){
+      routes.forEach(a=>a.classList.toggle("active", a.dataset.route===name));
+      $$(".route").forEach(el=>el.classList.remove("active"));
+      const el = $("#route-"+name);
+      if(el){ el.classList.add("active"); }
+      if(name==="impact") renderCharts();
+      if(name==="events") renderCalendar();
+      if(name==="curriculum") { renderPdfTable(); renderSetsTable(); }
+      if(name==="courses") { renderCourseLibrary(); renderCoursesTable(); }
+      if(name==="dashboard") { renderDashboard(); }
+    }
+
+    // Initial render
+    renderDashboard();
+
+    // Dashboard renders
+    function renderDashboard(){
+      $("#kpiPdfs").textContent = state.pdfs.length;
+      $("#kpiCourses").textContent = state.courses.length;
+      $("#kpiChurches").textContent = state.kpis.churches || 0;
+      $("#kpiParticipants").textContent = state.kpis.participants || 0;
+
+      const tbody = $("#activityTable tbody");
+      tbody.innerHTML = "";
+      const items = (state.activity || []).slice().sort((a,b)=>b.ts-a.ts).slice(0,8);
+      for(const it of items){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${it.text}</td><td>${it.user||"Admin"}</td><td>${new Date(it.ts).toLocaleDateString()}</td>`;
+        tbody.appendChild(tr);
+      }
+    }
+
+    // Global search (demo: highlights route with matches)
+    $("#globalSearch").addEventListener("keydown", (e)=>{
+      if(e.key==="Enter"){
+        const q = e.target.value.toLowerCase().trim();
+        if(!q) return;
+        if(state.pdfs.some(p=>p.name.toLowerCase().includes(q))) selectRoute("curriculum");
+        else if(state.courses.some(c=>c.title.toLowerCase().includes(q))) selectRoute("courses");
+        else if(state.events.some(ev=>ev.name.toLowerCase().includes(q))) selectRoute("events");
+        else selectRoute("dashboard");
+      }
+    });
+
+    // Quick header buttons
+    $("#quickUpload").addEventListener("click", ()=>{ selectRoute("curriculum"); $("#pdfInput").click(); });
+    $("#newCourse").addEventListener("click", ()=>{ selectRoute("courses"); $("#courseTitle").focus(); });
+    $("#qaUpload").addEventListener("click", ()=>{ selectRoute("curriculum"); $("#pdfInput").click(); });
+    $("#qaStartCourse").addEventListener("click", ()=>{ selectRoute("courses"); });
+    $("#qaSchedule").addEventListener("click", ()=>{ selectRoute("events"); $("#newEvent").click(); });
+
+    /* -------- CURRICULUM: PDF Upload / Library / Sets -------- */
+    const drop = $("#drop");
+    const pdfInput = $("#pdfInput");
+    ["dragenter","dragover"].forEach(ev=> drop.addEventListener(ev, (e)=>{ e.preventDefault(); drop.classList.add("drag"); }));
+    ["dragleave","drop"].forEach(ev=> drop.addEventListener(ev, (e)=>{ e.preventDefault(); drop.classList.remove("drag"); }));
+    drop.addEventListener("drop", (e)=> {
+      e.preventDefault();
+      const files = Array.from(e.dataTransfer.files||[]).filter(f=>f.type==="application/pdf");
+      if(files.length) ingestPdfs(files);
+    });
+    pdfInput.addEventListener("change", (e)=>{
+      const files = Array.from(e.target.files||[]).filter(f=>f.type==="application/pdf");
+      if(files.length) ingestPdfs(files);
+      pdfInput.value = "";
+    });
+    function ingestPdfs(files){
+      const now = Date.now();
+      for(const f of files){
+        state.pdfs.push({ id:id(), name:f.name, size:f.size, added:now });
+        state.activity.unshift({ id:id(), text:`Uploaded PDF "${f.name}"`, user:"Admin", ts:now });
+      }
+      save();
+      toast("PDFs added");
+      renderPdfTable(); renderDashboard();
+    }
+    function renderPdfTable(){
+      const tbody = $("#pdfTable tbody");
+      tbody.innerHTML = "";
+      for(const p of state.pdfs){
+        const tr = document.createElement("tr");
+        const sizeKB = Math.max(1, Math.round(p.size/1024));
+        tr.innerHTML = `
+          <td>${p.name}</td>
+          <td>${sizeKB} KB</td>
+          <td>${new Date(p.added).toLocaleDateString()}</td>
+          <td><button class="btn small" data-pid="${p.id}"><i data-lucide="plus"></i> Select</button></td>
+        `;
+        tbody.appendChild(tr);
+      }
+      lucide.createIcons();
+      // Select handlers
+      $$("#pdfTable [data-pid]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const pdf = state.pdfs.find(x=>x.id===btn.dataset.pid);
+          if(!pdf) return;
+          const tag = document.createElement("div");
+          tag.className = "pill";
+          tag.textContent = pdf.name;
+          tag.dataset.pid = pdf.id;
+          tag.style.userSelect = "none";
+          tag.style.cursor = "pointer";
+          tag.title = "Click to remove";
+          tag.addEventListener("click", ()=> tag.remove());
+          $("#selectedList").appendChild(tag);
+        });
+      });
+    }
+    $("#saveSet").addEventListener("click", ()=>{
+      const name = $("#setName").value.trim();
+      if(!name) return toast("Name your set");
+      const ids = $$("#selectedList .pill").map(p=>p.dataset.pid);
+      const now = Date.now();
+      state.sets.push({ id:id(), name, items:ids, created:now });
+      state.activity.unshift({ id:id(), text:`Saved curriculum set "${name}"`, user:"Admin", ts:now });
+      save();
+      $("#setName").value = "";
+      $("#selectedList").innerHTML = "";
+      renderSetsTable(); renderDashboard();
+      toast("Set saved");
+    });
+    function renderSetsTable(){
+      const tbody = $("#setsTable tbody");
+      tbody.innerHTML = "";
+      for(const s of state.sets){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${s.name}</td>
+          <td>${s.items.length}</td>
+          <td>${new Date(s.created).toLocaleDateString()}</td>
+          <td>
+            <button class="btn small" data-apply="${s.id}"><i data-lucide="wand-2"></i> Build Course</button>
+            <button class="btn small" data-delset="${s.id}"><i data-lucide="trash-2"></i> Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+      lucide.createIcons();
+      $$("#setsTable [data-apply]").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          const s = state.sets.find(x=>x.id===b.dataset.apply); if(!s) return;
+          selectRoute("courses");
+          // Pre-seed modules from PDFs
+          const mods = s.items.map((id,i)=>{
+            const pdf = state.pdfs.find(x=>x.id===id);
+            return { id:id(), title: pdf ? pdf.name.replace(/\.pdf$/i,"") : ("Module "+(i+1)), duration: 45, source: pdf?pdf.name:"Manual" };
+          });
+          modules = mods; renderModules();
+          toast("Loaded modules from set");
+        });
+      });
+      $$("#setsTable [data-delset]").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          state.sets = state.sets.filter(x=>x.id!==b.dataset.delset);
+          save(); renderSetsTable(); toast("Set deleted");
+        });
+      });
+    }
+
+    /* -------- COURSES: Builder with drag-drop -------- */
+    const sampleLibrary = [
+      { title:"Entrepreneur Mindset", duration:45 },
+      { title:"From Idea to MVP", duration:50 },
+      { title:"Basics of Marketing", duration:40 },
+      { title:"Taxes & Money Made Simple", duration:55 },
+      { title:"Biblical Stewardship", duration:35 },
+      { title:"Customer Discovery", duration:45 },
+      { title:"Pitch Night Prep", duration:30 }
+    ];
+    function renderCourseLibrary(){
+      const lib = $("#moduleLibrary");
+      lib.innerHTML = "";
+      sampleLibrary.forEach(item=>{
+        const btn = document.createElement("button");
+        btn.className = "btn small";
+        btn.innerHTML = `<i data-lucide="plus"></i> ${item.title}`;
+        btn.addEventListener("click", ()=>{
+          modules.push({ id:id(), title:item.title, duration:item.duration, source:"Library" });
+          renderModules();
+        });
+        lib.appendChild(btn);
+      });
+      lucide.createIcons();
+    }
+
+    let modules = []; // working course modules
+    function renderModules(){
+      const wrap = $("#modulesList");
+      wrap.innerHTML = "";
+      modules.forEach((m, idx)=>{
+        const el = document.createElement("div");
+        el.className = "module";
+        el.draggable = true;
+        el.dataset.id = m.id;
+        el.innerHTML = `
+          <div class="handle"><i data-lucide="grip-vertical"></i></div>
+          <div>
+            <div class="title">${m.title}</div>
+            <div class="meta">${m.duration||45} min • ${m.source||"Manual"}</div>
+          </div>
+          <div class="actions">
+            <button data-edit="${m.id}" title="Edit"><i data-lucide="pencil"></i></button>
+            <button data-del="${m.id}" title="Remove"><i data-lucide="x"></i></button>
+          </div>
+        `;
+        wrap.appendChild(el);
+      });
+      lucide.createIcons();
+      // Drag & drop reordering
+      $$("#modulesList .module").forEach(item=>{
+        item.addEventListener("dragstart", (e)=>{ e.dataTransfer.setData("text/plain", item.dataset.id); });
+        item.addEventListener("dragover", (e)=>{ e.preventDefault(); });
+        item.addEventListener("drop", (e)=>{
+          e.preventDefault();
+          const fromId = e.dataTransfer.getData("text/plain");
+          const toId = item.dataset.id;
+          const fromIdx = modules.findIndex(x=>x.id===fromId);
+          const toIdx = modules.findIndex(x=>x.id===toId);
+          if(fromIdx<0 || toIdx<0 || fromIdx===toIdx) return;
+          const [moved] = modules.splice(fromIdx,1);
+          modules.splice(toIdx,0,moved);
+          renderModules();
+        });
+      });
+      // Edit / Delete
+      $$("#modulesList [data-del]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          modules = modules.filter(x=>x.id!==btn.dataset.del);
+          renderModules();
+        });
+      });
+      $$("#modulesList [data-edit]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const m = modules.find(x=>x.id===btn.dataset.edit); if(!m) return;
+          const newTitle = prompt("Module title", m.title)||m.title;
+          const dur = parseInt(prompt("Duration (minutes)", m.duration||45),10);
+          m.title = newTitle; m.duration = isNaN(dur)?(m.duration||45):dur;
+          renderModules();
+        });
+      });
+    }
+    $("#addBlank").addEventListener("click", ()=>{
+      modules.push({ id:id(), title:"New Module", duration:45, source:"Manual" });
+      renderModules();
+    });
+    $("#saveCourse").addEventListener("click", ()=>{
+      const title = $("#courseTitle").value.trim() || "Untitled Course";
+      const cohort = $("#courseCohort").value.trim() || "";
+      const desc = $("#courseDesc").value.trim() || "";
+      const now = Date.now();
+      state.courses.push({ id:id(), title, cohort, desc, modules:[...modules], created:now });
+      state.activity.unshift({ id:id(), text:`Saved course "${title}"`, user:"Admin", ts:now });
+      modules = []; $("#courseTitle").value=""; $("#courseCohort").value=""; $("#courseDesc").value="";
+      save(); toast("Course saved");
+      renderCoursesTable(); renderDashboard();
+    });
+    function renderCoursesTable(){
+      const tbody = $("#coursesTable tbody");
+      if(!tbody) return;
+      tbody.innerHTML = "";
+      for(const c of state.courses){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${c.title}</td>
+          <td>${(c.modules||[]).length}</td>
+          <td>${c.cohort||"-"}</td>
+          <td>${new Date(c.created).toLocaleDateString()}</td>
+          <td>
+            <button class="btn small" data-load="${c.id}"><i data-lucide="download"></i> Load</button>
+            <button class="btn small" data-delc="${c.id}"><i data-lucide="trash-2"></i> Delete</button>
+          </td>`;
+        tbody.appendChild(tr);
+      }
+      lucide.createIcons();
+      $$("#coursesTable [data-load]").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          const c = state.courses.find(x=>x.id===b.dataset.load); if(!c) return;
+          selectRoute("courses");
+          $("#courseTitle").value = c.title;
+          $("#courseCohort").value = c.cohort || "";
+          $("#courseDesc").value = c.desc || "";
+          modules = (c.modules||[]).map(m=>({...m, id:id()})); // copy with new ids
+          renderModules();
+          toast("Course loaded");
+        });
+      });
+      $$("#coursesTable [data-delc]").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          state.courses = state.courses.filter(x=>x.id!==b.dataset.delc);
+          save(); renderCoursesTable(); toast("Course deleted"); renderDashboard();
+        });
+      });
+    }
+
+    /* -------- EVENTS: Simple calendar + list -------- */
+    const cal = { year: new Date().getFullYear(), month: new Date().getMonth() }; // 0-based
+    function renderCalendar(){
+      $("#calLabel").textContent = new Date(cal.year, cal.month, 1).toLocaleString(undefined,{ month:"long", year:"numeric" });
+      const grid = $("#calendar");
+      grid.innerHTML = "";
+      const firstDay = new Date(cal.year, cal.month, 1).getDay(); // 0 sun
+      const daysInMonth = new Date(cal.year, cal.month+1, 0).getDate();
+      // leading blanks
+      for(let i=0;i<firstDay;i++){ const b = document.createElement("div"); grid.appendChild(b); }
+      for(let d=1; d<=daysInMonth; d++){
+        const cell = document.createElement("div"); cell.className="day";
+        const label = document.createElement("div"); label.className="dnum"; label.textContent = d;
+        cell.appendChild(label);
+        const dateStr = new Date(cal.year, cal.month, d).toISOString().slice(0,10);
+        const todays = state.events.filter(ev=>ev.date===dateStr);
+        for(const ev of todays){
+          const pill = document.createElement("div"); pill.className="event"; pill.textContent = ev.name;
+          cell.appendChild(pill);
+        }
+        grid.appendChild(cell);
+      }
+      renderEventsTable();
+    }
+    function renderEventsTable(){
+      const tbody = $("#eventsTable tbody"); tbody.innerHTML = "";
+      const upcoming = state.events.slice().sort((a,b)=> (a.date>b.date?1:-1));
+      for(const ev of upcoming){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${ev.name}</td>
+          <td>${ev.date}</td>
+          <td>${ev.time||"-"}</td>
+          <td>${ev.notes||""}</td>
+          <td>
+            <button class="btn small" data-delev="${ev.id}"><i data-lucide="trash-2"></i> Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+      lucide.createIcons();
+      $$("#eventsTable [data-delev]").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          state.events = state.events.filter(x=>x.id!==b.dataset.delev);
+          save(); renderCalendar(); toast("Event deleted");
+        });
+      });
+    }
+    $("#prevMonth").addEventListener("click", ()=>{ cal.month--; if(cal.month<0){cal.month=11; cal.year--;} renderCalendar(); });
+    $("#nextMonth").addEventListener("click", ()=>{ cal.month++; if(cal.month>11){cal.month=0; cal.year++;} renderCalendar(); });
+    $("#newEvent").addEventListener("click", ()=>{ $("#eventModal").classList.add("open"); });
+    $("#emClose").addEventListener("click", ()=>{ $("#eventModal").classList.remove("open"); });
+    $("#emCancel").addEventListener("click", ()=>{ $("#eventModal").classList.remove("open"); });
+    $("#emSave").addEventListener("click", ()=>{
+      const name = $("#emName").value.trim(); if(!name) return;
+      const type = $("#emType").value;
+      const date = $("#emDate").value;
+      const time = $("#emTime").value;
+      const notes = $("#emNotes").value.trim();
+      state.events.push({ id:id(), name, type, date, time, notes });
+      state.activity.unshift({ id:id(), text:`Created event "${name}"`, user:"Admin", ts:Date.now() });
+      save();
+      $("#emName").value=""; $("#emDate").value=""; $("#emTime").value=""; $("#emNotes").value="";
+      $("#eventModal").classList.remove("open");
+      renderCalendar(); renderDashboard(); toast("Event saved");
+    });
+
+    /* -------- IMPACT: Charts -------- */
+    let chartsMade = false;
+    function renderCharts(){
+      if(chartsMade) return;
+      const ctx1 = $("#chartParticipants").getContext("2d");
+      const ctx2 = $("#chartBusinesses").getContext("2d");
+      new Chart(ctx1,{ type:"line", data:{ labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], datasets:[{ label:"Participants", data:[10,14,18,27,33,40,48,57,64,71,80,92], borderColor:getComputedStyle(document.documentElement).getPropertyValue('--blue').trim(), fill:false, tension:.25 }]}, options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, grid:{ color:"#eef2f9"}}, x:{ grid:{display:false}} } });
+      new Chart(ctx2,{ type:"bar", data:{ labels:["Q1","Q2","Q3","Q4"], datasets:[{ label:"Businesses", data:[2,6,9,14], backgroundColor:getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() }]}, options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, grid:{ color:"#eef2f9"}}, x:{ grid:{display:false}} } });
+      chartsMade = true;
+    }
+
+    /* -------- SETTINGS -------- */
+    $("#saveBrand").addEventListener("click", ()=>{
+      state.brand.orgName = $("#orgName").value.trim() || "Your Church";
+      state.brand.color = $("#primaryColor").value || "#002D72";
+      save(); applyBrand(); toast("Brand saved");
+      lucide.createIcons();
+    });
+
+    $("#seedDemo").addEventListener("click", ()=>{
+      const now = Date.now();
+      state.activity.unshift({ id:id(), text:"Seeded demo data", user:"Admin", ts:now });
+      // PDFs
+      state.pdfs = [
+        { id:id(), name:"Foundations_101.pdf", size: 210_000, added: now-86400e3*8 },
+        { id:id(), name:"Taxes_and_Money.pdf", size: 380_000, added: now-86400e3*6 },
+        { id:id(), name:"Marketing_Basics.pdf", size: 260_000, added: now-86400e3*4 },
+        { id:id(), name:"Stewardship_Principles.pdf", size: 190_000, added: now-86400e3*2 }
+      ];
+      // Sets
+      state.sets = [
+        { id:id(), name:"Foundations Cohort A", items:[state.pdfs[0].id, state.pdfs[2].id, state.pdfs[3].id], created: now-86400e3*2 }
+      ];
+      // Courses
+      state.courses = [
+        { id:id(), title:"Faith & Finance", cohort:"Fall 2025", desc:"Money with integrity and wisdom.", created: now-86400e3*3, modules:[
+          { id:id(), title:"Biblical Stewardship", duration:35, source:"Library" },
+          { id:id(), title:"Taxes & Money Made Simple", duration:55, source:"Library" }
+        ]},
+        { id:id(), title:"Launch to Market", cohort:"Fall 2025", desc:"From idea to first customer.", created: now-86400e3*1, modules:[
+          { id:id(), title:"Customer Discovery", duration:45, source:"Library" },
+          { id:id(), title:"Basics of Marketing", duration:40, source:"Library" }
+        ]}
+      ];
+      // Events
+      const year = new Date().getFullYear(), month = new Date().getMonth()+1;
+      state.events = [
+        { id:id(), name:"Launch Sunday", type:"Workshop", date:`${year}-${pad(month)}-10`, time:"18:30", notes:"Vision cast + signups" },
+        { id:id(), name:"Community Idea Night", type:"Community Idea Night", date:`${year}-${pad(month)}-15`, time:"19:00", notes:"5-min pitches" },
+        { id:id(), name:"Mentor Meet-Up", type:"Mentor Meet-Up", date:`${year}-${pad(month)}-22`, time:"18:00", notes:"Roundtables" }
+      ];
+      // KPIs
+      state.kpis = { pdfs: state.pdfs.length, courses: state.courses.length, churches: 8, participants: 143 };
+      save();
+      renderDashboard();
+      if($("#route-curriculum").classList.contains("active")) { renderPdfTable(); renderSetsTable(); }
+      if($("#route-courses").classList.contains("active")) { renderCourseLibrary(); renderCoursesTable(); }
+      if($("#route-events").classList.contains("active")) { renderCalendar(); }
+      toast("Demo data seeded");
+    });
+
+    $("#clearData").addEventListener("click", ()=>{
+      localStorage.removeItem(DBKEY);
+      state = {}; // reset
+      location.reload();
+    });
+
+    // Utils
+    function id(){ return Math.random().toString(36).slice(2,10); }
+    function pad(n){ return String(n).padStart(2,"0"); }
+
+    // Nav startup selection
+    // (keeps current if already active)
+    selectRoute("dashboard");
   </script>
 </body>
 </html>
