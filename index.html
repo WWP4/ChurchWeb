@@ -3,183 +3,381 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mom's MasterChef Birthday</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <title>Mom's Birthday Chef Challenge</title>
+  <meta
+    name="description"
+    content="A dramatic birthday dinner judging experience with chef presentations, scoring, and winner reveal."
+  />
+
+  <!-- Fonts only; no CSS included yet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <div class="page-shell">
+  <div class="app-shell" id="appShell">
 
-    <header class="hero">
-      <div class="hero-topline">Birthday Judging Experience</div>
-      <h1>Mom’s MasterChef Birthday</h1>
-      <p class="hero-subtitle">
-        Tonight’s dishes are not just served — they are judged.
-      </p>
+    <!-- GLOBAL BACKDROP / ATMOSPHERE LAYERS -->
+    <div class="app-background" aria-hidden="true">
+      <div class="app-background__gradient"></div>
+      <div class="app-background__spotlight"></div>
+      <div class="app-background__texture"></div>
+    </div>
 
-      <div class="hero-meta">
-        <div class="meta-chip active" id="currentCourseChip">Current Round: Appetizer</div>
-        <div class="meta-chip" id="dishCountChip">0 Dishes Judged</div>
+    <!-- TOP BRAND BAR -->
+    <header class="topbar" aria-label="Event Header">
+      <div class="topbar__inner">
+        <div class="topbar__brand">
+          <div class="topbar__logo-wrap">
+            <!-- Replace with your actual logo path -->
+            <img
+              src="assets/masterchef-logo.svg"
+              alt="MasterChef-style event logo"
+              class="topbar__logo"
+            />
+          </div>
+
+          <div class="topbar__brand-text">
+            <p class="topbar__eyebrow">Birthday Dinner Experience</p>
+            <h1 class="topbar__title">Mom’s Chef Challenge</h1>
+          </div>
+        </div>
+
+        <div class="topbar__status" aria-label="Current Progress">
+          <div class="status-chip" id="roundStatusChip">
+            <span class="status-chip__label">Round</span>
+            <span class="status-chip__value">Appetizer</span>
+          </div>
+
+          <div class="status-chip" id="chefStatusChip">
+            <span class="status-chip__label">Current Chef</span>
+            <span class="status-chip__value">Chef Name</span>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="main-grid">
-      <section class="panel form-panel">
-        <div class="panel-header">
-          <div>
-            <div class="eyebrow">Judge Console</div>
-            <h2>Add a Dish</h2>
-          </div>
-          <button id="nextCourseBtn" class="ghost-btn">Next Course</button>
-        </div>
+    <main class="main-stage" id="mainStage">
 
-        <div class="form-grid">
-          <div class="field full">
-            <label for="chefName">Chef Name</label>
-            <input id="chefName" type="text" placeholder="Ben" />
-          </div>
+      <!-- INTRO SCREEN -->
+      <section
+        class="screen screen--intro is-active"
+        id="introScreen"
+        aria-labelledby="introTitle"
+      >
+        <div class="screen__inner">
+          <div class="intro-hero">
+            <div class="intro-hero__logo-wrap">
+              <img
+                src="assets/masterchef-logo.svg"
+                alt="MasterChef-style event logo"
+                class="intro-hero__logo"
+              />
+            </div>
 
-          <div class="field full">
-            <label for="dishName">Dish Name</label>
-            <input id="dishName" type="text" placeholder="Creamy Mushroom Pappardelle with Roasted Chicken" />
-          </div>
+            <p class="intro-hero__eyebrow">Tonight’s Dishes Will Be Judged</p>
 
-          <div class="field full">
-            <label for="courseSelect">Course</label>
-            <select id="courseSelect">
-              <option>Appetizer</option>
-              <option>Main Course</option>
-              <option>Dessert</option>
-            </select>
-          </div>
+            <h2 class="intro-hero__title" id="introTitle">
+              Welcome to Mom’s Birthday Chef Challenge
+            </h2>
 
-          <div class="field">
-            <label for="taste">Taste</label>
-            <input id="taste" type="number" min="1" max="10" value="10" />
-          </div>
+            <p class="intro-hero__description">
+              Each chef will present their dish. The judge will score it on
+              presentation, taste, and creativity.
+            </p>
 
-          <div class="field">
-            <label for="presentation">Presentation</label>
-            <input id="presentation" type="number" min="1" max="10" value="10" />
-          </div>
-
-          <div class="field">
-            <label for="creativity">Creativity</label>
-            <input id="creativity" type="number" min="1" max="10" value="10" />
-          </div>
-
-          <div class="field">
-            <label for="energy">Chef Energy</label>
-            <input id="energy" type="number" min="1" max="10" value="10" />
-          </div>
-
-          <div class="field full">
-            <label for="notes">Judge Commentary</label>
-            <textarea id="notes" rows="4" placeholder="Beautiful plating, rich flavor, strong finish..."></textarea>
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button id="presentDishBtn" class="primary-btn">Present Dish</button>
-          <button id="addDishBtn" class="secondary-btn">Add Directly</button>
-          <button id="clearBtn" class="ghost-btn">Clear</button>
-        </div>
-      </section>
-
-      <section class="panel leaderboard-panel">
-        <div class="panel-header">
-          <div>
-            <div class="eyebrow">Live Ranking</div>
-            <h2>Leaderboard</h2>
-          </div>
-        </div>
-
-        <div id="leaderboard" class="leaderboard-list empty-state">
-          <div class="empty-card">
-            No dishes judged yet.
+            <div class="intro-hero__actions">
+              <button type="button" id="startExperienceBtn">
+                Start Experience
+              </button>
+            </div>
           </div>
         </div>
       </section>
+
+      <!-- PRESENTATION SCREEN -->
+      <section
+        class="screen screen--presentation"
+        id="presentationScreen"
+        aria-labelledby="presentationDishTitle"
+        hidden
+      >
+        <div class="screen__inner">
+          <article class="presentation-card" aria-live="polite">
+            <header class="presentation-card__header">
+              <p class="presentation-card__eyebrow" id="presentationCourseLabel">
+                Appetizer Round
+              </p>
+
+              <p class="presentation-card__chef-kicker">
+                <span class="presentation-card__chef-label">Chef</span>
+                <span class="presentation-card__chef-name" id="presentationChefName">
+                  Ben
+                </span>
+              </p>
+
+              <h2
+                class="presentation-card__title"
+                id="presentationDishTitle"
+              >
+                Creamy Mushroom Pappardelle with Roasted Chicken
+              </h2>
+
+              <p class="presentation-card__subtitle">
+                is presenting this dish
+              </p>
+            </header>
+
+            <div class="presentation-card__visuals">
+              <figure class="chef-portrait">
+                <div class="chef-portrait__image-wrap">
+                  <img
+                    src="assets/placeholder-chef.jpg"
+                    alt="Chef portrait"
+                    id="presentationChefImage"
+                    class="chef-portrait__image"
+                  />
+                </div>
+                <figcaption class="chef-portrait__caption">
+                  Chef Portrait
+                </figcaption>
+              </figure>
+
+              <figure class="dish-showcase">
+                <div class="dish-showcase__image-wrap">
+                  <img
+                    src="assets/placeholder-dish.jpg"
+                    alt="Presented dish"
+                    id="presentationDishImage"
+                    class="dish-showcase__image"
+                  />
+                </div>
+                <figcaption class="dish-showcase__caption">
+                  Dish Presentation
+                </figcaption>
+              </figure>
+            </div>
+
+            <footer class="presentation-card__footer">
+              <button type="button" id="beginJudgingBtn">
+                Begin Judging
+              </button>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- JUDGING SCREEN -->
+      <section
+        class="screen screen--judging"
+        id="judgingScreen"
+        aria-labelledby="judgingTitle"
+        hidden
+      >
+        <div class="screen__inner">
+          <article class="judging-panel">
+            <header class="judging-panel__header">
+              <p class="judging-panel__eyebrow">Judge’s Scorecard</p>
+              <h2 class="judging-panel__title" id="judgingTitle">
+                How would you rate this dish?
+              </h2>
+
+              <div class="judging-panel__dish-meta">
+                <p class="judging-panel__chef" id="judgingChefLabel">
+                  Chef Ben
+                </p>
+                <p class="judging-panel__dish" id="judgingDishLabel">
+                  Creamy Mushroom Pappardelle with Roasted Chicken
+                </p>
+              </div>
+            </header>
+
+            <form class="judging-form" id="judgingForm">
+              <!-- PRESENTATION -->
+              <fieldset class="score-group" data-score-group="presentation">
+                <legend class="score-group__legend">Presentation</legend>
+
+                <div
+                  class="score-group__buttons"
+                  role="radiogroup"
+                  aria-label="Presentation rating"
+                >
+                  <button type="button" data-category="presentation" data-value="1">1</button>
+                  <button type="button" data-category="presentation" data-value="2">2</button>
+                  <button type="button" data-category="presentation" data-value="3">3</button>
+                  <button type="button" data-category="presentation" data-value="4">4</button>
+                  <button type="button" data-category="presentation" data-value="5">5</button>
+                </div>
+
+                <input type="hidden" name="presentation" id="presentationScore" value="" />
+              </fieldset>
+
+              <!-- TASTE -->
+              <fieldset class="score-group" data-score-group="taste">
+                <legend class="score-group__legend">Taste</legend>
+
+                <div
+                  class="score-group__buttons"
+                  role="radiogroup"
+                  aria-label="Taste rating"
+                >
+                  <button type="button" data-category="taste" data-value="1">1</button>
+                  <button type="button" data-category="taste" data-value="2">2</button>
+                  <button type="button" data-category="taste" data-value="3">3</button>
+                  <button type="button" data-category="taste" data-value="4">4</button>
+                  <button type="button" data-category="taste" data-value="5">5</button>
+                </div>
+
+                <input type="hidden" name="taste" id="tasteScore" value="" />
+              </fieldset>
+
+              <!-- CREATIVITY -->
+              <fieldset class="score-group" data-score-group="creativity">
+                <legend class="score-group__legend">Creativity</legend>
+
+                <div
+                  class="score-group__buttons"
+                  role="radiogroup"
+                  aria-label="Creativity rating"
+                >
+                  <button type="button" data-category="creativity" data-value="1">1</button>
+                  <button type="button" data-category="creativity" data-value="2">2</button>
+                  <button type="button" data-category="creativity" data-value="3">3</button>
+                  <button type="button" data-category="creativity" data-value="4">4</button>
+                  <button type="button" data-category="creativity" data-value="5">5</button>
+                </div>
+
+                <input type="hidden" name="creativity" id="creativityScore" value="" />
+              </fieldset>
+
+              <div class="judging-form__actions">
+                <button type="submit" id="submitScoresBtn">
+                  Submit Scores
+                </button>
+              </div>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <!-- RESULT SCREEN -->
+      <section
+        class="screen screen--result"
+        id="resultScreen"
+        aria-labelledby="resultTitle"
+        hidden
+      >
+        <div class="screen__inner">
+          <article class="result-card" aria-live="polite">
+            <header class="result-card__header">
+              <p class="result-card__eyebrow">Scores Submitted</p>
+              <h2 class="result-card__title" id="resultTitle">
+                Final Dish Score
+              </h2>
+            </header>
+
+            <div class="result-card__chef-dish">
+              <p class="result-card__chef" id="resultChefName">Chef Ben</p>
+              <h3 class="result-card__dish" id="resultDishName">
+                Creamy Mushroom Pappardelle with Roasted Chicken
+              </h3>
+            </div>
+
+            <div class="result-card__scores">
+              <div class="score-result">
+                <span class="score-result__label">Presentation</span>
+                <strong class="score-result__value" id="resultPresentationScore">5</strong>
+              </div>
+
+              <div class="score-result">
+                <span class="score-result__label">Taste</span>
+                <strong class="score-result__value" id="resultTasteScore">5</strong>
+              </div>
+
+              <div class="score-result">
+                <span class="score-result__label">Creativity</span>
+                <strong class="score-result__value" id="resultCreativityScore">5</strong>
+              </div>
+            </div>
+
+            <div class="result-card__total">
+              <span class="result-card__total-label">Total</span>
+              <strong class="result-card__total-value" id="resultTotalScore">15 / 15</strong>
+            </div>
+
+            <footer class="result-card__actions">
+              <button type="button" id="nextChefBtn">Next Chef</button>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- WINNER SCREEN -->
+      <section
+        class="screen screen--winner"
+        id="winnerScreen"
+        aria-labelledby="winnerTitle"
+        hidden
+      >
+        <div class="screen__inner">
+          <article class="winner-card" aria-live="polite">
+            <header class="winner-card__header">
+              <p class="winner-card__eyebrow">Tonight’s Winner</p>
+              <h2 class="winner-card__title" id="winnerTitle">
+                Winning Dish Reveal
+              </h2>
+            </header>
+
+            <div class="winner-card__content">
+              <p class="winner-card__chef" id="winnerChefName">Chef Ben</p>
+              <h3 class="winner-card__dish" id="winnerDishName">
+                Creamy Mushroom Pappardelle with Roasted Chicken
+              </h3>
+
+              <div class="winner-card__image-wrap">
+                <img
+                  src="assets/placeholder-winner.jpg"
+                  alt="Winning dish"
+                  id="winnerDishImage"
+                  class="winner-card__image"
+                />
+              </div>
+
+              <p class="winner-card__score" id="winnerFinalScore">
+                15 / 15
+              </p>
+            </div>
+
+            <footer class="winner-card__actions">
+              <button type="button" id="restartExperienceBtn">
+                Restart Experience
+              </button>
+            </footer>
+          </article>
+        </div>
+      </section>
+
     </main>
 
-    <section class="panel judged-panel">
-      <div class="panel-header">
-        <div>
-          <div class="eyebrow">Judge Archive</div>
-          <h2>Judged Dishes</h2>
-        </div>
-      </div>
+    <!-- OPTIONAL HIDDEN DATA / ADMIN STRUCTURE -->
+    <aside class="system-panel" id="systemPanel" hidden aria-hidden="true">
+      <section class="system-panel__section">
+        <h2>Chef Queue</h2>
+        <ol id="chefQueueList">
+          <li>Chef 1</li>
+          <li>Chef 2</li>
+          <li>Chef 3</li>
+        </ol>
+      </section>
 
-      <div id="judgedDishes" class="judged-list empty-state">
-        <div class="empty-card">
-          Every scored dish will appear here with notes and totals.
-        </div>
-      </div>
-    </section>
-
-    <section class="panel winner-panel">
-      <div class="panel-header">
-        <div>
-          <div class="eyebrow">Finale</div>
-          <h2>Winner Reveal</h2>
-        </div>
-        <button id="revealWinnerBtn" class="primary-btn">Reveal Winner</button>
-      </div>
-
-      <div id="winnerPreview" class="winner-preview">
-        No winner revealed yet.
-      </div>
-    </section>
+      <section class="system-panel__section">
+        <h2>Saved Scores</h2>
+        <div id="savedScoresOutput"></div>
+      </section>
+    </aside>
   </div>
-
-  <div id="revealOverlay" class="reveal-overlay">
-    <div class="reveal-backdrop"></div>
-
-    <div class="reveal-stage">
-      <div class="reveal-course" id="overlayCourse">Appetizer Round</div>
-      <div class="reveal-chef" id="overlayChef">CHEF BEN</div>
-      <div class="reveal-dish" id="overlayDish">Creamy Mushroom Pappardelle</div>
-      <div class="reveal-line" id="overlayLine"></div>
-
-      <div class="score-reveal" id="scoreReveal">
-        <div class="score-item">
-          <span>Taste</span>
-          <strong id="overlayTaste">10</strong>
-        </div>
-        <div class="score-item">
-          <span>Presentation</span>
-          <strong id="overlayPresentation">10</strong>
-        </div>
-        <div class="score-item">
-          <span>Creativity</span>
-          <strong id="overlayCreativity">10</strong>
-        </div>
-        <div class="score-item">
-          <span>Chef Energy</span>
-          <strong id="overlayEnergy">10</strong>
-        </div>
-        <div class="score-total">
-          <span>Total</span>
-          <strong id="overlayTotal">40</strong>
-        </div>
-      </div>
-
-      <button id="closeOverlayBtn" class="overlay-close">Continue</button>
-    </div>
-  </div>
-
-  <div id="winnerOverlay" class="winner-overlay">
-    <div class="winner-stage">
-      <div class="winner-small">And tonight’s winning dish is...</div>
-      <div class="winner-name" id="winnerDishName">Dish Name</div>
-      <div class="winner-chef" id="winnerChefName">Chef Ben</div>
-      <div class="winner-score" id="winnerScore">40 / 40</div>
-      <button id="closeWinnerOverlayBtn" class="overlay-close">Close</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
