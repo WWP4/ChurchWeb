@@ -3,267 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cash Flow Swami | Cash Flow Clarity for Business Owners</title>
-  <meta
-    name="description"
-    content="Simple monthly cash flow clarity for business owners. Understand where pressure is building before it becomes a problem."
-  />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <title>Mom's MasterChef Birthday</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#top" class="brand">Cash Flow Swami</a>
+  <div class="page-shell">
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <header class="hero">
+      <div class="hero-topline">Birthday Judging Experience</div>
+      <h1>Mom’s MasterChef Birthday</h1>
+      <p class="hero-subtitle">
+        Tonight’s dishes are not just served — they are judged.
+      </p>
 
-      <nav class="site-nav" id="siteNav">
-        <a href="#how-it-works">How It Works</a>
-        <a href="#who-its-for">Who It’s For</a>
-        <a href="#about">About</a>
-        <a href="#form" class="nav-cta">Get Started</a>
-      </nav>
+      <div class="hero-meta">
+        <div class="meta-chip active" id="currentCourseChip">Current Round: Appetizer</div>
+        <div class="meta-chip" id="dishCountChip">0 Dishes Judged</div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="panel form-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">Judge Console</div>
+            <h2>Add a Dish</h2>
+          </div>
+          <button id="nextCourseBtn" class="ghost-btn">Next Course</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label for="chefName">Chef Name</label>
+            <input id="chefName" type="text" placeholder="Ben" />
+          </div>
+
+          <div class="field full">
+            <label for="dishName">Dish Name</label>
+            <input id="dishName" type="text" placeholder="Creamy Mushroom Pappardelle with Roasted Chicken" />
+          </div>
+
+          <div class="field full">
+            <label for="courseSelect">Course</label>
+            <select id="courseSelect">
+              <option>Appetizer</option>
+              <option>Main Course</option>
+              <option>Dessert</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="taste">Taste</label>
+            <input id="taste" type="number" min="1" max="10" value="10" />
+          </div>
+
+          <div class="field">
+            <label for="presentation">Presentation</label>
+            <input id="presentation" type="number" min="1" max="10" value="10" />
+          </div>
+
+          <div class="field">
+            <label for="creativity">Creativity</label>
+            <input id="creativity" type="number" min="1" max="10" value="10" />
+          </div>
+
+          <div class="field">
+            <label for="energy">Chef Energy</label>
+            <input id="energy" type="number" min="1" max="10" value="10" />
+          </div>
+
+          <div class="field full">
+            <label for="notes">Judge Commentary</label>
+            <textarea id="notes" rows="4" placeholder="Beautiful plating, rich flavor, strong finish..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button id="presentDishBtn" class="primary-btn">Present Dish</button>
+          <button id="addDishBtn" class="secondary-btn">Add Directly</button>
+          <button id="clearBtn" class="ghost-btn">Clear</button>
+        </div>
+      </section>
+
+      <section class="panel leaderboard-panel">
+        <div class="panel-header">
+          <div>
+            <div class="eyebrow">Live Ranking</div>
+            <h2>Leaderboard</h2>
+          </div>
+        </div>
+
+        <div id="leaderboard" class="leaderboard-list empty-state">
+          <div class="empty-card">
+            No dishes judged yet.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="panel judged-panel">
+      <div class="panel-header">
+        <div>
+          <div class="eyebrow">Judge Archive</div>
+          <h2>Judged Dishes</h2>
+        </div>
+      </div>
+
+      <div id="judgedDishes" class="judged-list empty-state">
+        <div class="empty-card">
+          Every scored dish will appear here with notes and totals.
+        </div>
+      </div>
+    </section>
+
+    <section class="panel winner-panel">
+      <div class="panel-header">
+        <div>
+          <div class="eyebrow">Finale</div>
+          <h2>Winner Reveal</h2>
+        </div>
+        <button id="revealWinnerBtn" class="primary-btn">Reveal Winner</button>
+      </div>
+
+      <div id="winnerPreview" class="winner-preview">
+        No winner revealed yet.
+      </div>
+    </section>
+  </div>
+
+  <div id="revealOverlay" class="reveal-overlay">
+    <div class="reveal-backdrop"></div>
+
+    <div class="reveal-stage">
+      <div class="reveal-course" id="overlayCourse">Appetizer Round</div>
+      <div class="reveal-chef" id="overlayChef">CHEF BEN</div>
+      <div class="reveal-dish" id="overlayDish">Creamy Mushroom Pappardelle</div>
+      <div class="reveal-line" id="overlayLine"></div>
+
+      <div class="score-reveal" id="scoreReveal">
+        <div class="score-item">
+          <span>Taste</span>
+          <strong id="overlayTaste">10</strong>
+        </div>
+        <div class="score-item">
+          <span>Presentation</span>
+          <strong id="overlayPresentation">10</strong>
+        </div>
+        <div class="score-item">
+          <span>Creativity</span>
+          <strong id="overlayCreativity">10</strong>
+        </div>
+        <div class="score-item">
+          <span>Chef Energy</span>
+          <strong id="overlayEnergy">10</strong>
+        </div>
+        <div class="score-total">
+          <span>Total</span>
+          <strong id="overlayTotal">40</strong>
+        </div>
+      </div>
+
+      <button id="closeOverlayBtn" class="overlay-close">Continue</button>
     </div>
-  </header>
+  </div>
 
-  <main id="top">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Fractional CFO Support</div>
-          <h1>Cash flow clarity for business owners who are tired of guessing.</h1>
-          <p class="hero-text">
-            Understand where pressure is building, what is causing it, and what to
-            watch next — without overcomplicating the process.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#form" class="btn btn-primary">Request a Cash Flow Check</a>
-            <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
-          </div>
-
-          <ul class="hero-points">
-            <li>No complicated setup</li>
-            <li>Clear monthly review process</li>
-            <li>Built for real operating decisions</li>
-          </ul>
-        </div>
-
-        <div class="hero-card">
-          <div class="hero-card-inner">
-            <div class="card-label">What You Get</div>
-            <h2>A simpler way to spot cash pressure early.</h2>
-            <div class="mini-list">
-              <div class="mini-item">
-                <strong>Visibility</strong>
-                <span>See where timing problems may be building.</span>
-              </div>
-              <div class="mini-item">
-                <strong>Guidance</strong>
-                <span>Review what matters in plain language.</span>
-              </div>
-              <div class="mini-item">
-                <strong>Consistency</strong>
-                <span>Use a repeatable monthly check-in process.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-light" id="problem">
-      <div class="container narrow">
-        <div class="section-heading">
-          <div class="eyebrow">The Problem</div>
-          <h2>Most businesses do not have a revenue problem. They have a timing problem.</h2>
-          <p>
-            Cash stress often comes from when money moves, not just how much comes in.
-            When that timing is unclear, good businesses feel tight for no obvious reason.
-          </p>
-        </div>
-
-        <div class="card-grid three-up">
-          <article class="info-card">
-            <h3>Receivables come in late</h3>
-            <p>
-              Clients pay on their schedule while payroll, vendors, and taxes stay fixed.
-            </p>
-          </article>
-
-          <article class="info-card">
-            <h3>Costs stack at the wrong time</h3>
-            <p>
-              Inventory, debt, or large bills can hit at the same moment and create pressure fast.
-            </p>
-          </article>
-
-          <article class="info-card">
-            <h3>Reports do not tell the full story</h3>
-            <p>
-              A business can look fine on paper and still feel strained week to week.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-soft" id="how-it-works">
-      <div class="container">
-        <div class="section-heading">
-          <div class="eyebrow">How It Works</div>
-          <h2>A straightforward process.</h2>
-          <p>
-            This should feel practical, not overwhelming.
-          </p>
-        </div>
-
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">01</div>
-            <div>
-              <h3>Share a few business details</h3>
-              <p>
-                Start with a simple intake process so the business can be understood at a practical level.
-              </p>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-number">02</div>
-            <div>
-              <h3>Review where pressure may be coming from</h3>
-              <p>
-                Look at timing issues, operational patterns, and areas that may need attention.
-              </p>
-            </div>
-          </div>
-
-          <div class="step">
-            <div class="step-number">03</div>
-            <div>
-              <h3>Get a clearer view of what to watch</h3>
-              <p>
-                Leave with a better understanding of your cash flow picture and next discussion points.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-light" id="who-its-for">
-      <div class="container narrow">
-        <div class="section-heading">
-          <div class="eyebrow">Who It’s For</div>
-          <h2>Best for owners who want clarity, not more noise.</h2>
-          <p>
-            This is a good fit for operators who want a cleaner view of cash flow without turning the process into another full-time project.
-          </p>
-        </div>
-
-        <div class="card-grid two-up">
-          <article class="info-card">
-            <h3>Good fit</h3>
-            <ul class="simple-list">
-              <li>Business owners managing real operating decisions</li>
-              <li>Companies feeling uneven cash pressure</li>
-              <li>Teams that want clearer monthly review conversations</li>
-            </ul>
-          </article>
-
-          <article class="info-card">
-            <h3>Probably not the right fit</h3>
-            <ul class="simple-list">
-              <li>People looking for bookkeeping or tax prep</li>
-              <li>Businesses wanting a flashy “growth hack” pitch</li>
-              <li>Anyone wanting a complicated software setup first</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-soft" id="about">
-      <div class="container about-grid">
-        <div class="about-photo-wrap">
-          <img
-            src="https://assets.cdn.filesafe.space/iE9DFmsdXt3rJSFCX7QE/media/69a1c7e7167da4b03724243a.png"
-            alt="Byron Edmonds"
-            class="about-photo"
-          />
-        </div>
-
-        <div class="about-copy">
-          <div class="eyebrow">About</div>
-          <h2>Led by Byron Edmonds</h2>
-          <p>
-            This page works better when it feels grounded and professional. So instead of
-            stacking hype, the focus should be on experience, clarity, and a calm process.
-          </p>
-          <p>
-            The goal is simple: help business owners better understand cash flow pressure
-            before it turns into a bigger issue.
-          </p>
-          <a href="#form" class="btn btn-primary">Start the Conversation</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-light" id="form">
-      <div class="container narrow">
-        <div class="form-shell">
-          <div class="section-heading">
-            <div class="eyebrow">Get Started</div>
-            <h2>Request a cash flow check.</h2>
-            <p>
-              Keep the next step simple and low pressure.
-            </p>
-          </div>
-
-          <div class="embed-placeholder">
-            <p><strong>Form goes here</strong></p>
-            <p>
-              Replace this block with your embedded form.
-            </p>
-          </div>
-
-          <!-- Replace the placeholder above with your real embed, for example:
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/form/n1wvwMpJSihkGF1P7zC5"
-            title="Cash Flow Check Form"
-            class="form-frame"
-          ></iframe>
-          -->
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>Cash Flow Swami</strong>
-        <p>Cash flow clarity for business owners.</p>
-      </div>
-      <div class="footer-links">
-        <a href="#top">Top</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#about">About</a>
-        <a href="#form">Get Started</a>
-      </div>
+  <div id="winnerOverlay" class="winner-overlay">
+    <div class="winner-stage">
+      <div class="winner-small">And tonight’s winning dish is...</div>
+      <div class="winner-name" id="winnerDishName">Dish Name</div>
+      <div class="winner-chef" id="winnerChefName">Chef Ben</div>
+      <div class="winner-score" id="winnerScore">40 / 40</div>
+      <button id="closeWinnerOverlayBtn" class="overlay-close">Close</button>
     </div>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
