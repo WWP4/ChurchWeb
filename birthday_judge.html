@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mom's Gordon Ramsay Birthday Scoreboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fff4f6, #fffaf0, #fff0f5);
+      color: #4a2c2a;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(6px);
+      border-radius: 24px;
+      padding: 28px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 2px solid #ffd6df;
+    }
+
+    .header h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      color: #d94f70;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.05rem;
+      color: #7a4b52;
+    }
+
+    .birthday-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: #ff85a2;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: bold;
+      box-shadow: 0 6px 18px rgba(217, 79, 112, 0.25);
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.82);
+      border: 2px solid #ffe0e7;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.07);
+    }
+
+    .panel h2 {
+      margin-bottom: 16px;
+      color: #c43e61;
+      font-size: 1.45rem;
+    }
+
+    .dish-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dish-form input,
+    .dish-form textarea {
+      width: 100%;
+      border: 2px solid #ffd4dd;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      background: #fffdfd;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    .dish-form input:focus,
+    .dish-form textarea:focus {
+      border-color: #ff8daa;
+      box-shadow: 0 0 0 4px rgba(255, 141, 170, 0.15);
+    }
+
+    .dish-form textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .score-box {
+      background: #fff7f9;
+      border: 2px solid #ffd8e3;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .score-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #9d3d56;
+    }
+
+    .score-box input {
+      width: 100%;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .primary-btn {
+      background: #ff6f91;
+      color: white;
+    }
+
+    .secondary-btn {
+      background: #ffd166;
+      color: #5a3a00;
+    }
+
+    .danger-btn {
+      background: #f9c6d3;
+      color: #7a2940;
+    }
+
+    .leaderboard {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .leaderboard-item {
+      background: linear-gradient(135deg, #fff8fb, #fffaf4);
+      border: 2px solid #ffdbe5;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .place {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ff8fab;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .leaderboard-item:first-child .place {
+      background: #ffb703;
+    }
+
+    .leaderboard-item:nth-child(2) .place {
+      background: #b8b8ff;
+    }
+
+    .leaderboard-item:nth-child(3) .place {
+      background: #f4a261;
+    }
+
+    .dish-name {
+      font-weight: bold;
+      font-size: 1.08rem;
+      color: #7f2945;
+    }
+
+    .dish-sub {
+      font-size: 0.92rem;
+      color: #7a5a60;
+      margin-top: 4px;
+    }
+
+    .total-score {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #d94f70;
+    }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .dish-card {
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffe2e9;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .dish-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .dish-card h3 {
+      color: #b83258;
+      font-size: 1.25rem;
+    }
+
+    .badge {
+      background: #ffe680;
+      color: #6b4f00;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .mini-scores {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .mini-score {
+      background: #fff8fb;
+      border: 1.5px solid #ffd7e2;
+      border-radius: 14px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .mini-score strong {
+      display: block;
+      color: #a13d58;
+      margin-bottom: 5px;
+      font-size: 0.92rem;
+    }
+
+    .notes {
+      background: #fffaf2;
+      border-left: 4px solid #ffb4a2;
+      padding: 12px;
+      border-radius: 12px;
+      color: #6f4e37;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.94rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 22px;
+      color: #8a6470;
+      background: #fffafd;
+      border: 2px dashed #ffd2dd;
+      border-radius: 18px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 24px;
+      color: #8f6271;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 840px) {
+      .top-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .score-grid,
+      .mini-scores {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .score-grid,
+      .mini-scores {
+        grid-template-columns: 1fr;
+      }
+
+      .leaderboard-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .place {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🍽️ Mom’s Gordon Ramsay Birthday Scoreboard 🎂</h1>
+      <p>Tonight’s birthday chef judge gets to rate every dish like the queen of the kitchen.</p>
+      <div class="birthday-badge">“It’s delicious, darling.”</div>
+    </div>
+
+    <div class="top-grid">
+      <div class="panel">
+        <h2>Add a Dish to Judge</h2>
+        <div class="dish-form">
+          <input type="text" id="dishName" placeholder="Dish name (example: Brioche French Toast)" />
+          
+          <div class="score-grid">
+            <div class="score-box">
+              <label for="taste">Taste (1–10)</label>
+              <input type="number" id="taste" min="1" max="10" value="10" />
+            </div>
+            <div class="score-box">
+              <label for="presentation">Presentation (1–10)</label>
+              <input type="number" id="presentation" min="1" max="10" value="10" />
+            </div>
+            <div class="score-box">
+              <label for="creativity">Creativity (1–10)</label>
+              <input type="number" id="creativity" min="1" max="10" value="10" />
+            </div>
+            <div class="score-box">
+              <label for="ramsay">Gordon Ramsay Energy (1–10)</label>
+              <input type="number" id="ramsay" min="1" max="10" value="10" />
+            </div>
+          </div>
+
+          <textarea id="notes" placeholder="Mom’s notes... (example: crispy bacon, beautiful plating, rich flavor)"></textarea>
+
+          <div class="btn-row">
+            <button class="primary-btn" onclick="addDish()">Add Dish</button>
+            <button class="secondary-btn" onclick="loadSample()">Load Sample Dishes</button>
+            <button class="danger-btn" onclick="clearAllDishes()">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>🏆 Live Leaderboard</h2>
+        <ul class="leaderboard" id="leaderboard"></ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Judged Dishes</h2>
+      <div class="cards" id="dishCards"></div>
+    </div>
+
+    <div class="footer-note">
+      Made for a very important birthday judge with elite Gordon Ramsay standards.
+    </div>
+  </div>
+
+  <script>
+    let dishes = [];
+
+    function getTotalScore(dish) {
+      return dish.taste + dish.presentation + dish.creativity + dish.ramsay;
+    }
+
+    function getVerdict(score) {
+      if (score >= 37) return "🏅 Birthday Masterpiece";
+      if (score >= 32) return "🌟 Absolutely Delicious";
+      if (score >= 26) return "👏 Strong Dish";
+      if (score >= 20) return "😊 Pretty Good";
+      return "🔥 Needs More Seasoning";
+    }
+
+    function addDish() {
+      const dishName = document.getElementById("dishName").value.trim();
+      const taste = parseInt(document.getElementById("taste").value);
+      const presentation = parseInt(document.getElementById("presentation").value);
+      const creativity = parseInt(document.getElementById("creativity").value);
+      const ramsay = parseInt(document.getElementById("ramsay").value);
+      const notes = document.getElementById("notes").value.trim();
+
+      if (!dishName) {
+        alert("Please enter a dish name first.");
+        return;
+      }
+
+      const scores = [taste, presentation, creativity, ramsay];
+      const invalid = scores.some(score => isNaN(score) || score < 1 || score > 10);
+
+      if (invalid) {
+        alert("All scores need to be between 1 and 10.");
+        return;
+      }
+
+      const dish = {
+        id: Date.now(),
+        dishName,
+        taste,
+        presentation,
+        creativity,
+        ramsay,
+        notes
+      };
+
+      dishes.push(dish);
+      renderEverything();
+      resetForm();
+    }
+
+    function resetForm() {
+      document.getElementById("dishName").value = "";
+      document.getElementById("taste").value = 10;
+      document.getElementById("presentation").value = 10;
+      document.getElementById("creativity").value = 10;
+      document.getElementById("ramsay").value = 10;
+      document.getElementById("notes").value = "";
+    }
+
+    function deleteDish(id) {
+      dishes = dishes.filter(dish => dish.id !== id);
+      renderEverything();
+    }
+
+    function clearAllDishes() {
+      if (dishes.length === 0) return;
+      const confirmed = confirm("Clear all dishes from the scoreboard?");
+      if (confirmed) {
+        dishes = [];
+        renderEverything();
+      }
+    }
+
+    function loadSample() {
+      dishes = [
+        {
+          id: 1,
+          dishName: "Rustic French Toast",
+          taste: 10,
+          presentation: 9,
+          creativity: 8,
+          ramsay: 10,
+          notes: "Golden, cozy, and birthday-worthy."
+        },
+        {
+          id: 2,
+          dishName: "Crispy Bacon",
+          taste: 9,
+          presentation: 8,
+          creativity: 7,
+          ramsay: 9,
+          notes: "Perfect crunch. Not burnt. Very important."
+        },
+        {
+          id: 3,
+          dishName: "Fresh Fruit Plate",
+          taste: 8,
+          presentation: 10,
+          creativity: 8,
+          ramsay: 8,
+          notes: "Bright, fresh, and pretty on the table."
+        }
+      ];
+      renderEverything();
+    }
+
+    function renderLeaderboard() {
+      const leaderboard = document.getElementById("leaderboard");
+      leaderboard.innerHTML = "";
+
+      if (dishes.length === 0) {
+        leaderboard.innerHTML = `
+          <div class="empty-state">
+            No dishes judged yet.<br>
+            Add one to start the birthday competition.
+          </div>
+        `;
+        return;
+      }
+
+      const sorted = [...dishes].sort((a, b) => getTotalScore(b) - getTotalScore(a));
+
+      sorted.forEach((dish, index) => {
+        const li = document.createElement("li");
+        li.className = "leaderboard-item";
+        li.innerHTML = `
+          <div class="place">${index + 1}</div>
+          <div>
+            <div class="dish-name">${dish.dishName}</div>
+            <div class="dish-sub">${getVerdict(getTotalScore(dish))}</div>
+          </div>
+          <div class="total-score">${getTotalScore(dish)}/40</div>
+        `;
+        leaderboard.appendChild(li);
+      });
+    }
+
+    function renderCards() {
+      const dishCards = document.getElementById("dishCards");
+      dishCards.innerHTML = "";
+
+      if (dishes.length === 0) {
+        dishCards.innerHTML = `
+          <div class="empty-state">
+            Your judged dishes will show up here with scores and notes.
+          </div>
+        `;
+        return;
+      }
+
+      const sorted = [...dishes].sort((a, b) => getTotalScore(b) - getTotalScore(a));
+
+      sorted.forEach(dish => {
+        const card = document.createElement("div");
+        card.className = "dish-card";
+        card.innerHTML = `
+          <div class="dish-card-top">
+            <h3>${dish.dishName}</h3>
+            <div class="badge">${getTotalScore(dish)}/40 • ${getVerdict(getTotalScore(dish))}</div>
+          </div>
+
+          <div class="mini-scores">
+            <div class="mini-score">
+              <strong>Taste</strong>
+              <span>${dish.taste}/10</span>
+            </div>
+            <div class="mini-score">
+              <strong>Presentation</strong>
+              <span>${dish.presentation}/10</span>
+            </div>
+            <div class="mini-score">
+              <strong>Creativity</strong>
+              <span>${dish.creativity}/10</span>
+            </div>
+            <div class="mini-score">
+              <strong>Ramsay Energy</strong>
+              <span>${dish.ramsay}/10</span>
+            </div>
+          </div>
+
+          <div class="notes">${dish.notes ? dish.notes : "No notes added yet."}</div>
+
+          <div class="card-actions">
+            <button class="danger-btn small-btn" onclick="deleteDish(${dish.id})">Delete Dish</button>
+          </div>
+        `;
+        dishCards.appendChild(card);
+      });
+    }
+
+    function renderEverything() {
+      renderLeaderboard();
+      renderCards();
+    }
+
+    renderEverything();
+  </script>
+</body>
+</html>
